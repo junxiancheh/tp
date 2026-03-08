@@ -36,8 +36,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         resetData(toBeCopied);
     }
 
-   
-
     /**
      * Replaces the contents of the person list with {@code persons}.
      */
