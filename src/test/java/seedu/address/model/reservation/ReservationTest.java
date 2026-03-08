@@ -17,21 +17,18 @@ public class ReservationTest {
 
     @Test
     public void constructor_invalidResourceId_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Reservation("!invalid", STUDENT_ONE,
+        assertThrows(IllegalArgumentException.class, () -> new Reservation("!invalid", STUDENT_ONE,
                         LocalDateTime.of(2026, 3, 1, 14, 0),
                         LocalDateTime.of(2026, 3, 1, 16, 0)));
     }
 
     @Test
     public void constructor_endNotAfterStart_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Reservation("Hall-2", STUDENT_ONE,
+        assertThrows(IllegalArgumentException.class, () -> new Reservation("Hall-2", STUDENT_ONE,
                         LocalDateTime.of(2026, 3, 1, 16, 0),
                         LocalDateTime.of(2026, 3, 1, 16, 0)));
 
-        assertThrows(IllegalArgumentException.class,
-                () -> new Reservation("Hall-2", STUDENT_ONE,
+        assertThrows(IllegalArgumentException.class, () -> new Reservation("Hall-2", STUDENT_ONE,
                         LocalDateTime.of(2026, 3, 1, 16, 0),
                         LocalDateTime.of(2026, 3, 1, 15, 0)));
     }

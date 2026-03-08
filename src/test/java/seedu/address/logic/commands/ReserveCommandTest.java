@@ -27,8 +27,8 @@ public class ReserveCommandTest {
     private static final StudentId VALID_STUDENT_ID = new StudentId("a1234567a");
     private static final LocalDateTime VALID_START = LocalDateTime.of(2026, 3, 1, 14, 0);
     private static final LocalDateTime VALID_END = LocalDateTime.of(2026, 3, 1, 16, 0);
-    private static final Reservation VALID_RESERVATION =
-            new Reservation(VALID_RESOURCE_ID, VALID_STUDENT_ID, VALID_START, VALID_END);
+    private static final Reservation VALID_RESERVATION = new Reservation(VALID_RESOURCE_ID, VALID_STUDENT_ID,
+            VALID_START, VALID_END);
 
     @Test
     public void execute_reservationAccepted_addSuccessful() throws Exception {
@@ -63,8 +63,8 @@ public class ReserveCommandTest {
         ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
 
         assertThrows(CommandException.class,
-                String.format(ReserveCommand.MESSAGE_INVALID_RESOURCE, VALID_RESERVATION.getResourceId()),
-                () -> reserveCommand.execute(modelStub));
+                String.format(ReserveCommand.MESSAGE_INVALID_RESOURCE,
+                        VALID_RESERVATION.getResourceId()), () -> reserveCommand.execute(modelStub));
     }
 
     @Test
@@ -84,8 +84,8 @@ public class ReserveCommandTest {
         ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
 
         assertThrows(CommandException.class,
-                String.format(ReserveCommand.MESSAGE_INVALID_STUDENT, VALID_RESERVATION.getStudentId()),
-                () -> reserveCommand.execute(modelStub));
+                String.format(ReserveCommand.MESSAGE_INVALID_STUDENT,
+                        VALID_RESERVATION.getStudentId()), () -> reserveCommand.execute(modelStub));
     }
 
     @Test
@@ -117,8 +117,7 @@ public class ReserveCommandTest {
                 String.format(ReserveCommand.MESSAGE_CONFLICT,
                         conflictingReservation.getResourceId(),
                         conflictingReservation.getFormattedStartDateTime(),
-                        conflictingReservation.getFormattedEndDateTime()),
-                () -> reserveCommand.execute(modelStub));
+                        conflictingReservation.getFormattedEndDateTime()), () -> reserveCommand.execute(modelStub));
     }
 
     /**
