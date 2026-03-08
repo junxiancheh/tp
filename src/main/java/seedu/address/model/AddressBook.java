@@ -36,7 +36,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         resetData(toBeCopied);
     }
 
-    //// list overwrite operations
+   
 
     /**
      * Replaces the contents of the person list with {@code persons}.
@@ -62,22 +62,34 @@ public class AddressBook implements ReadOnlyAddressBook {
         setReservations(newData.getReservationList());
     }
 
-    //// person-level operations
 
+
+    /**
+     * Returns true if have person
+     */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return persons.contains(person);
     }
 
+    /**
+     * Adds a person
+     */
     public void addPerson(Person p) {
         persons.add(p);
     }
 
+    /**
+     * Edit a person's detail
+     */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
         persons.setPerson(target, editedPerson);
     }
 
+    /**
+     * Remove a person
+     */
     public void removePerson(Person key) {
         persons.remove(key);
     }
