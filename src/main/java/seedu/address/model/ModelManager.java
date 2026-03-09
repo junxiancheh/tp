@@ -18,6 +18,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
+import seedu.address.model.room.Room;
+import seedu.address.model.room.UniqueRoomList;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
 
@@ -56,6 +58,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Room> filteredRooms;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -68,6 +71,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredRooms = new FilteredList<>(this.addressBook.getRoomList());
     }
 
     public ModelManager() {
@@ -144,6 +148,19 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
+    //=========== Room ================================================================================
+  
+    @Override
+    public boolean hasRoom(Room room) {
+        requireNonNull(room);
+        return addressBook.hasRoom(room);
+    }
+
+    @Override
+    public void addRoom(Room room) {
+        addressBook.addRoom(room);
+        updateFilteredRoomList(PREDICATE_SHOW_ALL_ROOMS);
+      
     //=========== Reservation ================================================================================
 
     @Override
@@ -240,4 +257,18 @@ public class ModelManager implements Model {
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
+
+    //=========== Filtered Room List Accessors =============================================================
+
+    @Override
+    public ObservableList<Room> getFilteredRoomList() {
+        return filteredRooms;
+    }
+
+    @Override
+    public void updateFilteredRoomList(Predicate<Room> predicate) {
+        requireNonNull(predicate);
+        filteredRooms.setPredicate(predicate);
+    }
+
 }
