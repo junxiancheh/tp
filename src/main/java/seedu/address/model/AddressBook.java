@@ -14,8 +14,11 @@ import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.issue.UniqueIssueRecordList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.room.Room;
+import seedu.address.model.room.UniqueRoomList;
 import seedu.address.model.reservation.Reservation;
 import seedu.address.model.reservation.UniqueReservationList;
+
 
 /**
  * Wraps all data at the address-book level.
@@ -23,12 +26,14 @@ import seedu.address.model.reservation.UniqueReservationList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private final UniqueRoomList rooms;
     private final UniqueReservationList reservations;
     private final UniqueIssueRecordList issueRecords;
     private final UniqueAliasMappingList aliasMappings;
 
     {
         persons = new UniquePersonList();
+        rooms = new UniqueRoomList();
         reservations = new UniqueReservationList();
         issueRecords = new UniqueIssueRecordList();
         aliasMappings = new UniqueAliasMappingList();
@@ -72,8 +77,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+      
+        setRooms(newData.getRoomList());
+
         setReservations(newData.getReservationList());
         setIssueRecords(newData.getIssueRecordList());
+
     }
 
     /**
@@ -106,6 +115,28 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //// room-level operations
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms.setRooms(rooms);
+    }
+
+    public boolean hasRoom(Room room) {
+        requireNonNull(room);
+        return rooms.contains(room);
+    }
+
+    public void addRoom(Room r) {
+        rooms.add(r);
+    }
+
+    @Override
+    public ObservableList<Room> getRoomList() {
+        return rooms.asUnmodifiableObservableList();
+    }
+
+    //// util methods
+  
     /**
      * Returns true if the given reservation conflicts with an existing reservation.
      */
