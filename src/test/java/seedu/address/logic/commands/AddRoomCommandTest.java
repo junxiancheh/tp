@@ -19,6 +19,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -197,6 +198,36 @@ public class AddRoomCommandTest {
         @Override
         public ObservableList<IssueRecord> getIssueRecordList() {
             return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public boolean hasAliasableTarget(String targetId) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAliasName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<AliasMapping> getAliasMappingByName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAliasMapping(AliasMapping aliasMapping) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<AliasMapping> getAliasMappingList() {
+            return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public String resolveAlias(String input) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 
