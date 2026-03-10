@@ -1,5 +1,8 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -23,104 +26,89 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
 
-public class ReserveCommandTest {
+/**
+ * Tests for {@link AliasCommand}.
+ */
+public class AliasCommandTest {
 
-    private static final String VALID_RESOURCE_ID = "Hall-2";
-    private static final StudentId VALID_STUDENT_ID = new StudentId("a1234567a");
-    private static final LocalDateTime VALID_START = LocalDateTime.of(2026, 3, 1, 14, 0);
-    private static final LocalDateTime VALID_END = LocalDateTime.of(2026, 3, 1, 16, 0);
-    private static final Reservation VALID_RESERVATION = new Reservation(VALID_RESOURCE_ID, VALID_STUDENT_ID,
-            VALID_START, VALID_END);
+    private static final AliasMapping VALID_ALIAS_MAPPING =
+            new AliasMapping("Wilson-Evolution-Basketball-1", "b1");
 
     @Test
-    public void execute_reservationAccepted_addSuccessful() throws Exception {
-        ModelStubAcceptingReservationAdded modelStub = new ModelStubAcceptingReservationAdded();
-        ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
+    public void constructor_nullAliasMapping_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AliasCommand(null));
+    }
 
-        CommandResult commandResult = reserveCommand.execute(modelStub);
+    @Test
+    public void execute_aliasAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingAliasAdded modelStub = new ModelStubAcceptingAliasAdded();
+        AliasCommand aliasCommand = new AliasCommand(VALID_ALIAS_MAPPING);
 
-        assertEquals(VALID_RESERVATION, modelStub.reservationAdded);
-        assertEquals(String.format(ReserveCommand.MESSAGE_SUCCESS,
-                        VALID_RESERVATION.getResourceId(),
-                        VALID_RESERVATION.getStudentId(),
-                        VALID_RESERVATION.getFormattedStartDateTime(),
-                        VALID_RESERVATION.getFormattedEndDateTime()),
+        CommandResult commandResult = aliasCommand.execute(modelStub);
+
+        assertEquals(VALID_ALIAS_MAPPING, modelStub.aliasAdded);
+        assertEquals(String.format(AliasCommand.MESSAGE_SUCCESS,
+                        VALID_ALIAS_MAPPING.getTargetId(),
+                        VALID_ALIAS_MAPPING.getAliasName()),
                 commandResult.getFeedbackToUser());
     }
 
     @Test
-    public void execute_invalidResource_throwsCommandException() {
+    public void execute_invalidTarget_throwsCommandException() {
         ModelStub modelStub = new ModelStub() {
             @Override
-            public boolean hasReservableItem(String resourceId) {
+            public boolean hasAliasableTarget(String targetId) {
                 return false;
             }
 
             @Override
-            public boolean hasStudentId(StudentId studentId) {
-                return true;
-            }
-        };
-
-        ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
-
-        assertThrows(CommandException.class,
-                String.format(ReserveCommand.MESSAGE_INVALID_RESOURCE, VALID_RESERVATION.getResourceId()),
-                () -> reserveCommand.execute(modelStub));
-    }
-
-    @Test
-    public void execute_invalidStudent_throwsCommandException() {
-        ModelStub modelStub = new ModelStub() {
-            @Override
-            public boolean hasReservableItem(String resourceId) {
-                return true;
-            }
-
-            @Override
-            public boolean hasStudentId(StudentId studentId) {
+            public boolean hasAliasName(String aliasName) {
                 return false;
             }
         };
 
-        ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
+        AliasCommand aliasCommand = new AliasCommand(VALID_ALIAS_MAPPING);
 
         assertThrows(CommandException.class,
-                String.format(ReserveCommand.MESSAGE_INVALID_STUDENT, VALID_RESERVATION.getStudentId()),
-                () -> reserveCommand.execute(modelStub));
+                String.format(AliasCommand.MESSAGE_INVALID_TARGET,
+                        VALID_ALIAS_MAPPING.getTargetId()),
+                () -> aliasCommand.execute(modelStub));
     }
 
     @Test
-    public void execute_conflictingReservation_throwsCommandException() {
-        Reservation conflictingReservation = new Reservation("Hall-2", new StudentId("a2345678b"),
-                LocalDateTime.of(2026, 3, 1, 13, 0),
-                LocalDateTime.of(2026, 3, 1, 15, 0));
-
+    public void execute_duplicateAlias_throwsCommandException() {
         ModelStub modelStub = new ModelStub() {
             @Override
-            public boolean hasReservableItem(String resourceId) {
+            public boolean hasAliasableTarget(String targetId) {
                 return true;
             }
 
             @Override
-            public boolean hasStudentId(StudentId studentId) {
+            public boolean hasAliasName(String aliasName) {
                 return true;
-            }
-
-            @Override
-            public Optional<Reservation> getConflictingReservation(Reservation reservation) {
-                return Optional.of(conflictingReservation);
             }
         };
 
-        ReserveCommand reserveCommand = new ReserveCommand(VALID_RESERVATION);
+        AliasCommand aliasCommand = new AliasCommand(VALID_ALIAS_MAPPING);
 
         assertThrows(CommandException.class,
-                String.format(ReserveCommand.MESSAGE_CONFLICT,
-                        conflictingReservation.getResourceId(),
-                        conflictingReservation.getFormattedStartDateTime(),
-                        conflictingReservation.getFormattedEndDateTime()),
-                () -> reserveCommand.execute(modelStub));
+                String.format(AliasCommand.MESSAGE_DUPLICATE_ALIAS,
+                        VALID_ALIAS_MAPPING.getAliasName()),
+                () -> aliasCommand.execute(modelStub));
+    }
+
+    @Test
+    public void equals() {
+        AliasCommand aliasFirstCommand = new AliasCommand(VALID_ALIAS_MAPPING);
+        AliasCommand aliasSecondCommand = new AliasCommand(new AliasMapping("Hall-2", "h2"));
+        AliasCommand aliasFirstCommandCopy = new AliasCommand(VALID_ALIAS_MAPPING);
+
+        assertTrue(aliasFirstCommand.equals(aliasFirstCommand));
+        assertTrue(aliasFirstCommand.equals(aliasFirstCommandCopy));
+
+        assertFalse(aliasFirstCommand.equals(1));
+        assertFalse(aliasFirstCommand.equals(null));
+        assertFalse(aliasFirstCommand.equals(aliasSecondCommand));
     }
 
     /**
@@ -215,7 +203,7 @@ public class ReserveCommandTest {
 
         @Override
         public Optional<Reservation> getConflictingReservation(Reservation reservation) {
-            return Optional.empty();
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -280,29 +268,32 @@ public class ReserveCommandTest {
 
         @Override
         public String resolveAlias(String input) {
-            return input;
+            throw new AssertionError("This method should not be called.");
         }
     }
 
     /**
-     * A model stub that always accepts a reservation.
+     * A model stub that always accepts the alias being added.
      */
-    private static class ModelStubAcceptingReservationAdded extends ModelStub {
-        private Reservation reservationAdded;
+    private static class ModelStubAcceptingAliasAdded extends ModelStub {
+        private AliasMapping aliasAdded;
 
         @Override
-        public boolean hasReservableItem(String resourceId) {
+        public boolean hasAliasableTarget(String targetId) {
+            requireNonNull(targetId);
             return true;
         }
 
         @Override
-        public boolean hasStudentId(StudentId studentId) {
-            return true;
+        public boolean hasAliasName(String aliasName) {
+            requireNonNull(aliasName);
+            return false;
         }
 
         @Override
-        public void addReservation(Reservation reservation) {
-            reservationAdded = reservation;
+        public void addAliasMapping(AliasMapping aliasMapping) {
+            requireNonNull(aliasMapping);
+            aliasAdded = aliasMapping;
         }
     }
 }
