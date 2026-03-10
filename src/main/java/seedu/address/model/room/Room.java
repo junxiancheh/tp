@@ -17,6 +17,9 @@ public class Room {
 
     /**
      * Every field must be present and not null.
+     * @param name A valid room name.
+     * @param location A valid room location.
+     * @param status A valid room status.
      */
     public Room(RoomName name, Location location, Status status) {
         requireAllNonNull(name, location, status);
@@ -25,9 +28,17 @@ public class Room {
         this.status = status;
     }
 
-    public RoomName getName() { return name; }
-    public Location getLocation() { return location; }
-    public Status getStatus() { return status; }
+    public RoomName getName() {
+        return name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 
     /**
      * Returns true if both rooms have the same name.
@@ -47,8 +58,12 @@ public class Room {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof Room)) return false;
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Room)) {
+            return false;
+        }
         Room otherRoom = (Room) other;
         return name.equals(otherRoom.name) && location.equals(otherRoom.location);
     }

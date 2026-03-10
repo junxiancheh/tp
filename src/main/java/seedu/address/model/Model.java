@@ -50,13 +50,21 @@ public interface Model {
 
     void updateFilteredPersonList(Predicate<Person> predicate);
 
-    void addRoom(Room room);
+    default void addRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    boolean hasRoom(Room room);
+    default boolean hasRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    ObservableList<Room> getFilteredRoomList();
+    default ObservableList<Room> getFilteredRoomList() {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    void updateFilteredRoomList(Predicate<Room> predicate);
+    default void updateFilteredRoomList(Predicate<Room> predicate) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
     boolean hasStudentId(StudentId studentId);
 

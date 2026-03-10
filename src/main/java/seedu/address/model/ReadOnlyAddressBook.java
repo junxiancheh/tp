@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.reservation.Reservation;
+import seedu.address.model.room.Room;
 
 /**
  * Unmodifiable view of an address book
@@ -14,6 +15,13 @@ public interface ReadOnlyAddressBook {
      * Returns an unmodifiable view of the persons list.
      */
     ObservableList<Person> getPersonList();
+
+    /**
+     * Returns an unmodifiable view of the rooms list.
+     */
+    default ObservableList<Room> getRoomList() {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
     /**
      * Returns an unmodifiable view of the reservations list.

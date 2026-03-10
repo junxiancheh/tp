@@ -9,6 +9,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.room.Room;
 
+/**
+ * Adds a room to the address book.
+ */
 public class AddRoomCommand extends Command {
 
     public static final String COMMAND_WORD = "add-r";
@@ -28,6 +31,9 @@ public class AddRoomCommand extends Command {
 
     private final Room toAdd;
 
+    /**
+     * Creates an AddRoomCommand to add the specified {@code Room}
+     */
     public AddRoomCommand(Room room) {
         requireNonNull(room);
         toAdd = room;

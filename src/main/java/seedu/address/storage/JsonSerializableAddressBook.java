@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import static seedu.address.logic.commands.AddRoomCommand.MESSAGE_DUPLICATE_ROOM;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.reservation.Reservation;
+import seedu.address.model.room.Room;
 
 /**
  * An Immutable AddressBook that is serializable to JSON format.
@@ -25,6 +28,7 @@ class JsonSerializableAddressBook {
             "Reservations list contains conflicting reservation(s): %1$s";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedRoom> rooms = new ArrayList<>();
     private final List<JsonAdaptedReservation> reservations = new ArrayList<>();
 
     /**
@@ -32,9 +36,13 @@ class JsonSerializableAddressBook {
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
+                                       @JsonProperty("rooms") List<JsonAdaptedRoom> rooms,
                                        @JsonProperty("reservations") List<JsonAdaptedReservation> reservations) {
         if (persons != null) {
             this.persons.addAll(persons);
+        }
+        if (rooms != null) { // Add this block
+            this.rooms.addAll(rooms);
         }
         if (reservations != null) {
             this.reservations.addAll(reservations);
@@ -47,6 +55,10 @@ class JsonSerializableAddressBook {
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream()
                 .map(JsonAdaptedPerson::new)
+                .collect(Collectors.toList()));
+
+        rooms.addAll(source.getRoomList().stream()
+                .map(JsonAdaptedRoom::new)
                 .collect(Collectors.toList()));
 
         reservations.addAll(source.getReservationList().stream()
@@ -68,6 +80,14 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
+        }
+
+        for (JsonAdaptedRoom jsonAdaptedRoom : rooms) {
+            Room room = jsonAdaptedRoom.toModelType();
+            if (addressBook.hasRoom(room)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_ROOM);
+            }
+            addressBook.addRoom(room);
         }
 
         for (JsonAdaptedReservation jsonAdaptedReservation : reservations) {
