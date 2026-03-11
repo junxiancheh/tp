@@ -37,8 +37,7 @@ public class ModelManager implements Model {
                     "HALL-1", "HALL-2", "HALL-3",
                     "MPSH-1", "MPSH-2",
                     "COURT-1", "COURT-2",
-                    "MPR-1", "MPR-2"
-            )));
+                    "MPR-1", "MPR-2")));
 
     /**
      * Temporary item registry for the MVP.
@@ -52,8 +51,7 @@ public class ModelManager implements Model {
                     "MOLTEN-VOLLEYBALL-2",
                     "YONEX-BADMINTON-RACKET-1",
                     "YONEX-BADMINTON-RACKET-2",
-                    "YONEX-BADMINTON-RACKET-3"
-            )));
+                    "YONEX-BADMINTON-RACKET-3")));
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
@@ -79,7 +77,8 @@ public class ModelManager implements Model {
         this(new AddressBook(), new UserPrefs());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // =========== UserPrefs
+    // ==================================================================================
 
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -114,7 +113,8 @@ public class ModelManager implements Model {
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
-    //=========== AddressBook ================================================================================
+    // =========== AddressBook
+    // ================================================================================
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
@@ -201,7 +201,6 @@ public class ModelManager implements Model {
         return addressBook.getReservationList();
     }
 
-
     @Override
     public boolean hasIssuableItem(String itemId) {
         requireNonNull(itemId);
@@ -213,6 +212,7 @@ public class ModelManager implements Model {
         requireNonNull(itemId);
         return addressBook.hasIssuedItem(itemId);
     }
+
 
     @Override
     public Optional<IssueRecord> getIssueRecordByItemId(String itemId) {
@@ -231,7 +231,8 @@ public class ModelManager implements Model {
         return addressBook.getIssueRecordList();
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    // =========== Filtered Person List Accessors
+    // =============================================================
 
     @Override
     public ObservableList<Person> getFilteredPersonList() {

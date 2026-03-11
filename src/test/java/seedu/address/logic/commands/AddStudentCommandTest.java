@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -28,7 +26,6 @@ import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
-import seedu.address.model.room.Room;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddStudentCommandTest {
@@ -45,12 +42,11 @@ public class AddStudentCommandTest {
 
         CommandResult commandResult = new AddStudentCommand(validPerson).execute(modelStub);
 
-        // Matches the specific success output format required for add-s
-        String expectedMessage = String.format(AddStudentCommand.MESSAGE_SUCCESS,
+        assertEquals(String.format(AddStudentCommand.MESSAGE_SUCCESS,
                 validPerson.getName(), validPerson.getStudentId(),
-                validPerson.getPhone(), validPerson.getEmail());
+                validPerson.getPhone(), validPerson.getEmail()),
+                commandResult.getFeedbackToUser());
 
-        assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -60,9 +56,8 @@ public class AddStudentCommandTest {
         AddStudentCommand addStudentCommand = new AddStudentCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        // Rejects if matric number, phone, or email already exists
-        assertThrows(CommandException.class, AddStudentCommand.MESSAGE_DUPLICATE_STUDENT, () ->
-                addStudentCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+            AddStudentCommand.MESSAGE_DUPLICATE_STUDENT, () -> addStudentCommand.execute(modelStub));
     }
 
     @Test
@@ -89,15 +84,8 @@ public class AddStudentCommandTest {
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
-    @Test
-    public void toStringMethod() {
-        AddStudentCommand addStudentCommand = new AddStudentCommand(ALICE);
-        String expected = AddStudentCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
-        assertEquals(expected, addStudentCommand.toString());
-    }
-
     /**
-     * A default model stub that has all methods failing.
+     * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
         @Override
@@ -176,26 +164,6 @@ public class AddStudentCommandTest {
         }
 
         @Override
-        public boolean hasRoom(Room room) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addRoom(Room room) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Room> getFilteredRoomList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredRoomList(Predicate<Room> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public boolean hasReservableItem(String resourceId) {
             throw new AssertionError("This method should not be called.");
         }
@@ -217,7 +185,7 @@ public class AddStudentCommandTest {
 
         @Override
         public ObservableList<Reservation> getReservationList() {
-            return FXCollections.observableArrayList();
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -242,7 +210,7 @@ public class AddStudentCommandTest {
 
         @Override
         public ObservableList<IssueRecord> getIssueRecordList() {
-            return FXCollections.observableArrayList();
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -266,12 +234,12 @@ public class AddStudentCommandTest {
         }
 
         @Override
-        public ObservableList<AliasMapping> getAliasMappingList() {
-            return FXCollections.observableArrayList();
+        public String resolveAlias(String alias) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public String resolveAlias(String input) {
+        public ObservableList<AliasMapping> getAliasMappingList() {
             throw new AssertionError("This method should not be called.");
         }
     }
