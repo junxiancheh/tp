@@ -29,7 +29,7 @@ public class PhoneTest {
         assertFalse(Phone.isValidPhone(" ")); // spaces only
         assertFalse(Phone.isValidPhone("9133334")); // less than 8 numbers
         assertFalse(Phone.isValidPhone("phone")); // non-numeric
-        assertFalse(Phone.isValidPhone("abc")); // alphabets 
+        assertFalse(Phone.isValidPhone("abc")); // alphabets
         assertFalse(Phone.isValidPhone("9011p041")); // alphabets within digits
         assertFalse(Phone.isValidPhone("9312 1534")); // spaces within digits
 

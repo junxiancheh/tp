@@ -18,15 +18,24 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.StudentId;
 
+/**
+ * Parses input arguments and creates a new AddStudentCommand object
+ */
 public class AddStudentCommandParser implements Parser<AddStudentCommand> {
 
+    /**
+     * Parses input arguments and creates a new AddStudentCommand object
+     * Creates an AddStudentCommand to add the specified {@code Person}
+     * @return AddStudentCommand
+     * @throws ParseException if the user input does not conform the expected format
+     */
     public AddStudentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_NAME, PREFIX_STUDENT_ID, PREFIX_PHONE, PREFIX_EMAIL);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_STUDENT_ID, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, 
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddStudentCommand.MESSAGE_USAGE));
         }
 

@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -38,6 +39,10 @@ public class AddStudentCommand extends Command {
 
     private final Person toAdd;
 
+    /**
+     * Creates an AddStudentCommand to add the specified {@code Person}
+     * @param student
+     */
     public AddStudentCommand(Person student) {
         requireNonNull(student);
         toAdd = student;
@@ -69,5 +74,12 @@ public class AddStudentCommand extends Command {
 
         AddStudentCommand otherAddStudentCommand = (AddStudentCommand) other;
         return toAdd.equals(otherAddStudentCommand.toAdd);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("toAdd", toAdd)
+                .toString();
     }
 }

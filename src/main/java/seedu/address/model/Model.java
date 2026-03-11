@@ -6,10 +6,12 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
+import seedu.address.model.room.Room;
 
 /**
  * The API of the Model component.
@@ -17,6 +19,9 @@ import seedu.address.model.reservation.Reservation;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true for rooms */
+    Predicate<Room> PREDICATE_SHOW_ALL_ROOMS = unused -> true;
 
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);
 
@@ -46,7 +51,21 @@ public interface Model {
 
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    default void addRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
+    default boolean hasRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
+
+    default ObservableList<Room> getFilteredRoomList() {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
+
+    default void updateFilteredRoomList(Predicate<Room> predicate) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
     boolean hasStudentId(StudentId studentId);
 
@@ -64,4 +83,17 @@ public interface Model {
     Optional<IssueRecord> getIssueRecordByItemId(String itemId);
     void addIssueRecord(IssueRecord issueRecord);
     ObservableList<IssueRecord> getIssueRecordList();
+
+    boolean hasAliasableTarget(String targetId);
+
+    boolean hasAliasName(String aliasName);
+
+    Optional<AliasMapping> getAliasMappingByName(String aliasName);
+
+    void addAliasMapping(AliasMapping aliasMapping);
+
+    ObservableList<AliasMapping> getAliasMappingList();
+
+    String resolveAlias(String input);
+
 }

@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -42,10 +42,11 @@ public class AddStudentCommandTest {
 
         CommandResult commandResult = new AddStudentCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddStudentCommand.MESSAGE_SUCCESS, 
-                validPerson.getName(), validPerson.getStudentId(), 
-                validPerson.getPhone(), validPerson.getEmail()), 
+        assertEquals(String.format(AddStudentCommand.MESSAGE_SUCCESS,
+                validPerson.getName(), validPerson.getStudentId(),
+                validPerson.getPhone(), validPerson.getEmail()),
                 commandResult.getFeedbackToUser());
+
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -55,7 +56,7 @@ public class AddStudentCommandTest {
         AddStudentCommand addStudentCommand = new AddStudentCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        assertThrows(CommandException.class, 
+        assertThrows(CommandException.class,
             AddStudentCommand.MESSAGE_DUPLICATE_STUDENT, () -> addStudentCommand.execute(modelStub));
     }
 
@@ -209,6 +210,36 @@ public class AddStudentCommandTest {
 
         @Override
         public ObservableList<IssueRecord> getIssueRecordList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAliasableTarget(String targetId) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAliasName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<AliasMapping> getAliasMappingByName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAliasMapping(AliasMapping aliasMapping) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String resolveAlias(String alias) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<AliasMapping> getAliasMappingList() {
             throw new AssertionError("This method should not be called.");
         }
     }

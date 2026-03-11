@@ -17,6 +17,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -26,8 +27,7 @@ public class IssueCommandTest {
 
     private static final String VALID_ITEM_ID = "Wilson-Evolution-Basketball-1";
     private static final StudentId VALID_STUDENT_ID = new StudentId("a1234567a");
-    private static final LocalDateTime VALID_DUE_DATE_TIME = LocalDateTime.of(2099, 3, 15,
-            17, 0);
+    private static final LocalDateTime VALID_DUE_DATE_TIME = LocalDateTime.of(2099, 3, 15, 17, 0);
     private static final IssueRecord VALID_ISSUE_RECORD =
             new IssueRecord(VALID_ITEM_ID, VALID_STUDENT_ID, VALID_DUE_DATE_TIME);
 
@@ -63,8 +63,8 @@ public class IssueCommandTest {
         IssueCommand issueCommand = new IssueCommand(VALID_ISSUE_RECORD);
 
         assertThrows(CommandException.class,
-                String.format(IssueCommand.MESSAGE_INVALID_ITEM, VALID_ISSUE_RECORD.getItemId()), () -> issueCommand
-                        .execute(modelStub));
+                String.format(IssueCommand.MESSAGE_INVALID_ITEM,
+                        VALID_ISSUE_RECORD.getItemId()), () -> issueCommand.execute(modelStub));
     }
 
     @Test
@@ -84,8 +84,8 @@ public class IssueCommandTest {
         IssueCommand issueCommand = new IssueCommand(VALID_ISSUE_RECORD);
 
         assertThrows(CommandException.class,
-                String.format(IssueCommand.MESSAGE_INVALID_STUDENT, VALID_ISSUE_RECORD
-                        .getStudentId()), () -> issueCommand.execute(modelStub));
+                String.format(IssueCommand.MESSAGE_INVALID_STUDENT,
+                        VALID_ISSUE_RECORD.getStudentId()), () -> issueCommand.execute(modelStub));
     }
 
     @Test
@@ -117,9 +117,13 @@ public class IssueCommandTest {
                 String.format(IssueCommand.MESSAGE_ALREADY_ISSUED,
                         existingIssueRecord.getItemId(),
                         existingIssueRecord.getStudentId(),
-                        existingIssueRecord.getFormattedDueDateTime()), () -> issueCommand.execute(modelStub));
+                        existingIssueRecord
+                                .getFormattedDueDateTime()), () -> issueCommand.execute(modelStub));
     }
 
+    /**
+     * A default model stub that throws on all unexpected calls.
+     */
     private abstract static class ModelStub implements Model {
 
         @Override
@@ -246,8 +250,41 @@ public class IssueCommandTest {
         public ObservableList<IssueRecord> getIssueRecordList() {
             return FXCollections.observableArrayList();
         }
+
+        @Override
+        public boolean hasAliasableTarget(String targetId) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasAliasName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<AliasMapping> getAliasMappingByName(String aliasName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAliasMapping(AliasMapping aliasMapping) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<AliasMapping> getAliasMappingList() {
+            return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public String resolveAlias(String input) {
+            return input;
+        }
     }
 
+    /**
+     * A model stub that always accepts an issue record.
+     */
     private static class ModelStubAcceptingIssueRecordAdded extends ModelStub {
         private IssueRecord issueRecordAdded;
 

@@ -15,13 +15,15 @@ import seedu.address.model.person.StudentId;
  * Guarantees: details are present and not null, and field values are validated.
  */
 public class IssueRecord {
+    public static final String MESSAGE_ITEM_ID_CONSTRAINTS =
+        "Item ID should start with a letter and contain only letters, digits, and hyphens.";
 
-    public static final String MESSAGE_ITEM_ID_CONSTRAINTS = "Item ID should start with a letter and contain only letters, digits, and hyphens.";
-
-    public static final String MESSAGE_DUE_DATE_TIME_CONSTRAINTS = "Due date/time must not be in the past.";
+    public static final String MESSAGE_DUE_DATE_TIME_CONSTRAINTS =
+        "Due date/time must not be in the past.";
 
     public static final String VALIDATION_REGEX = "[A-Za-z][A-Za-z0-9-]*";
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
     private final String itemId;
     private final StudentId studentId;

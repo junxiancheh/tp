@@ -42,7 +42,7 @@ public class DeleteStudentCommandTest {
         StudentId nonExistentId = new StudentId("A9999999Z");
         DeleteStudentCommand deleteCommand = new DeleteStudentCommand(nonExistentId);
 
-        assertCommandFailure(deleteCommand, model, 
+        assertCommandFailure(deleteCommand, model,
                 String.format(DeleteStudentCommand.MESSAGE_STUDENT_NOT_FOUND, nonExistentId));
     }
 
