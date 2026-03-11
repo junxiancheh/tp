@@ -6,6 +6,7 @@ import static seedu.address.testutil.TypicalRooms.ROOM_A;
 import static seedu.address.testutil.TypicalRooms.ROOM_B;
 
 import org.junit.jupiter.api.Test;
+import seedu.address.testutil.RoomBuilder;
 
 public class RoomTest {
 
@@ -29,7 +30,7 @@ public class RoomTest {
     @Test
     public void equals() {
         // same values -> returns true
-        Room roomACopy = new Room(ROOM_A.getName(), ROOM_A.getLocation(), ROOM_A.getStatus());
+        Room roomACopy = new RoomBuilder(ROOM_A).build();
         assertTrue(ROOM_A.equals(roomACopy));
 
         // same object -> returns true
@@ -38,10 +39,14 @@ public class RoomTest {
         // null -> returns false
         assertFalse(ROOM_A.equals(null));
 
-        // different type -> returns false
+        // different types -> returns false
         assertFalse(ROOM_A.equals(5));
 
         // different room -> returns false
         assertFalse(ROOM_A.equals(ROOM_B));
+
+        // different name -> returns false
+        Room editedRoomA = new RoomBuilder(ROOM_A).withName("Different-Name").build();
+        assertFalse(ROOM_A.equals(editedRoomA));
     }
 }
