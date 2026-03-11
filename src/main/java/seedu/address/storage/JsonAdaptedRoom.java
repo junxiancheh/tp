@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.room.Location;
 import seedu.address.model.room.Room;
@@ -46,7 +47,8 @@ class JsonAdaptedRoom {
      */
     public Room toModelType() throws IllegalValueException {
         if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, RoomName.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    RoomName.class.getSimpleName()));
         }
         if (!RoomName.isValidName(name)) {
             throw new IllegalValueException(RoomName.MESSAGE_CONSTRAINTS);
@@ -54,7 +56,8 @@ class JsonAdaptedRoom {
         final RoomName modelName = new RoomName(name);
 
         if (location == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Location.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Location.class.getSimpleName()));
         }
         final Location modelLocation = new Location(location);
 

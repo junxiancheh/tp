@@ -15,10 +15,10 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.room.Location;
-import seedu.address.model.room.RoomName;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
+import seedu.address.model.room.Location;
+import seedu.address.model.room.RoomName;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -143,7 +143,6 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String name} into a {@code RoomName}.
-     * Leading and trailing whitespaces will be trimmed.
      */
     public static RoomName parseRoomName(String name) throws ParseException {
         requireNonNull(name);
@@ -156,12 +155,10 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String location} into a {@code Location}.
-     * Leading and trailing whitespaces will be trimmed.
      */
     public static Location parseLocation(String location) throws ParseException {
         requireNonNull(location);
         String trimmedLocation = location.trim();
-        // You can add Location.isValidLocation check here if you implement it
         return new Location(trimmedLocation);
     }
 

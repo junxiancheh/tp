@@ -12,8 +12,17 @@ import seedu.address.model.room.Room;
 import seedu.address.model.room.RoomName;
 import seedu.address.model.room.Status;
 
+/**
+ * Parses input arguments and creates a new AddRoomCommand object
+ */
 public class AddRoomCommandParser implements Parser<AddRoomCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the AddRoomCommand
+     * and returns an AddRoomCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
     public AddRoomCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_LOCATION, PREFIX_STATUS);

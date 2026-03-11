@@ -11,16 +11,26 @@ import javafx.collections.ObservableList;
 import seedu.address.model.room.exceptions.DuplicateRoomException;
 import seedu.address.model.room.exceptions.RoomNotFoundException;
 
+/**
+ * A list of rooms that enforces uniqueness between its elements and does not allow nulls.
+ */
 public class UniqueRoomList implements Iterable<Room> {
     private final ObservableList<Room> internalList = FXCollections.observableArrayList();
     private final ObservableList<Room> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
+    /**
+     * Returns true if the list contains an equivalent room as the given argument.
+     */
     public boolean contains(Room toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSameRoom);
     }
 
+    /**
+     * Adds a room to the list.
+     * The room must not already exist in the list.
+     */
     public void add(Room toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
@@ -31,7 +41,6 @@ public class UniqueRoomList implements Iterable<Room> {
 
     /**
      * Replaces the contents of this list with {@code rooms}.
-     * {@code rooms} must not contain duplicate rooms.
      */
     public void setRooms(List<Room> rooms) {
         requireAllNonNull(rooms);
@@ -42,11 +51,25 @@ public class UniqueRoomList implements Iterable<Room> {
         internalList.setAll(rooms);
     }
 
-    public void remove(Room toRemove) {
-        requireNonNull(toRemove);
-        if (!internalList.remove(toRemove)) {
+    /**
+     * Replaces the room {@code target} in the list with {@code editedRoom}.
+     * {@code target} must exist in the list.
+     * The room identity of {@code editedRoom} must not be the same as another existing room in the list.
+     */
+    public void setRoom(Room target, Room editedRoom) {
+        requireNonNull(target);
+        requireNonNull(editedRoom);
+
+        int index = internalList.indexOf(target);
+        if (index == -1) {
             throw new RoomNotFoundException();
         }
+
+        if (!target.isSameRoom(editedRoom) && contains(editedRoom)) {
+            throw new DuplicateRoomException();
+        }
+
+        internalList.set(index, editedRoom);
     }
 
     /**
@@ -63,6 +86,20 @@ public class UniqueRoomList implements Iterable<Room> {
         return true;
     }
 
+    /**
+     * Removes the equivalent room from the list.
+     * The room must exist in the list.
+     */
+    public void remove(Room toRemove) {
+        requireNonNull(toRemove);
+        if (!internalList.remove(toRemove)) {
+            throw new RoomNotFoundException();
+        }
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
     public ObservableList<Room> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }

@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -38,8 +39,7 @@ public class ModelManager implements Model {
                     "HALL-1", "HALL-2", "HALL-3",
                     "MPSH-1", "MPSH-2",
                     "COURT-1", "COURT-2",
-                    "MPR-1", "MPR-2"
-            )));
+                    "MPR-1", "MPR-2")));
 
     /**
      * Temporary item registry for the MVP.
@@ -53,13 +53,13 @@ public class ModelManager implements Model {
                     "MOLTEN-VOLLEYBALL-2",
                     "YONEX-BADMINTON-RACKET-1",
                     "YONEX-BADMINTON-RACKET-2",
-                    "YONEX-BADMINTON-RACKET-3"
-            )));
+                    "YONEX-BADMINTON-RACKET-3")));
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Room> filteredRooms;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -79,7 +79,8 @@ public class ModelManager implements Model {
         this(new AddressBook(), new UserPrefs());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // =========== UserPrefs
+    // ==================================================================================
 
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -114,7 +115,8 @@ public class ModelManager implements Model {
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
-    //=========== AddressBook ================================================================================
+    // =========== AddressBook
+    // ================================================================================
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
@@ -231,7 +233,8 @@ public class ModelManager implements Model {
         return addressBook.getIssueRecordList();
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    // =========== Filtered Person List Accessors
+    // =============================================================
 
     @Override
     public ObservableList<Person> getFilteredPersonList() {
@@ -242,6 +245,44 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public boolean hasAliasableTarget(String targetId) {
+        requireNonNull(targetId);
+        String normalizedTargetId = AliasMapping.normalizeTargetId(targetId);
+        return VALID_RESOURCES.contains(normalizedTargetId) || VALID_ITEMS.contains(normalizedTargetId);
+    }
+
+    @Override
+    public boolean hasAliasName(String aliasName) {
+        requireNonNull(aliasName);
+        return addressBook.hasAliasName(aliasName);
+    }
+
+    @Override
+    public Optional<AliasMapping> getAliasMappingByName(String aliasName) {
+        requireNonNull(aliasName);
+        return addressBook.getAliasMappingByName(aliasName);
+    }
+
+    @Override
+    public void addAliasMapping(AliasMapping aliasMapping) {
+        requireNonNull(aliasMapping);
+        addressBook.addAliasMapping(aliasMapping);
+    }
+
+    @Override
+    public ObservableList<AliasMapping> getAliasMappingList() {
+        return addressBook.getAliasMappingList();
+    }
+
+    @Override
+    public String resolveAlias(String input) {
+        requireNonNull(input);
+        return getAliasMappingByName(input)
+                .map(AliasMapping::getTargetId)
+                .orElse(input);
     }
 
     @Override

@@ -7,11 +7,12 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
-import seedu.address.model.room.Room;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
+import seedu.address.model.room.Room;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -24,9 +25,6 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true for rooms */
     Predicate<Room> PREDICATE_SHOW_ALL_ROOMS = unused -> true;
 
-    /**
-     * Replaces user prefs data with the data in {@code userPrefs}.
-     */
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);
 
     ReadOnlyUserPrefs getUserPrefs();
@@ -55,16 +53,21 @@ public interface Model {
 
     void updateFilteredPersonList(Predicate<Person> predicate);
 
-    /** Returns true if a room with the same identity as {@code room} exists in the system. */
-    boolean hasRoom(Room room);
+    default void addRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    /** Adds the given room. */
-    void addRoom(Room room);
+    default boolean hasRoom(Room room) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    /** Returns an unmodifiable view of the filtered room list. */
-    ObservableList<Room> getFilteredRoomList();
+    default ObservableList<Room> getFilteredRoomList() {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
-    void updateFilteredRoomList(Predicate<Room> predicate);
+    default void updateFilteredRoomList(Predicate<Room> predicate) {
+        throw new UnsupportedOperationException("Not implemented.");
+    }
 
     boolean hasStudentId(StudentId studentId);
 
@@ -77,16 +80,23 @@ public interface Model {
     void addReservation(Reservation reservation);
 
     ObservableList<Reservation> getReservationList();
-  
     boolean hasIssuableItem(String itemId);
-  
     boolean hasIssuedItem(String itemId);
-  
     Optional<IssueRecord> getIssueRecordByItemId(String itemId);
-  
     void addIssueRecord(IssueRecord issueRecord);
-  
     ObservableList<IssueRecord> getIssueRecordList();
+
+    boolean hasAliasableTarget(String targetId);
+
+    boolean hasAliasName(String aliasName);
+
+    Optional<AliasMapping> getAliasMappingByName(String aliasName);
+
+    void addAliasMapping(AliasMapping aliasMapping);
+
+    ObservableList<AliasMapping> getAliasMappingList();
+
+    String resolveAlias(String input);
 
     //============ Add tags =================================================================================
     void addTag(RoomName roomName, Tag tag);
