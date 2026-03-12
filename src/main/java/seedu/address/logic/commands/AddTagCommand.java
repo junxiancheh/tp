@@ -24,7 +24,7 @@ public class AddTagCommand extends Command {
             + PREFIX_NAME + "MPSH-1 "
             + PREFIX_TAG + "Renovation";
 
-    public static final String MESSAGE_SUCCESS = "Success! %1$s has been tagged";
+    public static final String MESSAGE_SUCCESS = "Success! %1$s has been tagged to %2$s";
     public static final String MESSAGE_ERROR = "Failure! Tagging was unsuccessful";
 
 
@@ -50,7 +50,7 @@ public class AddTagCommand extends Command {
         }
 
         model.addTag(roomName, roomTag);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, roomTag));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, roomTag, roomName));
     }
 }
 

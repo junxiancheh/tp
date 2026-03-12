@@ -42,7 +42,7 @@ public class Room {
      */
     public Room(RoomName name) {
         this.name = name;
-        this.location = new Location("");
+        this.location = new Location("placeholder");
         this.status = new Status("Available");
     }
 

@@ -23,7 +23,7 @@ public class DeleteTagCommand extends Command {
             + PREFIX_NAME + "MPSH-1 "
             + PREFIX_TAG + "Renovation";
 
-    public static final String MESSAGE_SUCCESS = "Success! %1$s has been untagged";
+    public static final String MESSAGE_SUCCESS = "Success! %1$s has been untagged from %2$s";
     public static final String MESSAGE_ERROR = "Failure! Untagging was unsuccessful";
 
 
@@ -51,6 +51,6 @@ public class DeleteTagCommand extends Command {
         }
 
         model.deleteTag(roomName, roomTag);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, roomTag));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, roomTag, roomName));
     }
 }
