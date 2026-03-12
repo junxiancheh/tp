@@ -22,6 +22,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.reservation.Reservation;
 import seedu.address.model.room.Room;
+import seedu.address.model.room.RoomName;
+import seedu.address.model.tag.Tag;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -201,6 +203,7 @@ public class ModelManager implements Model {
         return addressBook.getReservationList();
     }
 
+
     @Override
     public boolean hasIssuableItem(String itemId) {
         requireNonNull(itemId);
@@ -212,7 +215,6 @@ public class ModelManager implements Model {
         requireNonNull(itemId);
         return addressBook.hasIssuedItem(itemId);
     }
-
 
     @Override
     public Optional<IssueRecord> getIssueRecordByItemId(String itemId) {
@@ -310,5 +312,28 @@ public class ModelManager implements Model {
     public void updateFilteredRoomList(Predicate<Room> predicate) {
         requireNonNull(predicate);
         filteredRooms.setPredicate(predicate);
+    }
+
+    //============ Add tags ================================================================================
+    @Override
+    public void addTag(RoomName roomName, Tag tag) {
+        requireAllNonNull(roomName, tag);
+        Room targetRoom = addressBook.getRoomList().stream()
+                .filter(room -> room.getName().equals(roomName))
+                .findFirst()
+                .orElse(null);
+        assert targetRoom != null;
+        targetRoom.addTag(tag);
+    }
+
+    @Override
+    public void deleteTag(RoomName roomName, Tag tag) {
+        requireAllNonNull(roomName, tag);
+        Room targetRoom = addressBook.getRoomList().stream()
+                .filter(room -> room.getName().equals(roomName))
+                .findFirst()
+                .orElse(null);
+        assert targetRoom != null;
+        targetRoom.deleteTag(tag);
     }
 }
