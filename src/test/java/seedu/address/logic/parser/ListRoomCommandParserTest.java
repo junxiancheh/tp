@@ -19,4 +19,14 @@ public class ListRoomCommandParserTest {
     public void parse_invalidArgs_returnsListRoomCommand() {
         assertParseSuccess(parser, "  ", new ListRoomCommand());
     }
+
+    @Test
+    public void parse_validArgs_returnsListRoomCommand() {
+        assertParseSuccess(parser, "", new ListRoomCommand());
+    }
+
+    @Test
+    public void parse_extraWhitespace_returnsListRoomCommand() {
+        assertParseSuccess(parser, "    \n \t", new ListRoomCommand());
+    }
 }
