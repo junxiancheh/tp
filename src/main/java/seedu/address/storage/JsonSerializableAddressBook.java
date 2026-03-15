@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import static seedu.address.logic.commands.AddEquipmentCommand.MESSAGE_DUPLICATE_EQUIPMENT;
 import static seedu.address.logic.commands.AddRoomCommand.MESSAGE_DUPLICATE_ROOM;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.alias.AliasMapping;
+import seedu.address.model.equipment.Equipment;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.reservation.Reservation;
@@ -38,6 +40,8 @@ class JsonSerializableAddressBook {
     private final List<JsonAdaptedReservation> reservations = new ArrayList<>();
     private final List<JsonAdaptedIssueRecord> issueRecords = new ArrayList<>();
     private final List<JsonAdaptedAliasMapping> aliasMappings = new ArrayList<>();
+    private final List<JsonAdaptedEquipment> equipments = new ArrayList<>();
+
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given data.
@@ -47,7 +51,8 @@ class JsonSerializableAddressBook {
                                        @JsonProperty("rooms") List<JsonAdaptedRoom> rooms,
                                        @JsonProperty("reservations") List<JsonAdaptedReservation> reservations,
                                        @JsonProperty("issueRecords") List<JsonAdaptedIssueRecord> issueRecords,
-                                       @JsonProperty("aliasMappings") List<JsonAdaptedAliasMapping> aliasMappings) {
+                                       @JsonProperty("aliasMappings") List<JsonAdaptedAliasMapping> aliasMappings,
+                                       @JsonProperty("equipments") List<JsonAdaptedEquipment> equipments) {
         if (persons != null) {
             this.persons.addAll(persons);
         }
@@ -62,6 +67,9 @@ class JsonSerializableAddressBook {
         }
         if (aliasMappings != null) {
             this.aliasMappings.addAll(aliasMappings);
+        }
+        if (equipments != null) {
+            this.equipments.addAll(equipments);
         }
     }
 
@@ -87,6 +95,9 @@ class JsonSerializableAddressBook {
 
         aliasMappings.addAll(source.getAliasMappingList().stream()
                 .map(JsonAdaptedAliasMapping::new)
+                .collect(Collectors.toList()));
+        equipments.addAll(source.getEquipmentList().stream()
+                .map(JsonAdaptedEquipment::new)
                 .collect(Collectors.toList()));
     }
 
@@ -137,6 +148,14 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_ALIAS);
             }
             addressBook.addAliasMapping(aliasMapping);
+        }
+
+        for (JsonAdaptedEquipment jsonAdaptedEquipment : equipments) {
+            Equipment equipment = jsonAdaptedEquipment.toModelType();
+            if (addressBook.hasEquipment(equipment)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_EQUIPMENT);
+            }
+            addressBook.addEquipment(equipment);
         }
 
         return addressBook;

@@ -11,6 +11,8 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.equipment.EquipmentName;
+import seedu.address.model.equipment.EquipmentStatus;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -160,6 +162,30 @@ public class ParserUtil {
         requireNonNull(location);
         String trimmedLocation = location.trim();
         return new Location(trimmedLocation);
+    }
+
+    /**
+     * Parses a {@code String name} into an {@code EquipmentName}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
+    public static EquipmentName parseEquipmentName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!EquipmentName.isValidName(trimmedName)) {
+            throw new ParseException(EquipmentName.MESSAGE_CONSTRAINTS);
+        }
+        return new EquipmentName(trimmedName);
+    }
+
+    public static EquipmentStatus parseEquipmentStatus(String status) throws ParseException {
+        requireNonNull(status);
+        String trimmedStatus = status.trim();
+        if (!EquipmentStatus.isValidStatus(trimmedStatus)) {
+            throw new ParseException(EquipmentStatus.MESSAGE_CONSTRAINTS);
+        }
+        return EquipmentStatus.java_parse(trimmedStatus);
     }
 
 }

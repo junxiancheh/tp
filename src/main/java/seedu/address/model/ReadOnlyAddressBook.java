@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.alias.AliasMapping;
+import seedu.address.model.equipment.Equipment;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.reservation.Reservation;
@@ -36,4 +37,9 @@ public interface ReadOnlyAddressBook {
      * Returns an unmodifiable view of the AliasMappingList.
      */
     ObservableList<AliasMapping> getAliasMappingList();
+
+    /**
+     * Returns an unmodifiable view of the equipment list.
+     */
+    ObservableList<Equipment> getEquipmentList();
 }

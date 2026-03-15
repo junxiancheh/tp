@@ -17,6 +17,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.alias.AliasMapping;
+import seedu.address.model.equipment.Equipment;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -59,6 +60,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Room> filteredRooms;
+    private final FilteredList<Equipment> filteredEquipments;
 
 
     /**
@@ -73,6 +75,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredRooms = new FilteredList<>(this.addressBook.getRoomList());
+        filteredEquipments = new FilteredList<>(this.addressBook.getEquipmentList());
     }
 
     public ModelManager() {
@@ -236,6 +239,31 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<IssueRecord> getIssueRecordList() {
         return addressBook.getIssueRecordList();
+    }
+
+    //=========== Equipment ================================================================================
+
+    @Override
+    public boolean hasEquipment(Equipment equipment) {
+        requireNonNull(equipment);
+        return addressBook.hasEquipment(equipment);
+    }
+
+    @Override
+    public void addEquipment(Equipment equipment) {
+        addressBook.addEquipment(equipment);
+        updateFilteredEquipmentList(PREDICATE_SHOW_ALL_EQUIPMENT);
+    }
+
+    @Override
+    public ObservableList<Equipment> getFilteredEquipmentList() {
+        return filteredEquipments;
+    }
+
+    @Override
+    public void updateFilteredEquipmentList(Predicate<Equipment> predicate) {
+        requireNonNull(predicate);
+        filteredEquipments.setPredicate(predicate);
     }
 
     // =========== Filtered Person List Accessors

@@ -1,4 +1,10 @@
-package seedu.address.model.equipment;
+package seedu.address.model.equipment.exceptions;
 
-public class DuplicateEquipmentException {
+/**
+ * Signals that the operation will result in duplicate Equipment.
+ */
+public class DuplicateEquipmentException extends RuntimeException {
+    public DuplicateEquipmentException() {
+        super("Operation would result in duplicate equipment");
+    }
 }

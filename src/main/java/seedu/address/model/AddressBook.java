@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.alias.AliasMapping;
 import seedu.address.model.alias.UniqueAliasMappingList;
+import seedu.address.model.equipment.Equipment;
+import seedu.address.model.equipment.UniqueEquipmentList;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.issue.UniqueIssueRecordList;
 import seedu.address.model.person.Person;
@@ -29,6 +31,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     private final UniqueReservationList reservations;
     private final UniqueIssueRecordList issueRecords;
     private final UniqueAliasMappingList aliasMappings;
+    private final UniqueEquipmentList equipments = new UniqueEquipmentList();
 
     {
         persons = new UniquePersonList();
@@ -198,6 +201,24 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .toString();
     }
 
+    /// Equipment-level operations
+
+    /**
+     * Returns true if an equipment with the same identity as {@code equipment} exists in the address book.
+     */
+    public boolean hasEquipment(Equipment equipment) {
+        requireNonNull(equipment);
+        return equipments.contains(equipment);
+    }
+
+    /**
+     * Adds an equipment to the address book.
+     * The equipment must not already exist in the address book.
+     */
+    public void addEquipment(Equipment e) {
+        equipments.add(e);
+    }
+
     /**
      * Returns an unmodifiable view of the person list.
      */
@@ -228,6 +249,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<IssueRecord> getIssueRecordList() {
         return issueRecords.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Equipment> getEquipmentList() {
+        return equipments.asUnmodifiableObservableList();
     }
 
     @Override
