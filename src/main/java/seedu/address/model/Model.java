@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.alias.AliasMapping;
+import seedu.address.model.equipment.Equipment;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -24,6 +25,9 @@ public interface Model {
 
     /** {@code Predicate} that always evaluate to true for rooms */
     Predicate<Room> PREDICATE_SHOW_ALL_ROOMS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Equipment> PREDICATE_SHOW_ALL_EQUIPMENT = unused -> true;
 
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);
 
@@ -105,4 +109,12 @@ public interface Model {
     void addTag(RoomName roomName, Tag tag);
 
     void deleteTag(RoomName roomName, Tag tag);
+
+    boolean hasEquipment(Equipment equipment);
+
+    void addEquipment(Equipment equipment);
+
+    ObservableList<Equipment> getFilteredEquipmentList();
+
+    void updateFilteredEquipmentList(Predicate<Equipment> predicate);
 }
