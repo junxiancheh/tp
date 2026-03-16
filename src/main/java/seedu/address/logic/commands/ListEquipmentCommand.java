@@ -20,4 +20,15 @@ public class ListEquipmentCommand extends Command {
         model.updateFilteredEquipmentList(PREDICATE_SHOW_ALL_EQUIPMENT);
         return new CommandResult(MESSAGE_SUCCESS, false, false, false, true);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof ListEquipmentCommand);
+    }
+
+    @Override
+    public int hashCode() {
+        return ListEquipmentCommand.class.hashCode();
+    }
 }

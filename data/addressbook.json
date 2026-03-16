@@ -52,6 +52,10 @@
     "name" : "Outdoor-Basketball-Court",
     "location" : "Kent-Ridge",
     "status" : "Booked"
+  }, {
+    "name" : "Music-Room-1",
+    "location" : "YIH",
+    "status" : "Booked"
   } ],
   "reservations" : [ ],
   "issueRecords" : [ ],
@@ -68,5 +72,9 @@
     "name" : "Tchoukball-Frame",
     "category" : "Tchoukballs/Booked",
     "status" : "Available"
+  }, {
+    "name" : "Spalding",
+    "category" : "Basketball",
+    "status" : "Booked"
   } ]
 }

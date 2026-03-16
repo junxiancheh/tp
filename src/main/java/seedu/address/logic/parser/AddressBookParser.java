@@ -94,7 +94,7 @@ public class AddressBookParser {
             return new AddEquipmentCommandParser().parse(arguments);
 
         case ListEquipmentCommand.COMMAND_WORD:
-            return new ListEquipmentCommand();
+            return new ListEquipmentCommandParser().parse(arguments);
 
         case ReserveCommand.COMMAND_WORD:
             return new ReserveCommandParser().parse(arguments);
