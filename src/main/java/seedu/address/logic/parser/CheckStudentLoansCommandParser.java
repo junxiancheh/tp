@@ -11,18 +11,22 @@ import seedu.address.model.person.StudentId;
  */
 public class CheckStudentLoansCommandParser implements Parser<CheckStudentLoansCommand> {
 
+    /**
+     * Parses arguments
+     * @param args
+     * @return
+     * @throws ParseException
+     */
     public CheckStudentLoansCommand parse(String args) throws ParseException {
-        try {
-            String trimmedArgs = args.trim();
-            if (trimmedArgs.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, 
-                        CheckStudentLoansCommand.MESSAGE_USAGE));
-            }
-            StudentId studentId = ParserUtil.parseStudentId(trimmedArgs);
-            return new CheckStudentLoansCommand(studentId);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, CheckStudentLoansCommand.MESSAGE_USAGE), pe);
+        String trimmedArgs = args.trim();
+
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    CheckStudentLoansCommand.MESSAGE_USAGE));
         }
+
+        StudentId studentId = ParserUtil.parseStudentId(trimmedArgs);
+
+        return new CheckStudentLoansCommand(studentId);
     }
 }

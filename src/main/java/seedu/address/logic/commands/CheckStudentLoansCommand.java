@@ -20,7 +20,7 @@ public class CheckStudentLoansCommand extends Command {
     public static final String COMMAND_WORD = "check-s";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Checks loans for a student. "
             + "Parameters: MATRIC_NUMBER";
-    
+
     public static final String MESSAGE_SUCCESS_HEADER = "Displaying Loans for: %1$s (%2$s)";
     public static final String MESSAGE_NO_LOANS = "No existing loans.";
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Unsuccessful: Cannot find user.";
@@ -61,7 +61,14 @@ public class CheckStudentLoansCommand extends Command {
 
     private String formatLoan(IssueRecord record) {
         String status = record.getDueDateTime().isBefore(LocalDateTime.now()) ? "[OVERDUE]" : "[BORROWED]";
-        return String.format("%s %s | Due: %s", 
+        return String.format("%s %s | Due: %s",
                 status, record.getItemId(), record.getFormattedDueDateTime());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof CheckStudentLoansCommand // instanceof handles nulls
+                && targetId.equals(((CheckStudentLoansCommand) other).targetId));
     }
 }

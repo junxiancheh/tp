@@ -7,6 +7,7 @@ import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EQUIPMENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddEquipmentCommand;
 import seedu.address.logic.commands.AddStudentCommand;
+import seedu.address.logic.commands.CheckStudentLoansCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.DeleteEquipmentCommand;
@@ -141,5 +143,12 @@ public class AddressBookParserTest {
         DeleteEquipmentCommand command = (DeleteEquipmentCommand) parser.parseCommand(
                 DeleteEquipmentCommand.COMMAND_WORD + " " + INDEX_FIRST_EQUIPMENT.getOneBased());
         assertEquals(new DeleteEquipmentCommand(INDEX_FIRST_EQUIPMENT), command);
+    }
+
+    @Test
+    public void parseCommand_checkStudentLoans() throws Exception {
+        CheckStudentLoansCommand command = (CheckStudentLoansCommand) parser.parseCommand(
+                CheckStudentLoansCommand.COMMAND_WORD + " " + ALICE.getStudentId());
+        assertEquals(new CheckStudentLoansCommand(ALICE.getStudentId()), command);
     }
 }

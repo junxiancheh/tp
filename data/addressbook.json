@@ -23,6 +23,12 @@
     "phone" : "92624417",
     "email" : "royb@u.nus.edu",
     "tags" : [ ]
+  }, {
+    "name" : "Alice Pauline",
+    "studentId" : "a1234567a",
+    "phone" : "94351253",
+    "email" : "alice@u.nus.edu",
+    "tags" : [ ]
   } ],
   "rooms" : [ {
     "name" : "MPSH-1",
@@ -54,7 +60,15 @@
     "status" : "Booked"
   } ],
   "reservations" : [ ],
-  "issueRecords" : [ ],
+  "issueRecords" : [ {
+    "itemId" : "WILSON-EVOLUTION-BASKETBALL-1",
+    "studentId" : "a3456789c",
+    "dueDateTime" : "2026-03-25 1700"
+  }, {
+    "itemId" : "MOLTEN-VOLLEYBALL",
+    "studentId" : "a3456789c",
+    "dueDateTime" : "2026-03-18 1200"
+  } ],
   "aliasMappings" : [ ],
   "equipments" : [ {
     "name" : "Wilson-Evolution",

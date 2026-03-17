@@ -8,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 
@@ -40,7 +40,8 @@ public class PersonCard extends UiPart<Region> {
     private VBox loansContainer;
 
     /**
-     * Creates a {@code PersonCard} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} with the given {@code Person} and index to
+     * display.
      */
     public PersonCard(Person person, int displayedIndex, List<IssueRecord> loans) {
         super(FXML);
@@ -48,7 +49,7 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName + " [" + person.getStudentId().value + "]");
         phone.setText(person.getPhone().value);
-        //address.setText(person.getAddress().value);
+        // address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
@@ -61,11 +62,12 @@ public class PersonCard extends UiPart<Region> {
             loansContainer.getChildren().add(noLoans);
         } else {
             loans.forEach(loan -> {
-                String status = loan.getDueDateTime().isBefore(LocalDateTime.now()) 
-                        ? "[OVERDUE] " : "[BORROWED] ";
-                Label loanLabel = new Label(status + loan.getItemId() + " (Due: " + loan.getFormattedDueDateTime() + ")");
+                String status = loan.getDueDateTime().isBefore(LocalDateTime.now())
+                        ? "[OVERDUE] "
+                        : "[BORROWED] ";
+                Label loanLabel = new Label(
+                        status + loan.getItemId() + " (Due: " + loan.getFormattedDueDateTime() + ")");
                 loanLabel.getStyleClass().add("cell_small_label");
-                
                 // Set text color to red if overdue
                 if (status.contains("OVERDUE")) {
                     loanLabel.setStyle("-fx-text-fill: #FF4B4B;");
