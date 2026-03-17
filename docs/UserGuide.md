@@ -336,7 +336,7 @@ Acceptable values:
 Duplicate handling:
 * The system searches by the unique matric number, so there is no risk of returning the wrong student's data.
 
-Possible errors: 
+Possible errors:
 * No matric number in the system.
 
 ### Display all students : `list-s`
@@ -351,7 +351,7 @@ To permanently delete a borrower’s record from the system database.
 
 Format: `delete-s MATRIC_NUMBER​`
 
-Acceptable values: 
+Acceptable values:
 * Matric number: Start with an alphabet followed by 7 digits and end with an alphabet.
 
 Possible errors:
