@@ -1,9 +1,12 @@
 package seedu.address.model.equipment;
-
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.Set;
 
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.Taggable;
+
+
 
 
 /**
@@ -34,6 +37,21 @@ public class Equipment extends Taggable {
         this.name = name;
         this.category = "placeholder";
         this.status = EquipmentStatus.java_parse("Available");
+    }
+
+    /**
+     * For modelEquipment creation
+     * @param name
+     * @param category
+     * @param status
+     * @param tags
+     */
+    public Equipment(EquipmentName name, String category, EquipmentStatus status, Set<Tag> tags) {
+        requireAllNonNull(name, category, status);
+        this.name = name;
+        this.category = category;
+        this.status = status;
+        this.tags.addAll(tags);
     }
 
     /**

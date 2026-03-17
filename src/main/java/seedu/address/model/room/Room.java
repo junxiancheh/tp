@@ -3,6 +3,7 @@ package seedu.address.model.room;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
+import java.util.Set;
 
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.Taggable;
@@ -45,6 +46,20 @@ public class Room extends Taggable {
         this.status = new Status("Available");
     }
 
+    /**
+     * For modelEquipment creation
+     * @param name A modelName
+     * @param location A modelLocation
+     * @param status A modelStatus
+     * @param tags A modelTags
+     */
+    public Room(RoomName name, Location location, Status status, Set<Tag> tags) {
+        requireAllNonNull(name, location, status);
+        this.name = name;
+        this.location = location;
+        this.status = status;
+        this.tags.addAll(tags);
+    }
     public RoomName getName() {
         return name;
     }

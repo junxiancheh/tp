@@ -1,5 +1,11 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,6 +14,9 @@ import seedu.address.model.room.Location;
 import seedu.address.model.room.Room;
 import seedu.address.model.room.RoomName;
 import seedu.address.model.room.Status;
+import seedu.address.model.tag.Tag;
+
+
 
 /**
  * Jackson-friendly version of {@code Room}.
@@ -19,16 +28,20 @@ class JsonAdaptedRoom {
     private final String name;
     private final String location;
     private final String status;
+    private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedRoom} with the given room details.
      */
     @JsonCreator
     public JsonAdaptedRoom(@JsonProperty("name") String name, @JsonProperty("location") String location,
-                           @JsonProperty("status") String status) {
+                           @JsonProperty("status") String status, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.location = location;
         this.status = status;
+        if (tags != null) {
+            this.tags.addAll(tags);
+        }
     }
 
     /**
@@ -38,6 +51,9 @@ class JsonAdaptedRoom {
         name = source.getName().fullName;
         location = source.getLocation().value;
         status = source.getStatus().value;
+        tags.addAll(source.getTags().stream()
+                .map(JsonAdaptedTag::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -46,6 +62,10 @@ class JsonAdaptedRoom {
      * @throws IllegalValueException if there were any data constraints violated in the adapted room.
      */
     public Room toModelType() throws IllegalValueException {
+        final List<Tag> roomTags = new ArrayList<>();
+        for (JsonAdaptedTag tag : tags) {
+            roomTags.add(tag.toModelType());
+        }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     RoomName.class.getSimpleName()));
@@ -69,6 +89,7 @@ class JsonAdaptedRoom {
         }
         final Status modelStatus = new Status(status);
 
-        return new Room(modelName, modelLocation, modelStatus);
+        final Set<Tag> modelTags = new HashSet<>(roomTags);
+        return new Room(modelName, modelLocation, modelStatus, modelTags);
     }
 }
