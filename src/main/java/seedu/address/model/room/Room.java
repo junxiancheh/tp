@@ -2,11 +2,12 @@ package seedu.address.model.room;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.Taggable;
+
 
 
 
@@ -14,15 +15,14 @@ import seedu.address.model.tag.Tag;
  * Represents a Room in the system.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Room {
-
+public class Room extends Taggable {
     // Identity fields
     private final RoomName name;
 
     // Data fields
     private final Location location;
     private final Status status;
-    private final Set<Tag> tags = new HashSet<>();
+
     /**
      * Every field must be present and not null.
      * @param name A valid room name.
@@ -46,6 +46,20 @@ public class Room {
         this.status = new Status("Available");
     }
 
+    /**
+     * For modelEquipment creation
+     * @param name A modelName
+     * @param location A modelLocation
+     * @param status A modelStatus
+     * @param tags A modelTags
+     */
+    public Room(RoomName name, Location location, Status status, Set<Tag> tags) {
+        requireAllNonNull(name, location, status);
+        this.name = name;
+        this.location = location;
+        this.status = status;
+        this.tags.addAll(tags);
+    }
     public RoomName getName() {
         return name;
     }
@@ -97,11 +111,26 @@ public class Room {
         return Objects.hash(name, location, status);
     }
 
+    /**
+     * Adds tag from tagList on Room and on TaggedEntries record
+     * @param tag A valid tag
+     */
     public void addTag(Tag tag) {
         tags.add(tag);
+        registerTag(this.getClass().getSimpleName(), this.getName().toString(), tag.toString());
     }
 
+    /**
+     * Removes tag from tagList on Room and on TaggedEntries record
+     * @param otherTag A valid Tag
+     */
     public void deleteTag(Tag otherTag) {
         tags.removeIf(tag -> tag.equals(otherTag));
+        removeTag(this.getClass().getSimpleName(), this.getName().toString(), otherTag.toString());
+    }
+
+    @Override
+    public String getNameString() {
+        return this.name.toString();
     }
 }
