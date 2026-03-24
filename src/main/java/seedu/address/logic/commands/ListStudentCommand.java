@@ -27,7 +27,7 @@ public class ListStudentCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-         return other == this
+        return other == this
                 || (other instanceof ListStudentCommand);
     }
 }
