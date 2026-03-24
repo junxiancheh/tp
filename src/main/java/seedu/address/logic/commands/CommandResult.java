@@ -28,7 +28,8 @@ public class CommandResult {
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showPersonList,
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit,
+                         boolean showPersonList,
                          boolean showRoomList,
                          boolean showEquipmentList) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
@@ -44,14 +45,6 @@ public class CommandResult {
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
         this(feedbackToUser, showHelp, exit, false, false, false);
-    }
-
-    /**
-     * Constructor for toggling specific views without exit/help flags.
-     */
-    public CommandResult(String feedbackToUser, boolean showPersonList,
-                         boolean showRoomList, boolean showEquipmentList) {
-        this(feedbackToUser, false, false, showPersonList, showRoomList, showEquipmentList);
     }
 
     /**
@@ -101,13 +94,14 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
+                && showPersonList == otherCommandResult.showPersonList
                 && showRoomList == otherCommandResult.showRoomList
                 && showEquipmentList == otherCommandResult.showEquipmentList;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, showRoomList, showEquipmentList);
+        return Objects.hash(feedbackToUser, showHelp, exit, showPersonList, showRoomList, showEquipmentList);
     }
 
     @Override
@@ -116,6 +110,7 @@ public class CommandResult {
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
                 .add("exit", exit)
+                .add("showPersonList", showPersonList)
                 .add("showRoomList", showRoomList)
                 .add("showEquipmentList", showEquipmentList)
                 .toString();

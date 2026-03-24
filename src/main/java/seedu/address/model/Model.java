@@ -61,6 +61,8 @@ public interface Model {
 
     boolean hasRoom(Room room);
 
+    void setRoom(Room target, Room editedRoom);
+
     void deleteRoom(Room target);
 
     ObservableList<Room> getFilteredRoomList();

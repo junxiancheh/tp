@@ -50,10 +50,8 @@ public class DeleteEquipmentCommandTest {
         DeleteEquipmentCommand deleteFirstCommand = new DeleteEquipmentCommand(INDEX_FIRST_EQUIPMENT);
         DeleteEquipmentCommand deleteSecondCommand = new DeleteEquipmentCommand(INDEX_SECOND_EQUIPMENT);
 
-        // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
-        // same values -> returns true
         DeleteEquipmentCommand deleteFirstCommandCopy = new DeleteEquipmentCommand(INDEX_FIRST_EQUIPMENT);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
 

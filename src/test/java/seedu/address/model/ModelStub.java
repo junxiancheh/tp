@@ -124,6 +124,12 @@ public abstract class ModelStub implements Model {
         throw new AssertionError("This method should not be called.");
     }
 
+    //=========== Room =============================================================
+    @Override
+    public void setRoom(Room target, Room editedRoom) {
+        throw new AssertionError("This method should not be called.");
+    }
+
     @Override
     public boolean hasReservableItem(String resourceId) {
         throw new AssertionError("This method should not be called.");
