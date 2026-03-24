@@ -25,8 +25,6 @@ public class CommandResult {
 
     private final boolean showEquipmentList;
 
-    private final boolean showPersonList;
-
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
