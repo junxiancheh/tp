@@ -19,6 +19,8 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    private final boolean showPersonList;
+
     private final boolean showRoomList;
 
     private final boolean showEquipmentList;
@@ -52,7 +54,8 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false, false, false);
+        this(feedbackToUser, false, false,
+                false, false, false);
     }
 
     public String getFeedbackToUser() {

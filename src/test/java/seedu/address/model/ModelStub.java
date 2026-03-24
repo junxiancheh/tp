@@ -93,6 +93,32 @@ public abstract class ModelStub implements Model {
         throw new AssertionError("This method should not be called.");
     }
 
+    //============ Room =================================================================================
+    @Override
+    public void addRoom(Room room) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public boolean hasRoom(Room room) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void deleteRoom(Room target) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public ObservableList<Room> getFilteredRoomList() {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void updateFilteredRoomList(Predicate<Room> predicate) {
+        throw new AssertionError("This method should not be called.");
+    }
+
     @Override
     public boolean hasStudentId(StudentId studentId) {
         throw new AssertionError("This method should not be called.");
@@ -209,6 +235,11 @@ public abstract class ModelStub implements Model {
 
     @Override
     public void addEquipment(Equipment equipment) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void setEquipment(Equipment target, Equipment editedEquipment) {
         throw new AssertionError("This method should not be called.");
     }
 

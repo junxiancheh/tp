@@ -95,12 +95,12 @@
   }, {
     "name" : "Molten-Volleyball",
     "category" : "Volleyball",
-    "status" : "Damaged",
+    "status" : "Maintenance",
     "tags" : [ ]
   }, {
     "name" : "Tchoukball-Frame",
     "category" : "Tchoukball",
-    "status" : "Maintenance",
+    "status" : "Booked",
     "tags" : [ ]
   }, {
     "name" : "Track-Stand",
