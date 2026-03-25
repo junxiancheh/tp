@@ -93,8 +93,8 @@ public class AddTagCommandTest {
      */
     private static class ModelStubAcceptingTag extends ModelStub {
         private final Taggable taggable;
-        Taggable taggedTarget = null;
-        Tag tagAdded = null;
+        private Taggable taggedTarget = null;
+        private Tag tagAdded = null;
 
         ModelStubAcceptingTag(Taggable taggable) {
             requireNonNull(taggable);
