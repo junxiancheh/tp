@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FilterTagCommand;
-import seedu.address.logic.commands.FilterTagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 

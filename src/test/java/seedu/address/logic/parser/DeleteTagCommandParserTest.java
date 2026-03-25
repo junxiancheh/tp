@@ -16,8 +16,6 @@ import seedu.address.model.room.Room;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.RoomBuilder;
 
-
-
 public class DeleteTagCommandParserTest {
     private static final String VALID_EQUIPMENT_ID = "Wilson-Evolution-Basketball-1";
     private static final String VALID_ROOM_ID = "Sports-Hall-2";
