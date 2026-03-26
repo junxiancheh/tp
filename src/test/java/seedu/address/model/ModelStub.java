@@ -151,6 +151,16 @@ public abstract class ModelStub implements Model {
     }
 
     @Override
+    public Optional<Reservation> getMatchingReservation(Reservation reservation) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void removeReservation(Reservation reservation) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
     public ObservableList<Reservation> getReservationList() {
         return FXCollections.observableArrayList();
     }
@@ -172,6 +182,11 @@ public abstract class ModelStub implements Model {
 
     @Override
     public void addIssueRecord(IssueRecord issueRecord) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void removeIssueRecord(IssueRecord issueRecord) {
         throw new AssertionError("This method should not be called.");
     }
 
