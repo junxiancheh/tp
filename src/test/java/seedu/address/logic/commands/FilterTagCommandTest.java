@@ -1,7 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.function.Predicate;
@@ -13,6 +14,7 @@ import seedu.address.model.ModelStub;
 import seedu.address.model.equipment.Equipment;
 import seedu.address.model.room.Room;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.RoomBuilder;
 
 public class FilterTagCommandTest {
     private static final Tag VALID_TAG = new Tag("Valid");
@@ -75,6 +77,17 @@ public class FilterTagCommandTest {
 
         assertThrows(CommandException.class, FilterTagCommand.MESSAGE_ERROR, () ->
                 command.execute(modelStub));
+    }
+
+    @Test
+    public void equals() {
+
+        FilterTagCommand command = new FilterTagCommand(EQUIPMENT_TYPE, VALID_TAG);
+        FilterTagCommand command2 = new FilterTagCommand(ROOM_TYPE, VALID_TAG);
+        assertTrue(command.equals(command));
+        assertFalse(command.equals(1));
+        assertFalse(command.equals(null));
+        assertFalse(command.equals(command2));
     }
 
 

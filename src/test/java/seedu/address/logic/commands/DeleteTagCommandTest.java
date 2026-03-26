@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -88,6 +90,17 @@ public class DeleteTagCommandTest {
         assertThrows(CommandException.class, () -> command.execute(modelStub));
     }
 
+    @Test
+    public void equals() {
+
+        DeleteTagCommand command = new DeleteTagCommand(new RoomBuilder().build(), VALID_TAG);
+        DeleteTagCommand command2 = new DeleteTagCommand(new RoomBuilder()
+                .withName(VALID_EQUIPMENT_ID).build(), VALID_TAG);
+        assertTrue(command.equals(command));
+        assertFalse(command.equals(1));
+        assertFalse(command.equals(null));
+        assertFalse(command.equals(command2));
+    }
     /**
      * A Model stub that contains a single Taggable and accepts a tag being added.
      */
