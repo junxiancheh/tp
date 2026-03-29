@@ -70,6 +70,8 @@ public class CancelReservationCommand extends Command {
         Reservation reservation = existingReservation.get();
         model.removeReservation(reservation);
 
+        model.updatePersonDisplay(reservation.getStudentId());
+
         return new CommandResult(String.format(
                 MESSAGE_SUCCESS,
                 reservation.getResourceId(),
