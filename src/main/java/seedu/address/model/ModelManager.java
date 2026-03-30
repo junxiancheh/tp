@@ -371,6 +371,7 @@ public class ModelManager implements Model {
     public void removeReservation(Reservation reservation) {
         requireNonNull(reservation);
         addressBook.removeReservation(reservation);
+        refreshResourceBookingStatus(reservation.getResourceId());
     }
 
     @Override
