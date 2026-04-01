@@ -21,14 +21,32 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 
 ## 1. Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. TrackMasterPro runs on Java `17`. Check if you already have it installed in your Computer:<br>
+   **Windows user:** Open the Start menu, search for `cmd` and open the **Command Prompt** app. Type `java -version` and press Enter. If yous see Java `17`, you're good to go!
+   
+   **Mac users:** Open the **Terminal** app. Type `java -version` and press Enter. If yous see Java `17`, you're good to go!
 
-2. Download the latest `TrackMasterPro.jar` file [here](https://github.com/se-edu/addressbook-level3/releases).
+   If Java `17` is not installed:
+   * Windows: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
 
-3. Copy the file to the folder you want to use as the _home folder_ for TrackMasterPro.
+   * Mac: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TrackMasterPro.jar` command to run the application.<br>
+2. Download the latest `trackmasterpro.jar` file [here](https://github.com/AY2526S2-CS2103T-T14-4/tp/releases/).
+
+3. Copy the file to the folder you want to use as the _home folder_ for TrackMasterPro
+   (e.g create a new folder called `TrackMasterPro`  on your Desktop).
+
+4. TrackMasterPro is launched from the **terminal**. Here's how to run it:
+   **Windows:** 
+   1. Locate your file: Open File Explorer and go to the folder where `trackmasterpro.jar` is saved.
+   2. Open the Terminal: Click on the address bar at the top of the window (where the folder path is shown), type `cmd`, and hit Enter. This opens the Command Prompt directly in that folder.
+   3. Launch the App: Type the following command and press **Enter**: `java -jar TrackMasterPro.jar`.
+
+   **Mac**
+   1. Open Terminal: Press `Command + Spac`, type **Terminal**, and hit Enter.
+   2. Navigate to the folder: Type `cd` followed by a space, then drag the folder containing the `.jar` file from Finder directly into the Terminal window. Hit **Enter**.
+   3. Launch the App: Type the following command and press Enter: `java -jar trackmasterpro.jar`
+
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -290,7 +308,7 @@ Possible errors:
 
 #### Add a new student profile : `add-s`
 
-Adds a new borrower in the database so they can begin borrowing items or booking facilities.
+Adds a new student in the database so they can begin borrowing equipment or booking room/facility.
 
 Format: `add-s n/NAME m/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL`
 
@@ -298,9 +316,9 @@ Examples:
 *  `add-s n/John Doe m/A0123456B p/91234567 e/e0123456@u.nus.edu` Adds a new student with the name `John Doe`, matric number `A0123456B`, phone number `91234567` and email address `e0123456@u.nus.edu`.
 
 **Acceptable values:**
-* **Name:** Alphabets and spaces only. No special characters or numbers.
-* **Matric number:** Must follow the NUS format (e.g., A0123456B).
-* **Phone number:** 8-digit continuous Singaporean mobile number.
+* **Name:** Alphabets and internal spaces only (e.g., `John Lim`). No special characters or numbers (e.g., `-`, `.`, `*`). The system trims any spaces at the very beginning or end of a name.
+* **Matric Number:** Must follow the NUS format (e.g., `A0123456B`).
+* **Phone Number:** 8-digit mobile number (e.g `81234567`).
 * **Email:** Valid email format (e.g., `e0123456@u.nus.edu`).
 
 Outputs:
@@ -310,8 +328,11 @@ Outputs:
   ![AddStudentFailure.png](images/AddStudentFailure.png)
 
 Duplicate handling:
-* If matric number, phone number or email already exist in the system, the command will be rejected to prevent duplicate identity.
+* To ensure data integrity, each Student must have a unique Matric Number, Phone Number, and Email. If any of these are already registered to another student, the command will fail.
 ![AddStudentDuplicate.png](images/AddStudentDuplicate.png)
+
+Possible errors:
+**Name**: Hyphens (-), periods (.), and apostrophes ('), numbers in name will cause an error
 
 #### Check a student's loans : `check-s`
 
