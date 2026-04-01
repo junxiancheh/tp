@@ -339,11 +339,25 @@ Possible errors:
 
 #### Display all students : `list-s`
 
-To display a list of all registered borrowers in the system.
+To display a list of all registered students in the system.
 
 Format: `list-s`
 
+Acceptable values:
+* Only accepts `list-s`.
+
+Duplicate handling:
+* Not applicable for a view command.
+
+Examples:
+* `list-e`.
+
+Outputs:
+* Success
 ![ListStudentsSuccess.png](images/ListStudentsSuccess.png)
+
+Possible errors:
+* Any extra input after `list-s`, (e.g. `list-s 1`, `list-e a` etc.) will be invalid command.
 
 #### Delete a student's profile : `delete-s`
 
