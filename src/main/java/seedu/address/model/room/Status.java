@@ -9,7 +9,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Status {
     public static final String MESSAGE_CONSTRAINTS =
-            "Status should only be: Available, Booked, or Maintenance.";
+            """
+                    Status should be one of the following: Available, Booked, or Maintenance.
+                    Example: s/Available
+                    """;
 
     public final String value;
 
