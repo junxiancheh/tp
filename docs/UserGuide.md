@@ -22,31 +22,37 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 ## 1. Quick start
 
 1. TrackMasterPro runs on Java `17`. Check if you already have it installed in your Computer:<br>
+
    **Windows user:** Open the Start menu, search for `cmd` and open the **Command Prompt** app. Type `java -version` and press Enter. If yous see Java `17`, you're good to go!
    
    **Mac users:** Open the **Terminal** app. Type `java -version` and press Enter. If yous see Java `17`, you're good to go!
 
    If Java `17` is not installed:
-   * Windows: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
+   * Windows: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html).
 
-   * Mac: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   * Mac: Guide to download and install Java `17` [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 2. Download the latest `trackmasterpro.jar` file [here](https://github.com/AY2526S2-CS2103T-T14-4/tp/releases/).
 
 3. Copy the file to the folder you want to use as the _home folder_ for TrackMasterPro
    (e.g create a new folder called `TrackMasterPro`  on your Desktop).
 
-4. TrackMasterPro is launched from the **terminal**. Here's how to run it:
+4. TrackMasterPro is launched from the **terminal**. Here's how to run it: </br>
+
    **Windows:** 
    1. Locate your file: Open File Explorer and go to the folder where `trackmasterpro.jar` is saved.
+
    2. Open the Terminal: Click on the address bar at the top of the window (where the folder path is shown), type `cmd`, and hit Enter. This opens the Command Prompt directly in that folder.
+
    3. Launch the App: Type the following command and press **Enter**: `java -jar TrackMasterPro.jar`.
 
-   **Mac**
-   1. Open Terminal: Press `Command + Spac`, type **Terminal**, and hit Enter.
-   2. Navigate to the folder: Type `cd` followed by a space, then drag the folder containing the `.jar` file from Finder directly into the Terminal window. Hit **Enter**.
-   3. Launch the App: Type the following command and press Enter: `java -jar trackmasterpro.jar`
+   **Mac:**
+   1. Open Terminal: Press `Command + Space`, type **Terminal**, and hit Enter.
 
+   2. Navigate to the folder: Type `cd` followed by a space, then drag the folder containing the `.jar` file from Finder directly into the Terminal window. Hit **Enter**.
+
+   3. Launch the App: Type the following command and press Enter: `java -jar trackmasterpro.jar`
+   
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -313,13 +319,14 @@ Adds a new student in the database so they can begin borrowing equipment or book
 Format: `add-s n/NAME m/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL`
 
 Examples:
-*  `add-s n/John Doe m/A0123456B p/91234567 e/e0123456@u.nus.edu` Adds a new student with the name `John Doe`, matric number `A0123456B`, phone number `91234567` and email address `e0123456@u.nus.edu`.
+*  `add-s n/John Doe m/A0123456B p/91234567 e/e0123456@u.nus.edu` 
+*  Adds a new student with the name `John Doe`, matric number `A0123456B`, phone number `91234567` and email address `e0123456@u.nus.edu`.
 
 **Acceptable values:**
-* **Name:** Alphabets and internal spaces only (e.g., `John Lim`). No special characters or numbers (e.g., `-`, `.`, `*`). The system trims any spaces at the very beginning or end of a name.
-* **Matric Number:** Must follow the NUS format (e.g., `A0123456B`).
+* **Name:** Alphabets and internal spaces only (e.g., `John Lim`). No special characters or numbers (e.g., `-`, `.`, `*`). The system trims any spaces at the very beginning or end of a name. 
+* **Matric Number:** Must be exactly 9 characters long. It starts with a letter (usually 'A'), followed by 7 digits, and ends with a check letter. (e.g., `A0123456B`). Case insensitive.
 * **Phone Number:** 8-digit mobile number (e.g `81234567`).
-* **Email:** Valid email format (e.g., `e0123456@u.nus.edu`).
+* **Email:** Valid email format (e.g., `e0123456@u.nus.edu`). Case insensitive.
 
 Outputs:
 * Success
@@ -332,7 +339,7 @@ Duplicate handling:
 ![AddStudentDuplicate.png](images/AddStudentDuplicate.png)
 
 Possible errors:
-**Name**: Hyphens (-), periods (.), and apostrophes ('), numbers in name will cause an error
+* Hyphens `(-)`, periods `(.)`, and apostrophes `(')`, numbers `(1)` in name will cause an error
 
 #### Check a student's loans : `check-s`
 
