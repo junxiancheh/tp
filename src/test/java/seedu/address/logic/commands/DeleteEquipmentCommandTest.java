@@ -14,6 +14,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.equipment.Category;
 import seedu.address.model.equipment.Equipment;
 import seedu.address.model.equipment.EquipmentStatus;
 import seedu.address.testutil.TypicalEquipments;
@@ -51,7 +52,7 @@ public class DeleteEquipmentCommandTest {
         Equipment firstEquipment = model.getFilteredEquipmentList().get(INDEX_FIRST_EQUIPMENT.getZeroBased());
 
         Equipment maintenanceEquipment = new Equipment(
-                firstEquipment.getName(), "Basketball",
+                firstEquipment.getName(), new Category("Basketball"),
                 EquipmentStatus.MAINTENANCE,
                 firstEquipment.getTags());
         model.setEquipment(firstEquipment, maintenanceEquipment);
