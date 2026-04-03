@@ -47,7 +47,12 @@
     "status" : "Available",
     "tags" : [ ]
   }, {
-    "name" : "Outdoor-Tennis-Court",
+    "name" : "Music-Room-1",
+    "location" : "Yih",
+    "status" : "Available",
+    "tags" : [ ]
+  }, {
+    "name" : "Mpsh-6",
     "location" : "Kent-Ridge",
     "status" : "Available",
     "tags" : [ ]
@@ -67,8 +72,8 @@
     "status" : "Available",
     "tags" : [ ]
   }, {
-    "name" : "Volleyball-Court",
-    "location" : "University-Town",
+    "name" : "Mpsh-4",
+    "location" : "Sports-Centre",
     "status" : "Available",
     "tags" : [ ]
   }, {
