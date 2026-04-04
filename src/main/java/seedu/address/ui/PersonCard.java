@@ -84,7 +84,8 @@ public class PersonCard extends UiPart<Region> {
         } else {
             reservations.forEach(res -> {
                 Label resLabel = new Label(
-                        "[RESERVED] " + res.getResourceId() + " (" + res.getFormattedStartDateTime() + ")");
+                        "[RESERVED] " + res.getResourceId() + " (" + res.getFormattedStartDateTime()
+                                + " to " + res.getFormattedEndDateTime() + ")");
                 resLabel.getStyleClass().add("cell_small_label");
                 resLabel.setStyle("-fx-text-fill: #FFD700;"); // Gold
                 loansContainer.getChildren().add(resLabel);
