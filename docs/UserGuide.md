@@ -427,17 +427,23 @@ Edits an existing student's details in the address book.
 Format: `edit-s INDEX [n/NAME] [p/PHONE] [e/EMAIL]`
 
 Acceptable values:
-* Edits the person at the specified INDEX. The index refers to the index number shown in the displayed person list. The index must be a positive integer `1, 2, 3, …`
-* Matric number is not modifiable.
-* The order does not matter (e.g., `p/` can come before `n/`).
+* INDEX: Must be a positive integer `(1, 2, 3...)` as shown in the current displayed list.
+* Fields: At least one field must be provided.
 * (With at least one of the fields)
     * Name: Alphabets and spaces only. No special characters or numbers.
+    * Matric Number: 9 characters, starting and ending with a letter (e.g., `A1234567X`). Case-insensitive.
     * Phone: 8-digit continuous Singaporean mobile number.
     * Email: Valid email format (e.g., `e0123456@u.nus.edu`).
+* The order does not matter (e.g., `p/` can come before `n/`).
+* You **cannot** edit any details of a student if they currently have an active equipment loan or a facility reservation.
 
 Examples:
 * `edit-s 2 n/Tom p/91234561 e/e1234567@u.nus.edu`.
 
+Possible errors:
+* Current student still has active loans or reservations linked to their current ID.
+* Index provided is invalid.
+* A student with the edited information already exists.
 
 ### 2.4 Loans & Reservations
 

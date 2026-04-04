@@ -47,12 +47,18 @@ public class EditStudentCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Student: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_FIELDS = "Edit failed. Duplicate fields detected: ";
+    public static final String MESSAGE_HAS_ACTIVE_LOANS = "This student still has active loans or"
+            + " reservations linked to their current ID.";
+    public static final String MESSAGE_NEW_HAS_ACTIVE_LOANS = "The new Student ID is already"
+            + " linked to existing loan records.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the student in the filtered person list to edit
+     * @param index                of the student in the filtered person list to
+     *                             edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditStudentCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -73,10 +79,54 @@ public class EditStudentCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+
+        boolean hasActiveLoans = model.getAddressBook().getIssueRecordList().stream()
+                .anyMatch(loan -> loan.getStudentId().equals(personToEdit.getStudentId()));
+        boolean hasReservations = model.getAddressBook().getReservationList().stream()
+                .anyMatch(res -> res.getStudentId().equals(personToEdit.getStudentId()));
+
+        // Prevent editing if current student has active loans
+        if (hasActiveLoans || hasReservations) {
+            throw new CommandException(MESSAGE_HAS_ACTIVE_LOANS);
+        }
+
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        // Block if the matric, phone or email already exist
+        if (!personToEdit.equals(editedPerson)) {
+            Optional<Person> conflictPerson = model.getAddressBook().getPersonList().stream()
+                    .filter(p -> !p.equals(personToEdit))
+                    .filter(p -> p.getStudentId().equals(editedPerson.getStudentId())
+                            || p.getPhone().equals(editedPerson.getPhone())
+                            || p.getEmail().equals(editedPerson.getEmail()))
+                    .findFirst();
+
+            if (conflictPerson.isPresent()) {
+                Person other = conflictPerson.get();
+                String specificConflict = "";
+
+                // Identify the duplicated field
+                if (other.getStudentId().equals(editedPerson.getStudentId())) {
+                    specificConflict = " Duplicate Student ID";
+                } else if (other.getPhone().equals(editedPerson.getPhone())) {
+                    specificConflict = " Duplicate Phone Number";
+                } else {
+                    specificConflict = " Duplicate Email Address";
+                }
+
+                throw new CommandException(MESSAGE_DUPLICATE_FIELDS + specificConflict);
+            }
+
+            if (!personToEdit.getStudentId().equals(editedPerson.getStudentId())) {
+                boolean newIdHasActive = model.getAddressBook().getIssueRecordList().stream()
+                        .anyMatch(loan -> loan.getStudentId().equals(editedPerson.getStudentId()))
+                        || model.getAddressBook().getReservationList().stream()
+                                .anyMatch(res -> res.getStudentId().equals(editedPerson.getStudentId()));
+
+                if (newIdHasActive) {
+                    throw new CommandException(MESSAGE_NEW_HAS_ACTIVE_LOANS);
+                }
+            }
         }
 
         model.setPerson(personToEdit, editedPerson);
@@ -131,7 +181,8 @@ public class EditStudentCommand extends Command {
         private Phone phone;
         private Email email;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+        }
 
         /**
          * Copy constructor.
