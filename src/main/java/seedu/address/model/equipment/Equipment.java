@@ -112,11 +112,7 @@ public class Equipment extends Taggable {
      * @param tagName A String
      */
     public void addTag(String tagName) {
-        if (hasBeenTagged(this.getClass().getSimpleName(), this.getName().toString(), tagName)) {
-            throw new DuplicateTagException();
-        }
         tags.add(new Tag(tagName));
-        registerTag(this.getClass().getSimpleName(), this.getName().toString(), tagName);
     }
 
     /**
@@ -125,7 +121,6 @@ public class Equipment extends Taggable {
      */
     public void deleteTag(String otherTag) {
         tags.removeIf(tag -> tag.equals(new Tag(otherTag)));
-        removeTag(this.getClass().getSimpleName(), this.getName().toString(), otherTag);
     }
 
 

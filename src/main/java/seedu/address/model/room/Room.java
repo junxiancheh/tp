@@ -115,11 +115,11 @@ public class Room extends Taggable {
      * @param tagName A tagName
      */
     public void addTag(String tagName) {
-        if (hasBeenTagged(this.getClass().getSimpleName(), this.getName().toString(), tagName)) {
+        Tag tag = new Tag(tagName);
+        if (tags.contains(tag)) {
             throw new DuplicateTagException();
         }
-        tags.add(new Tag(tagName));
-        registerTag(this.getClass().getSimpleName(), this.getName().toString(), tagName);
+        tags.add(tag);
     }
 
     /**
@@ -128,7 +128,6 @@ public class Room extends Taggable {
      */
     public void deleteTag(String otherTag) {
         tags.removeIf(tag -> tag.equals(new Tag(otherTag)));
-        removeTag(this.getClass().getSimpleName(), this.getName().toString(), otherTag);
     }
 
     @Override

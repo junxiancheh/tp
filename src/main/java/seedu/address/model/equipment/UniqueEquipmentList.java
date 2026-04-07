@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.equipment.exceptions.DuplicateEquipmentException;
 import seedu.address.model.equipment.exceptions.EquipmentNotFoundException;
+import seedu.address.model.tag.exceptions.DuplicateTagException;
 
 /**
  * A list of equipments that enforces uniqueness between its elements and does not allow nulls.
@@ -133,10 +134,18 @@ public class UniqueEquipmentList implements Iterable<Equipment> {
      * @param tag A string
      */
     public void addEquipmentTag(Equipment toCheck, String tag) {
-        internalList.stream()
+        Equipment equipmentToUpdate = internalList.stream()
                 .filter(toCheck::isSameEquipmentName)
                 .findFirst()
-                .ifPresent(equipment -> equipment.addTag(tag));
+                .orElseThrow(() -> new EquipmentNotFoundException());
+        boolean hasDuplicateTag = equipmentToUpdate.getTags().stream()
+                .anyMatch(existingTag -> existingTag.tagName.equalsIgnoreCase(tag));
+        if (hasDuplicateTag) {
+            throw new DuplicateTagException();
+        }
+        int index = internalList.indexOf(equipmentToUpdate);
+        equipmentToUpdate.addTag(tag);
+        internalList.set(index, equipmentToUpdate);
     }
 
     /**
@@ -145,10 +154,14 @@ public class UniqueEquipmentList implements Iterable<Equipment> {
      * @param tag A string
      */
     public void deleteEquipmentTag(Equipment toCheck, String tag) {
-        internalList.stream()
+        Equipment equipmentToUpdate = internalList.stream()
                 .filter(toCheck::isSameEquipmentName)
                 .findFirst()
-                .ifPresent(equipment -> equipment.deleteTag(tag));
+                .orElseThrow(() -> new EquipmentNotFoundException());
+
+        int index = internalList.indexOf(equipmentToUpdate);
+        equipmentToUpdate.deleteTag(tag);
+        internalList.set(index, equipmentToUpdate);
     }
 
 
