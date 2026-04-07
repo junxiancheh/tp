@@ -14,14 +14,14 @@ import seedu.address.model.tag.exceptions.DuplicateTagException;
  */
 public class Equipment extends Taggable {
     private final EquipmentName name;
-    private final String category;
+    private final Category category;
     private final EquipmentStatus status;
 
 
     /**
      * Every field must be present and not null.
      */
-    public Equipment(EquipmentName name, String category, EquipmentStatus status) {
+    public Equipment(EquipmentName name, Category category, EquipmentStatus status) {
         requireAllNonNull(name, category, status);
         this.name = name;
         this.category = category;
@@ -34,7 +34,7 @@ public class Equipment extends Taggable {
      */
     public Equipment(EquipmentName name) {
         this.name = name;
-        this.category = "placeholder";
+        this.category = Category.java_parse("placeholder");
         this.status = EquipmentStatus.java_parse("Available");
     }
 
@@ -45,7 +45,7 @@ public class Equipment extends Taggable {
      * @param status
      * @param tags
      */
-    public Equipment(EquipmentName name, String category, EquipmentStatus status, Set<Tag> tags) {
+    public Equipment(EquipmentName name, Category category, EquipmentStatus status, Set<Tag> tags) {
         requireAllNonNull(name, category, status);
         this.name = name;
         this.category = category;
@@ -63,8 +63,7 @@ public class Equipment extends Taggable {
         }
 
         return otherEquipment != null
-                && otherEquipment.getName().equals(getName()) // EquipmentName.equals handles case
-                && otherEquipment.getCategory().equalsIgnoreCase(getCategory());
+                && otherEquipment.getName().equals(getName()); // EquipmentName.equals handles case
     }
 
     /**
@@ -83,7 +82,7 @@ public class Equipment extends Taggable {
         return name;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
