@@ -134,7 +134,7 @@ public class UniqueEquipmentList implements Iterable<Equipment> {
      */
     public void addEquipmentTag(Equipment toCheck, String tag) {
         internalList.stream()
-                .filter(toCheck::isSameEquipment)
+                .filter(toCheck::isSameEquipmentName)
                 .findFirst()
                 .ifPresent(equipment -> equipment.addTag(tag));
     }
@@ -146,7 +146,7 @@ public class UniqueEquipmentList implements Iterable<Equipment> {
      */
     public void deleteEquipmentTag(Equipment toCheck, String tag) {
         internalList.stream()
-                .filter(toCheck::isSameEquipment)
+                .filter(toCheck::isSameEquipmentName)
                 .findFirst()
                 .ifPresent(equipment -> equipment.deleteTag(tag));
     }

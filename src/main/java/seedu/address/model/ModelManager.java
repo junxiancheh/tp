@@ -402,13 +402,13 @@ public class ModelManager implements Model {
     public void addTag(Taggable target, Tag tag) {
         requireAllNonNull(target, tag);
         if (target instanceof Room room) {
-            addressBook.addRoomTag(room, tag.toString());
+            addressBook.addRoomTag(room, tag.tagName);
             updateFilteredRoomList(PREDICATE_SHOW_ALL_ROOMS);
         } else if (target instanceof Equipment equipment) {
-            addressBook.addEquipmentTag(equipment, tag.toString());
+            addressBook.addEquipmentTag(equipment, tag.tagName);
             updateFilteredEquipmentList(PREDICATE_SHOW_ALL_EQUIPMENTS);
         } else {
-            throw new AssertionError("Unknown Taggable type: " + target.getClass());
+            throw new AssertionError("Invalid arguments" + target.getClass());
         }
     }
 
@@ -416,10 +416,10 @@ public class ModelManager implements Model {
     public void deleteTag(Taggable target, Tag tag) {
         requireAllNonNull(target, tag);
         if (target instanceof Room room) {
-            addressBook.deleteRoomTag(room, tag.toString());
+            addressBook.deleteRoomTag(room, tag.tagName);
             updateFilteredRoomList(PREDICATE_SHOW_ALL_ROOMS);
         } else if (target instanceof Equipment equipment) {
-            addressBook.deleteEquipmentTag(equipment, tag.toString());
+            addressBook.deleteEquipmentTag(equipment, tag.tagName);
             updateFilteredEquipmentList(PREDICATE_SHOW_ALL_EQUIPMENTS);
         } else {
             throw new AssertionError("Unknown Taggable type: " + target.getClass());
