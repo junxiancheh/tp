@@ -125,14 +125,14 @@ public class MainWindow extends UiPart<Stage> {
         roomListPanel = new RoomListPanel(logic.getFilteredRoomList());
         roomListPanelPlaceholder.getChildren().add(roomListPanel.getRoot());
 
-        roomListPanelPlaceholder.setVisible(false);
-        roomListPanelPlaceholder.setManaged(false);
+        //roomListPanelPlaceholder.setVisible(false);
+        //roomListPanelPlaceholder.setManaged(false);
 
         equipmentListPanel = new EquipmentListPanel(logic.getFilteredEquipmentList());
         equipmentListPanelPlaceholder.getChildren().add(equipmentListPanel.getRoot());
 
-        equipmentListPanelPlaceholder.setVisible(false);
-        equipmentListPanelPlaceholder.setManaged(false);
+        //equipmentListPanelPlaceholder.setVisible(false);
+        //equipmentListPanelPlaceholder.setManaged(false);
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -142,18 +142,25 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
-
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.getIssueRecordList(),
-                                                logic.getReservationList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
     }
 
     /**
      * Sets the default size based on {@code guiSettings}.
      */
     private void setWindowDefaultSize(GuiSettings guiSettings) {
+        primaryStage.setMinWidth(1400);
+        primaryStage.setMinHeight(800);
+
         primaryStage.setHeight(guiSettings.getWindowHeight());
         primaryStage.setWidth(guiSettings.getWindowWidth());
+
+        if (guiSettings.getWindowWidth() < 1400) {
+            primaryStage.setWidth(1400);
+        }
+        if (guiSettings.getWindowHeight() < 800) {
+            primaryStage.setHeight(800);
+        }
+
         if (guiSettings.getWindowCoordinates() != null) {
             primaryStage.setX(guiSettings.getWindowCoordinates().getX());
             primaryStage.setY(guiSettings.getWindowCoordinates().getY());
@@ -253,14 +260,6 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
-            }
-
-            if (commandResult.isShowEquipmentList()) {
-                handleShowEquipmentList();
-            } else if (commandResult.isShowRoomList()) {
-                handleShowRoomList();
-            } else if (commandResult.isShowPersonList()) {
-                handleShowPersonList();
             }
 
             return commandResult;

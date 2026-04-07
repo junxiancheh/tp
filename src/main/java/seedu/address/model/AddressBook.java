@@ -83,6 +83,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         setRooms(newData.getRoomList());
         setReservations(newData.getReservationList());
         setIssueRecords(newData.getIssueRecordList());
+        setAliasMappings(newData.getAliasMappingList());
         setEquipments(newData.getEquipmentList());
     }
 
@@ -335,6 +336,28 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void addAliasMapping(AliasMapping aliasMapping) {
         aliasMappings.add(aliasMapping);
+    }
+
+    /**
+     * Removes an issue record from the address book.
+     */
+    public void removeIssueRecord(IssueRecord issueRecord) {
+        issueRecords.remove(issueRecord);
+    }
+
+    /**
+     * Returns the matching reservation, if any.
+     */
+    public Optional<Reservation> getMatchingReservation(Reservation reservation) {
+        requireNonNull(reservation);
+        return reservations.getMatchingReservation(reservation);
+    }
+
+    /**
+     * Removes a reservation from the address book.
+     */
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     @Override
