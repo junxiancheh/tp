@@ -286,12 +286,28 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasAliasableTarget_validRoom_returnsTrue() {
+    public void hasAliasableTarget_existingRoom_returnsTrue() {
+        Room room = new RoomBuilder()
+                .withName("Hall-2")
+                .withLocation("Sports-Centre")
+                .withStatus("Available")
+                .build();
+
+        modelManager.addRoom(room);
+
         assertTrue(modelManager.hasAliasableTarget("Hall-2"));
     }
 
     @Test
-    public void hasAliasableTarget_validItem_returnsTrue() {
+    public void hasAliasableTarget_existingEquipment_returnsTrue() {
+        Equipment equipment = new EquipmentBuilder()
+                .withName("Wilson-Evolution-Basketball-1")
+                .withCategory("Basketball")
+                .withStatus(EquipmentStatus.AVAILABLE)
+                .build();
+
+        modelManager.addEquipment(equipment);
+
         assertTrue(modelManager.hasAliasableTarget("Wilson-Evolution-Basketball-1"));
     }
 

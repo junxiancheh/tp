@@ -4,11 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -33,30 +30,6 @@ import seedu.address.model.tag.Taggable;
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-
-    /**
-     * Temporary resource registry for the MVP.
-     */
-    private static final Set<String> VALID_RESOURCES = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(
-                    "HALL-1", "HALL-2", "HALL-3",
-                    "MPSH-1", "MPSH-2",
-                    "COURT-1", "COURT-2",
-                    "MPR-1", "MPR-2")));
-
-    /**
-     * Temporary item registry for the MVP.
-     */
-    private static final Set<String> VALID_ITEMS = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(
-                    "WILSON-EVOLUTION-BASKETBALL-1",
-                    "WILSON-EVOLUTION-BASKETBALL-2",
-                    "MOLTEN-VOLLEYBALL",
-                    "MOLTEN-VOLLEYBALL-1",
-                    "MOLTEN-VOLLEYBALL-2",
-                    "YONEX-BADMINTON-RACKET-1",
-                    "YONEX-BADMINTON-RACKET-2",
-                    "YONEX-BADMINTON-RACKET-3")));
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
@@ -338,7 +311,14 @@ public class ModelManager implements Model {
     public boolean hasAliasableTarget(String targetId) {
         requireNonNull(targetId);
         String normalizedTargetId = AliasMapping.normalizeTargetId(targetId);
-        return VALID_RESOURCES.contains(normalizedTargetId) || VALID_ITEMS.contains(normalizedTargetId);
+
+        boolean roomExists = addressBook.getRoomList().stream()
+                .anyMatch(room -> room.getName().fullName.equalsIgnoreCase(normalizedTargetId));
+
+        boolean equipmentExists = addressBook.getEquipmentList().stream()
+                .anyMatch(equipment -> equipment.getName().fullName.equalsIgnoreCase(normalizedTargetId));
+
+        return roomExists || equipmentExists;
     }
 
     @Override
