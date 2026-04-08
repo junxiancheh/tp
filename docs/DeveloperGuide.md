@@ -976,31 +976,28 @@ testers are expected to do more *exploratory* testing.
 1. Listing equipment while the list is populated
    1. Prerequisites: At least one equipment exists in the system and have run the filter tag command prior.
    2. Test case: `list-e`<br>
-      Expected: All filters are cleared. The full list of equipment is displayed in the equipment panel. 
+      Expected: All filters are cleared. The full list of equipment is displayed in the equipment panel.
       Status message indicates "Listed all equipment".
 
-2. Listing equipment when the equipment list is empty 
+2. Listing equipment when the equipment list is empty
    1. Prerequisites: Delete all equipment using the delete-e command.
    2. Test case: `list-e`<br>
       Expected: Helpful message shows "Equipment list is currently empty. Use the 'add-e' command to add your first equipment".
 
-3. Handling invalid extra input 
+3. Handling invalid extra input
 
    1. Test case: `list-e Basketball`<br>
       Expected: No list update occurs. Error message indicates an invalid command format. The system strictly only accepts list-e without trailing parameters. 
 
-   2. Test case: `list-e 123`<br> 
+   2. Test case: `list-e 123`<br>
       Expected: Similar to previous. Error details show that the command does not take any arguments.
 
 ### Removing an equipment (Status-Dependent)
 
 1. Deleting an equipment by index
-   
    1. Prerequisites: Multiple equipment in the list. Ensure the equipment at index 1 is "Available".
-   
    2. Test case: `delete-e 1`<br>
       Expected: First equipment is removed. UI updates immediately.
-
    3. Test case: `delete-e 0` or `delete-e 500` (out of bounds)<br>
       Expected: No equipment deleted. Error message regarding invalid index shown.
 
@@ -1009,7 +1006,7 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: At least one equipment in the list has a "Booked" (e.g., at index 2).
 
    2. Test case: `delete-e 2`<br>
-      Expected: No equipment is deleted. TrackMasterPro shows an error message stating that 
+      Expected: No equipment is deleted. TrackMasterPro shows an error message stating that
       booked equipment cannot be removed and must be returned or canceled first.
 
 
@@ -1048,7 +1045,7 @@ testers are expected to do more *exploratory* testing.
 1. Adding a room with valid name
 
    1. Test case: `add-r n/Mpsh-1 l/Sports-Centre`<br>
-      Expected: Room "Mpsh-1" with location "Sports-Centre" added. Status set to Available by default. 
+      Expected: Room "Mpsh-1" with location "Sports-Centre" added. Status set to Available by default.
       Success message shown.
 
    2. Test case: `add-r l/University-Town n/Sports-Hall-2` (Swapped parameter order)<br>
@@ -1083,16 +1080,15 @@ testers are expected to do more *exploratory* testing.
 
 ### Viewing the room list
 
-1. Listing rooms while the list is populated 
+1. Listing rooms while the list is populated
 
    1. Prerequisites: At least one room exists in the system.
 
    2. Test case: `list-r`<br>
       Expected: All active filters are cleared. The full list of rooms is displayed in the room panel. Status message indicates "Listed all rooms".
 
-2. Listing rooms when the room list is empty 
-
-   1. Prerequisites: Delete all rooms using the delete-r command until the list is empty. 
+2. Listing rooms when the room list is empty
+   1. Prerequisites: Delete all rooms using the delete-r command until the list is empty.
 
    2. Test case: `list-r`<br>
       Expected: Helpful message shown: "Room list is currently empty. Use the 'add-r' command to add your first room!".
@@ -1105,7 +1101,6 @@ testers are expected to do more *exploratory* testing.
    2. Test case: `list-r YIH`<br>
       Expected: Similar to previous. Error details show that the command does not take any arguments.
 
-
 ### Removing a room (Status-Dependent)
 
 1. Deleting a room by index
@@ -1116,7 +1111,7 @@ testers are expected to do more *exploratory* testing.
       Expected: Room deleted successfully.
 
    3. Test case: `delete-r`<br>
-      Expected: No room is deleted. Error message indicates an invalid command format and 
+      Expected: No room is deleted. Error message indicates an invalid command format and
       shows the correct usage: delete-r INDEX.
 
 2. Deleting equipment not with "Available" status
@@ -1124,7 +1119,7 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: Room at index 2 is set to "Booked".
 
    2. Test case: `delete-r 2`<br>
-      Expected: No room is deleted. TrackMasterPro shows an error message stating that a booked room cannot be 
+      Expected: No room is deleted. TrackMasterPro shows an error message stating that a booked room cannot be
       removed and the booking must be canceled first.
 
 
@@ -1137,7 +1132,7 @@ testers are expected to do more *exploratory* testing.
    2. Test case: `edit-r 1 n/New-Room-Name`<br>
       Expected: Only the name of the first room is updated. Location and Status remain unchanged.
 
-   3. Test case: `edit-r 1 n/MPSH-1 l/Sports-Centre s/Maintenance`<br> 
+   3. Test case: `edit-r 1 n/MPSH-1 l/Sports-Centre s/Maintenance`<br>
       Expected: Name, Location, and Status are all updated at once. Success message shows the new details 
       and the UI reflects the "Maintenance" status.
 
@@ -1148,9 +1143,9 @@ testers are expected to do more *exploratory* testing.
    2. Test case: `edit-r 1 n/Room-B` (where index 1 is Room-A)<br>
       Expected: Error message regarding duplicate name shown.
 
-3. Editing room with "Booked" status 
+3. Editing room with "Booked" status
 
-   1. Prerequisites: At least one room has a Booked status (e.g., at index 3). 
+   1. Prerequisites: At least one room has a Booked status (e.g., at index 3).
 
    2. Test case: `edit-r 3 l/New-Location`<br>
       Expected: No changes made. Error message showing the room is currently ‘Booked’ and cannot be edited.
@@ -1181,7 +1176,7 @@ testers are expected to do more *exploratory* testing.
 
 3. Delete a student with existing loans/reservations
    1. Prerequisites: Student `A0123456B` currently has an equipment (e.g. "Basketball-1") borrowed or reserved.
-   2. Test case: `delete-s m/A0123456B` 
+   2. Test case: `delete-s m/A0123456B`
       Expected: The student is not removed from the database. An error message saying student has active loans or reservations.
 
 
@@ -1200,7 +1195,7 @@ testers are expected to do more *exploratory* testing.
 3. Edit a student's details such that they collide with another student
    1. Prerequisites: 
    * Student A at INDEX 1: Matric number `A0111111X`, Email `a@u.nus.edu`. 
-   * Student B at INDEX 2: Matric number `A0222222Y`, Email `b@u.nus.edu`
+   * Student B at INDEX 2: Matric number `A0222222Y`, Email `b@u.nus.edu`.
    2. Test case: `edit-s 1 e/b@u.nus.edu`
       Expected: The system rejects the edit. An error message saying another student already has the same field.
 
