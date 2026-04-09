@@ -31,7 +31,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 3. Copy the file to the folder you want to use as the _home folder_ for TrackMasterPro
    (e.g create a new folder called `TrackMasterPro`  on your Desktop).
 
-4. TrackMasterPro is launched from the **terminal**. Here's how to run it: </br>
+4. TrackMasterPro is launched from the **terminal**. Here's how to run it:
 
    **Windows:**
    1. Locate your file: Open File Explorer and go to the folder where `TrackMasterPro.jar` is saved.
@@ -49,14 +49,18 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
-
-   5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.
-
+   
+   5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will show all the command in the result box.
+   
    Some example commands you can try:
 
    * `add-s n/John Doe m/A0123456B p/91234567 e/e0123456@u.nus.edu` : Adds a new student with the name `John Doe`, matric number `A0123456B`, phone number `91234567` and email address `e0123456@u.nus.edu`.
 
-   * `add-r` : Adds a new facility or venue into the system.
+   * `edit-r 2 n/Outdoor-Tennis-Court` : Edits the room in the second index of room list to a name `Outdoor-Tennis-Court`.
+
+   * `add-r n/Outdoor-Basketball-Court l/Kent-Ridge` : Adds a new room with name `Outdoor-Basketball-Court`, location `Kent-Ridge`, and a `Available` status by default.
+   
+   * `delete-e 2` : Deletes the second equipment shown in the equipment list.
 
    * `exit` : Exits the app.
 
@@ -95,26 +99,28 @@ New equipment is set to `Available` status by default.
 **Format:** `add-e n/NAME c/CATEGORY`
 
 **Acceptable values:**
-* `Name`: Equipment Name should only contain alphanumeric characters and single hyphens (`-`) in between,
+* `NAME`: Equipment Name should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Wilson-Evolution`)
-* `Category`: Equipment Category should only contain alphanumeric characters and single hyphens (`-`) in between,
+* `CATEGORY`: Equipment Category should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Basketball`) <br><br>
 * *Case Sensitivity:* Both fields are case-insensitive. `n/Wilson-Evolution` and `n/WILSON-EVOLUTION` are treated as the same name. `c/Basketball` and `c/BASKETBALL` are treated as the same category.
-* *Parameters can be in any order:*
-  e.g. if the command specifies `n/NAME c/CATEGORY`, `c/CATEGORY n/NAME` is also acceptable.
 
 **Duplicate handling:**
-* The system enforces unique names across the Equipment inventory list.
+* The system enforces unique names across the equipment list.
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 To add multiple Equipment of the same name, append a unique number (e.g. `Wilson-Evolution-1`, `Wilson-Evolution-2`).
 </div>
 
 **Examples:**
-* `add-e n/Wilson-Evolution c/Basketball` — Adds an equipment with Name: Wilson-Evolution and Category: Basketball in the current equipment list.
-* `add-e n/Yonex-Astrox c/Badminton` — Adds an equipment with Name: Yonex-Astrox and Category: Badminton in the current equipment list.
-* `add-e n/Track-Stand c/Track-And-Field` — Adds an equipment with Name: Track-Stand and Category: Track-And-Field in the current equipment list.
+* `add-e n/Tchoukball-Frame c/Tchoukball` — Adds an equipment with Name: Tchoukball-Frame, Category: Tchoukball, and a `Available` status by default in the current equipment list.
+* `add-e n/Yonex-Astrox c/Badminton` — Adds an equipment with Name: Yonex-Astrox, Category: Badminton, and a `Available` status by default in the current equipment list.
+* `add-e n/Decathlon-Soccer-Ball c/Soccer` — Adds an equipment with Name: Decathlon-Soccer-Ball, Category: Soccer, and a `Available` status by default in the current equipment list.
 
 **Outputs:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Output of Name and Category will be title case -> `yonex-astrox` will be `Yonex-Astrox` in the equipment list.
+</div>
+
 * Success
 ![addEquipmentSuccess.png](images/addEquipmentSuccess.png)
 * Failure
@@ -125,39 +131,40 @@ To add multiple Equipment of the same name, append a unique number (e.g. `Wilson
 * *Invalid name/category:* Using spaces, special characters (e.g. `#`, `@` etc.), or leaving fields blank.
 * *This equipment already exists:* Attempting to add a name that is already in the inventory.
 
-#### View equipment inventory list : `list-e`
+#### View equipment list : `list-e`
 
-Displays a complete list of all equipment currently stored in the inventory, including their status and category.
+Displays a complete list of all equipment currently stored in the equipment list. This command serves to clear 
+any active filters (such as those from filter c/ t/TAG command), resetting the equipment list to show all entries.
 
-Format: `list-e`
+**Format:** `list-e`
 
-Acceptable values:
+**Acceptable values:**
 * Only accepts `list-e`.
 
-Duplicate handling:
+**Duplicate handling:**
 * Not applicable for a view command.
 
-Examples:
-* `list-e`.
+**Examples:**
+* `list-e` — Resets the view of equipment list and displays all equipment.
 
-Outputs:
+**Outputs:**
 * Success
   ![viewEquipmentListSuccess.png](images/viewEquipmentListSuccess.png)
 * Failure <br>
-  Inventory list has not been created. Please proceed to add equipment first.
+  ![viewEquipmentListFail.png](images/viewEquipmentListFail.png)
 
-Possible errors:
+**Possible errors:**
 * Inventory list has not been created.
 * Any extra input after `list-e`, (e.g. `list-e Basketball`, `list-e 123` etc.) will be invalid command.
 
-#### Delete equipment from inventory list : `delete-e`
+#### Delete equipment from equipment list : `delete-e`
 
-Deletes equipment from the inventory.
+Deletes equipment from the equipment list.
 
 **Format:** `delete-e INDEX`
 
 **Acceptable values:**
-* `Index`: Positive integer corresponding to the current displayed list from `list-e`. (e.g `list-e` have a size of 4, valid index range would be 1,2,3, or 4)
+* `INDEX`: Positive integer corresponding to the current displayed list from `list-e`. (e.g `list-e` have a size of 4, valid index range would be 1,2,3, or 4)
 <div markdown="span" class="alert alert-warning">:warning: **Warning:**
 **Strict Lockdown:** You cannot delete equipment that currently has a **Booked** status. The equipment must be returned or canceled before it can be deleted from the system.
 </div>
@@ -167,7 +174,7 @@ Deletes equipment from the inventory.
 
 **Examples:**
 * `delete-e 1` — Deletes the first equipment in the current equipment list.
-* `delete-e 7` — Deletes the seventh equipment in the current equipment list.
+* `delete-e 4` — Deletes the fourth equipment in the current equipment list.
 
 **Outputs:**
 * Success
@@ -180,20 +187,20 @@ Deletes equipment from the inventory.
 * *Invalid command format:* Typing delete-e without providing an index.
 * *Equipment is Booked:* Attempt to delete equipment that is having a ‘Booked’ status.
 
-#### Edit equipment from inventory list : `edit-e`
+#### Edit equipment from equipment list : `edit-e`
 
-Edit details for existing equipment from the inventory.
+Edit details for existing equipment from the equipment list.
 
 **Format:** `edit-e INDEX [n/NAME] [c/CATEGORY] [s/STATUS]`
 
 **Acceptable values:**
-* `Index:` Positive integer corresponding to the current displayed list from `list-e`. (e.g `list-e` have a size of 4, valid index range would be 1,2,3, or 4).
+* `INDEX`: Positive integer corresponding to the current displayed list from `list-e`. (e.g `list-e` have a size of 4, valid index range would be 1,2,3, or 4).
 * *(With at least one of the fields)*
-    * `Name`: Equipment Name should only contain alphanumeric characters and single hyphens (`-`) in between,
+    * `NAME`: Equipment Name should only contain alphanumeric characters and single hyphens (`-`) in between,
       no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Wilson-Evolution`)
-    * `Category`: Equipment Category should only contain alphanumeric characters and single hyphens (`-`) in between,
+    * `CATEGORY`: Equipment Category should only contain alphanumeric characters and single hyphens (`-`) in between,
       no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Basketball`)
-    * `Status`: If in `Available`, it can only be changed to `Maintenance` or `Damaged`. If in `Maintenance` or `Damaged`, it can only be changed back to `Available`.
+    * `STATUS`: If status is `Available`, it can only be changed to `Maintenance` or `Damaged`. If status is `Maintenance` or `Damaged`, it can only be changed back to `Available`.
 <div markdown="span" class="alert alert-warning">:warning: **Warning:**
 **Strict Lockdown:** You cannot edit equipment that currently has a **Booked** status. The equipment must be returned or canceled before it can be edited.
 </div>
@@ -209,6 +216,10 @@ To add multiple Equipment of the same name, append a unique number (e.g. `Wilson
 * `edit-e 3 n/Wilson-Evo c/Bball s/Available` — Edit the third equipment to Name: Wilson-Evo, Category: Bball, Status: Available. Assuming initial status is Maintenance.
 
 **Outputs:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Output of Name and Category will be title case -> `yonex-astrox` will be `Yonex-Astrox` in the equipment list.
+</div>
+
 * Success
   ![editEquipmentSuccess.png](images/editEquipmentSuccess.png)
 * Failure
@@ -224,31 +235,33 @@ To add multiple Equipment of the same name, append a unique number (e.g. `Wilson
 
 #### Adding a room (facility or venue) : `add-r`
 
-Adds a new room (facility or venue) into the system.
+Adds a new room (facility or venue) into the room list.
 New room is set to `Available` status by default.
 
 **Format:** `add-r n/NAME l/LOCATION`
 
 **Acceptable values:**
-* `Name:` Room Name should only contain alphanumeric characters and single hyphens (`-`) in between,
+* `NAME`: Room Name should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Sports-Hall-1`)
-* `Location:` Room Location should only contain alphanumeric characters and single hyphens (`-`) in between,
+* `LOCATION`: Room Location should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `University-Town`) <br><br>
 * *Case Sensitivity:* Both fields are case-insensitive. `n/Sports-Hall-1` and `n/SPORTS-HALL-1` are treated as the same name. `l/University-Town` and `l/UNIVERSITY-TOWN` are treated as the same location.
-* *Parameters can be in any order:*
-  e.g. if the command specifies `n/NAME l/LOCATION`, `l/LOCATION n/NAME` is also acceptable.
 
 **Duplicate handling:**
-* The system enforces unique names across the Room inventory list.
+* The system enforces unique names across the room list.
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 To add multiple Room of the same name, append a unique number (e.g. `Sports-Hall-1`, `Sports-Hall-2`).
 </div>
 
 **Examples:**
-* `add-r n/MPSH-2 l/Sports-Centre` — Adds a room with Name: MPSH-2 and Location: Sports-Centre in the current room list.
-* `add-r n/Sports-Hall-2 l/University-Town` — Adds an equipment with Name: Sports-Hall-2 and Location: University-Town in the current room list.
+* `add-r n/MPSH-2 l/Sports-Centre` — Adds a room with Name: Mpsh-2 and Location: Sports-Centre, and a `Available` status by default in the current room list.
+* `add-r n/Sports-Hall-2 l/University-Town` — Adds a room with Name: Sports-Hall-2 and Location: University-Town, and a `Available` status by default in the current room list.
 
 **Outputs:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Output of Name and Location will be title case -> `MPSH-1` will be `Mpsh-1` in the room list.
+</div>
+
 * Success
   ![addRoomSuccess.png](images/addRoomSuccess.png)
 * Failure
@@ -261,39 +274,40 @@ To add multiple Room of the same name, append a unique number (e.g. `Sports-Hall
 
 #### View room list : `list-r`
 
-Displays a complete list of all facilities and rooms managed by the system, showing their location and status.
+Displays a complete list of all facilities and venue currently stored in the room list. This command serves to clear
+any active filters (such as those from filter l/ t/TAG command), resetting the room list to show all entries.
 
-Format: `list-r`
+**Format:** `list-r`
 
-Acceptable values:
+**Acceptable values:**
 * Only accepts `list-r`.
 
-Duplicate handling:
+**Duplicate handling:**
 * Not applicable for a view command.
 
-Examples:
-* `list-r`.
+**Examples:**
+* `list-r` — Resets the view of room list and displays all facilities and venue.
 
-Outputs:
+**Outputs:**
 * Success
   ![viewRoomListSuccess.png](images/viewRoomListSuccess.png)
 * Failure <br>
-  Room list has not been created. Please proceed to add room first.
+  ![viewRoomListFail.png](images/viewRoomListFail.png)
 
-Possible errors:
+**Possible errors:**
 * Room list has not been created.
 * Any extra input after `list-r`, (e.g, `list-r Sports-Hall`, `list-r YIH` etc.) will be invalid command.
 
-#### Delete a room : `delete-r`
+#### Delete a room from room list: `delete-r`
 
-Deletes a room equipment from the room list.
+Deletes a room from the room list.
 
 **Format:** `delete-r INDEX`
 
 **Acceptable values:**
-* `Index`: Positive integer corresponding to the current displayed list from `list-r`. (e.g `list-r` have a size of 4, valid index range would be 1,2,3, or 4)
+* `INDEX`: Positive integer corresponding to the current displayed list from `list-r`. (e.g `list-r` have a size of 4, valid index range would be 1,2,3, or 4)
 <div markdown="span" class="alert alert-warning">:warning: **Warning:**
-**Strict Lockdown:** You cannot delete room that currently has a **Booked** status. The room must be canceled before it can be deleted from the system.
+**Strict Lockdown:** You cannot delete room that currently has a **Booked** status. The room must be canceled before it can be deleted from the room list.
 </div>
 
 **Duplicate handling:**
@@ -321,28 +335,32 @@ Edit details for existing room from the room list.
 **Format:** `edit-r INDEX [n/NAME] [c/LOCATION] [s/STATUS]`
 
 **Acceptable values:**
-* `Index:` Positive integer corresponding to the current displayed list from `list-r`. (e.g `list-r` have a size of 4, valid index range would be 1,2,3, or 4)
+* `INDEX`: Positive integer corresponding to the current displayed list from `list-r`. (e.g `list-r` have a size of 4, valid index range would be 1,2,3, or 4)
 * *(With at least one of the fields)*
-    * `Name`: Room Name should only contain alphanumeric characters and single hyphens (`-`) in between,
+    * `NAME`: Room Name should only contain alphanumeric characters and single hyphens (`-`) in between,
       no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `Sports-Hall-1`)
-    * `Location`: Room Location should only contain alphanumeric characters and single hyphens (`-`) in between,
+    * `LOCATION`: Room Location should only contain alphanumeric characters and single hyphens (`-`) in between,
       no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g. `University-Town`)
-    * `Status`: If in `Available`, it can only be changed to `Maintenance`. If in `Maintenance`, it can only be changed to `Available`.
+    * `STATUS`: If status is `Available`, it can only be changed to `Maintenance`. If status is `Maintenance`, it can only be changed to `Available`.
 <div markdown="span" class="alert alert-warning">:warning: **Warning:**
 **Strict Lockdown:** You cannot edit room that currently has a **Booked** status. The room must be canceled before it can be edited.
 </div>
 
 **Duplicate handling:**
-* The system enforces unique names across the Room inventory list.
+* The system enforces unique names across the room list.
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 To add multiple Room of the same name, append a unique number (e.g. `Sports-Hall-1`, `Sports-Hall-2`).
 </div>
 
 **Examples:**
-* `edit-r 1 l/UTown` — Edit the first room to Location: UTown.
+* `edit-r 2 l/UTown` — Edit the second room to Location: UTown.
 * `edit-r 3 n/Tennis-Court s/Maintenance` — Edit the third room to Name: Tennis-Court, and Status: Maintenance. Assuming initial status is Available.
 
 **Outputs:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Output of Name and Location will be title case -> `MPSH-1` will be `Mpsh-1` in the room list.
+</div>
+
 * Success
   ![editRoomSuccess.png](images/editRoomSuccess.png)
 * Failure
@@ -505,11 +523,14 @@ You **cannot** edit any details of a student if they currently have an active eq
 
 ### 2.4 Loans & Reservations
 
-#### Reserving a facility/equipment: `reserve`
+#### Reserving a room/equipment: `reserve`
 
 Reserves a room or equipment for a student at a specified date and time.
 
-Format: `reserve ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME t/END_DATE_TIME`
+**Format:** `reserve ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME t/END_DATE_TIME`
+
+**Date/time format:**
+`yyyy-MM-dd HHmm`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can reserve facilities such as halls, courts, and multi-purpose rooms as well as equipments in advance to avoid double bookings.
@@ -519,50 +540,57 @@ You can reserve facilities such as halls, courts, and multi-purpose rooms as wel
 * The start and end date/time must be valid and the end date/time must be later than the start date/time.
 * The reservation will be rejected if it conflicts with an existing booking for the same item or room.
 
-Duplicate handling:
+**WARNING:**
+* Reservation can only be made when the room status is **Available**.
+* A room or equipment can only have **one active reservation** at a time.
+
+**Duplicate handling:**
 * Duplicate or overlapping reservations are not allowed.
 * If the specified item or room is already reserved for the requested time period, the command will be rejected.
 
-Examples:
-* `reserve Hall-2 a1234567a f/2026-03-01 1400 t/2026-03-01 1600`
-* `reserve MPSH-1 a1234567a f/2026-03-10 0900 t/2026-03-10 1200`
+**Examples:**
+* `reserve MPSH-1 a1234567a f/2027-03-10 0900 t/2027-03-10 1200`
 
+**Success**
 ![reserve command screenshot](images/reserveCommand.png)
 
-Possible errors:
+**Failure**
+![failed reserve command screenshot 1](images/bookedReserveCommand.png)
+![failed reserve command screenshot 2](images/itemReserveCommand.png)
+
+**Possible errors:**
 * Invalid `ITEM_OR_ROOM_ID`
 * Invalid `STUDENT_ID`
 * Invalid date/time format
 * End time is earlier than start time
-* Reservation conflicts with an existing booking
 
 #### Cancel a reservation: `cancel`
 
-Cancels an existing reservation.
+Cancels an **existing** reservation.
 
-**Format**
+**Format:**
 `cancel ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME`
 
-**Date/time format**
+**Date/time format:**
 `yyyy-MM-dd HHmm`
 
-**Example**
-`cancel Hall-2 a1234567a f/2099-03-15 0900`
+**Example:**
+`cancel MPSH-1 a1234567a f/2027-03-10 0900`
 
 **Success**
 
-Reservation cancelled:
-Reserved HALL-2 by Student a1234567a from 2099-03-15 0900 to 2099-03-15 1100
+![cancel command screenshot](images/cancelCommand.png)
 
 **Failure**
-`Error: Wilson-Evolution-Basketball-1 is not currently issued.`
+
+![failed cancel command screenshot](images/faliedCancelCommand.png)
 
 
 #### Issuing an equipment item: `issue`
 
 Issues an equipment item to a student with a due date and time for return.
 
-Format: `issue ITEM_ID STUDENT_ID DUE_DATE_TIME`
+**Format:** `issue ITEM_ID STUDENT_ID DUE_DATE_TIME`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use this command to keep track of borrowed equipment and who is responsible for returning it.
@@ -572,18 +600,22 @@ Use this command to keep track of borrowed equipment and who is responsible for 
 * The due date/time must be in the future and follow the format `yyyy-MM-dd HHmm`.
 * The command will be rejected if the item is already issued to another student.
 
-Duplicate handling:
+**Duplicate handling:**
 * If the item is already issued, the system will reject the command.
 * The system will show the current holder of the item and its due date/time.
 
-Examples:
-* `issue Wilson-Evolution-Basketball-1 A1203763K 2026-03-05 1700`
-* `issue Molten-Volleyball A1206789J 2026-03-02 1200`
+**Examples:**
+* `issue Wilson-Evolution a1234567a 2027-03-05 1700`
+
+**Success**
 
 ![issue command screenshot](images/issueCommand.png)
 
+**Failure**
 
-Possible errors:
+![failed issue command screenshot](images/failedIssueCommand.png)
+
+**Possible errors:**
 * Invalid `ITEM_ID`
 * Invalid `STUDENT_ID`
 * Item is already issued
@@ -594,19 +626,23 @@ Possible errors:
 
 Returns an issued equipment item back to the inventory.
 
-**Format**
+**Format:**
 `return ITEM_ID`
 
-**Example**
-`return Wilson-Evolution-Basketball-1`
+**Example:**
+`return Wilson-Evolution`
 
 **Success**
-`WILSON-EVOLUTION-BASKETBALL-1 returned successfully from a1234567a`
+
+![return command screenshot](images/returnCommand.png)
 
 **Failure**
-- item is not currently issued
-- invalid command format <br>
-`Error: No matching reservation found for Hall-2 by a1234567a from 2099-03-15 0900 to 2099-03-15 1100`
+
+![failed return command screenshot](images/faliedReturnCommand.png)
+
+**Possible errors:**
+* Item not currently issued
+* Invalid `ITEM_ID`
 
 **Notes**
 - aliases are supported, so if `b1` is an alias for `Wilson-Evolution-Basketball-1`, then `return b1` also works
@@ -616,7 +652,7 @@ Returns an issued equipment item back to the inventory.
 
 Creates a short alias for an equipment item or room.
 
-Format: `alias ITEM_OR_ROOM_ID ALIAS_NAME`
+**Format:** `alias ITEM_OR_ROOM_ID ALIAS_NAME`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Aliases are useful for long item or room IDs, especially during busy periods when faster command entry is helpful.
@@ -625,19 +661,22 @@ Aliases are useful for long item or room IDs, especially during busy periods whe
 * Assigns a short alias to the specified item or room.
 * `ALIAS_NAME` should be a short string containing letters, numbers, or underscores.
 * Each alias must be unique across the system.
+* Only works for reservation , issue, cancel, return commands.
 
-Duplicate handling:
+**Duplicate handling:**
 * Duplicate aliases are not allowed.
 * If the alias is already in use, the command will be rejected.
 
-Examples:
-* `alias Wilson-Evolution-Basketball-1 b1`
+**Examples:**
 * `alias MPSH-1 hall1`
 
-
+**Success**
 ![alias command screenshot](images/aliasCommand.png)
 
-* Possible errors:
+**Failure**
+![failed alias command screenshot](images/faliedAliasCommand.png)
+
+**Possible errors:**
 * Invalid `ITEM_OR_ROOM_ID`
 * Alias already exists
 
@@ -651,11 +690,11 @@ Tags an equipment item or room with a label for categorisation.
 Format: `tag c/EQUIPMENT_NAME t/TAG` or `tag l/ROOM_NAME t/TAG`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Tags are useful for categorising equipment or rooms, such as marking items as spoilt or rooms under renovation.
+Tags are useful for categorising equipment or rooms
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip for IHG:**
-Tag equipment as `t/IHG_RESERVED` during competition weeks to quickly filter items that should not be loaned out for casual use.
+Tag equipment as `t/IHG` during competition weeks to quickly filter items that should not be loaned out for casual use.
 </div>
 
 * Assigns a tag to the specified equipment item or room.
@@ -667,8 +706,8 @@ Duplicate handling:
 * If the tag already exists on the item or room, the command will be rejected.
 
 Examples:
-* `tag c/Wilson-Evolution-Basketball-1 t/spoilt`
-* `tag l/MPSH-1 t/renovation`
+* `tag c/Wilson-Evolution-Basketball-1 t/IHG`
+* `tag l/MPSH-1 t/IHG`
 
 ![tag command screenshot](images/TagSuccess.png)
 
@@ -697,8 +736,8 @@ Duplicate handling:
 * Not applicable.
 
 Examples:
-* `untag c/Wilson-Evolution-Basketball-1 t/spoilt`
-* `untag l/MPSH-1 t/renovation`
+* `untag c/Wilson-Evolution-Basketball-1 t/IHG`
+* `untag l/MPSH-1 t/IHG`
 
 ![untag command screenshot](images/UntagSuccess.png)
 
@@ -726,8 +765,8 @@ Duplicate handling:
 * Not applicable.
 
 Examples:
-* `filter c/ t/spoilt`
-* `filter l/ t/renovation`
+* `filter c/ t/IHG`
+* `filter l/ t/IHG`
 
 ![filter command screenshot](images/FilterSuccess.png)
 
@@ -801,12 +840,12 @@ Action | Format, Examples
 **List Students** | `list-s`
 **Delete Student** | `delete-s MATRIC_NUMBER` <br> e.g., `delete-s A0123456B`
 **Edit Student** | `edit-s INDEX [n/NAME] [p/PHONE] [e/EMAIL]` <br> e.g. `edit-s 2 n/Tom p/91234561 e/e1234567@u.nus.edu`
-**Reserve** | `reserve ITEM_OR_ROOM_ID STUDENT_ID [f/START_DATE_TIME] [t/END_DATE_TIME]` <br> e.g., `reserve Hall-2 a1234567a f/2026-03-01 1400 t/2026-03-01 1600`
-**Cancel** | `cancel ITEM_OR_ROOM_ID STUDENT_ID [f/START_DATE_TIME] [t/END_DATE_TIME]` <br> e.g., `cancel Hall-2 a1234567a f/2099-03-15 0900 t/2099-03-15 1100`
-**Issue** | `issue ITEM_ID STUDENT_ID [d/DUE_DATE_TIME]` <br> e.g., `issue Wilson-Basketball-1 A1203763K d/2026-03-05 1700`
+**Reserve** | `reserve ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME t/END_DATE_TIME` <br> e.g., `reserve mpsh-1 a1234567a f/2027-03-01 1400 t/2027-03-01 1600`
+**Cancel** | `cancel ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME` <br> e.g., `cancel mpsh-1 a1234567a f/2099-03-15 0900`
+**Issue** | `issue ITEM_ID STUDENT_ID DUE_DATE_TIME` <br> e.g., `issue Wilson-Basketball-1 a1234567a 2027-03-05 1700`
 **Return** | `return ITEM_ID` <br> e.g. `return Wilson-Evolution-Basketball-1`
-**Tag** | `tag [c/EQUIPMENT_NAME or l/ROOM_NAME] t/TAG` <br> e.g., `tag c/Basketball-1 t/spoilt`
-**Filter** | `filter [c/ or l/] t/TAG` <br> e.g., `filter l/ t/renovation`
+**Tag** | `tag c/EQUIPMENT_NAME or l/ROOM_NAME t/TAG` <br> e.g., `tag c/Wilson-Evolution t/ICG` <br> or  `tag l/Mpsh-1 t/IHG`
+**Filter** | `filter c/ or l/ t/TAG` <br> e.g., `filter c/ t/ICG` <br> or `filter l/ t/IHG`
 **Alias** | `alias ITEM_OR_ROOM_ID ALIAS_NAME` <br> e.g., `alias MPSH-1 hall1`
 **Clear** | `clear`
 **Exit** | `exit`

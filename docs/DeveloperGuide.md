@@ -8,7 +8,6 @@ title: Developer Guide
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
-
 * This project is based on the AddressBook-Level3 project, **part of the se-education.org** [initiative](https://se-education.org/#contributing-to-se-edu)
 
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
@@ -53,7 +52,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete-s A12345667A`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete-s A1234567A`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -81,7 +80,7 @@ The `UI` component uses the JavaFx UI framework. The layout of these UI parts ar
 The `UI` component,
 
 * executes user commands using the `Logic` component.
-* listens for changes to `Model` data so that the U  be updated with the modified data.
+* listens for changes to `Model` data so that the UI  be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
@@ -102,7 +101,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteStudentommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteStudentCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteStudentCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a student).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -125,7 +124,7 @@ How the parsing works:
 The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the U  be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -161,7 +160,7 @@ The implementation follows the **Command Pattern**, involving the following key 
 
 `AddStudentCommandParser`: Responsible for parsing the user input and validating the presence of required prefixes.
 `AddStudentCommand`: Contains the execution logic, ensuring the student is unique before addition.
-`Person`: The entity that encapsulates student data (`Nam`, `StudentId`, `Phone`, and `Email`).
+`Person`: The entity that encapsulates student data (`Name`, `StudentId`, `Phone`, and `Email`).
 
 #### Design Considerations
 One of the noteworthy details in the implementation is the Defensive Validation in the execution stage:
@@ -176,7 +175,7 @@ One of the noteworthy details in the implementation is the Defensive Validation 
 
 2. `LogicManager` calls `AddressBookParser#parseCommand()`.
 3. An `AddStudentCommandParser` is instantiated to tokenize the arguments. The parser uses `ArgumentTokenizer` to verify that all required prefixes (`n/`, `m/`, `p/`, `e/`) are present.
-4. A `Person` object is created and wrapped inside a new `AddStudentCommand`.
+4. A `Person` object is created and wrapped inside a new `AddStudentCommandParser`.
 5. The `LogicManager` calls `AddStudentCommand#execute()`.
 6. The `Model` is checked for existing students with the same identity (e.g., same Matric Number, phone number, email).
 7. If unique, the `Model` is updated, and a `CommandResult` is returned to the UI.
@@ -208,7 +207,7 @@ Step 2. The user executes `delete-s 5` command to delete the 5th person in the a
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add-s n/David …​` to add a new stident. The `add-s` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `add-s n/David …​` to add a new student. The `add-s` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
@@ -247,7 +246,7 @@ Step 5. The user then decides to execute the command `list`. Commands that do no
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add-s n/David …​` command. This is the behavior that most modern desktop applications follow.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
@@ -306,90 +305,87 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​        | I want to …​                                                                    | So that  …​                                                                       |
 |---------|----------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| `* * *` | new user       | type help to see all the commands                                               | I don't have to ask my supervisor for help.                                           |
-| `* * *` | new user       | reserve the equipment/room on a specified time/date                             | only I have access to it at that time/date                                            |
+| `* * *` | new user       | type help to see all the commands                                               | I can learn the system independently without a manual.                                           |
+| `* * *` | user           | reserve the equipment/room on a specified time/date                             | I can lend it on a specific time/date.                                                       |
 | `* * *` | user           | issue an item to a student                                                      | the system records that the item is no longer in the store.                           |
-| `* * *` | user           | remove an equipment from inventory                                              |   remove it                                                                       |
-| `* * *` | user           | remove an equipment name from a student                                         |   mark the item as "Returned" when they bring it back.                            |
-| `* * *` | user           | check if a equipment is in use                                                  |   quickly verify if a equipment is in use                                         |
-| `* * *` | user           | find a student by name                                                          |   quickly check the loan status of a specific person standing at the counter.     |
-| `* * *` | user           | add a new student with their Name                                               |   create a record for them in the system.                                         |
-| `* * *` | user           | add a new student with their Matric Number                                      |   create a record for them in the system.                                         |
-| `* * *` | user           | add a new student with their Phone Number                                       |   create a record for them in the system.                                         |
-| `* * *` | user           | add a new student with their school email                                       |   create a record for them in the system.                                         |
-| `* * *` | user           | delete a student                                                                |   remove records of students who have graduated or left the university.           |
-| `* *`   | user           | have a checklist of ALL equipment in inventory                                  |   verify if the equipment is available                                            |
-| `* *`   | user           | find which student has borrowed a specific item                                 |   update the status of an equipment manually                                      |
-| `* *`   | user           | update an equipment details                                                     | minimize chance of someone else seeing them by accident                               |
+| `* * *` | user           | remove an equipment from inventory                                              |   I can remove it to keep the inventory clean.                                                                       |
+| `* * *` | user           | remove an equipment name from a student                                         |   I can mark the item as "Returned" when they bring it back.                            |
+| `* * *` | user           | check if a equipment is in use                                                  |   I can quickly verify if a equipment is in use                                         |
+| `* * *` | user           | find a student by name                                                          |   I can quickly check the loan status of a specific person standing at the counter.     |
+| `* * *` | user           | add a new student with their name                                               |   I can create a record for them in the system.                                         |
+| `* * *` | user           | add a new student with their matric number                                      |   I can create a record for them in the system.                                         |
+| `* * *` | user           | add a new student with their phone number                                       |   I can create a record for them in the system.                                         |
+| `* * *` | user           | add a new student with their school email                                       |   I can create a record for them in the system.                                         |
+| `* * *` | user           | delete a student                                                                |   I can remove records of students who have graduated or left the university.           |
+| `* *`   | user           | have a checklist of ALL equipment in inventory                                  |   I can verify if the equipment is available                                            |
+| `* *`   | user           | find which student has borrowed a specific item                                 |   I can update the status of an equipment manually                                      |
+| `* *`   | user           | update an equipment details                                                     | I can correct any misinput                                                                  |
 | `* *`   | user           | block a facility for "Maintenance"                                              | no one can book the room.                                                             |
 | `* *`   | user           | be warned when adding duplicate name                                            | no redundant information is stored                                                    |
-| `* *`   | user           | keep track of history of the loans                                              | have the transaction on record                                                        |
-| `* *`   | user           | keep track of the date of the loan                                              | have the date on record                                                               |
-| `* *`   | user           | keep track of the time of the loan                                              | have the time on record                                                               |
+| `* *`   | user           | keep track of history of the loans                                              | I can have the transaction on record                                                        |
+| `* *`   | user           | keep track of the date of the loan                                              | I can have the date on record                                                               |
+| `* *`   | user           | keep track of the time of the loan                                              | I can have the time on record                                                               |
 | `* *`   | user           | blacklist a student                                                             | the system will warn me if I try to loan to a student with a history of overdue loans |
-| `* *`   | user           | undo my last command                                                            |   recover from accidental deletions or typos                                      |
-| `* *`   | busy user      | simple view of equipment on loan or due                                         |   spend time chasing it                                                           |
-| `* *`   | busy user      | sort the item/room to a specified date                                          |   know what is being used/occupied on that date                                   |
-| `* *`   | advanced user  | create tags to equipment/room as a category                                     |   see at a glance what is borrowed/book for that category                         |
-| `* *`   | advanced user  | group equipment by function                                                     |   find alternatives for equipment loans                                           |
-| `* *`   | advanced user  | group equipment by date                                                         | be ready to collect them for return                                                   |
-| `* *`   | advanced user  | create a list of authorized users                                               | have equipment only lent to authorized users                                          |
-| `* *`   | advanced user  | create a list of authorized equipment                                           | have restrictions on who can borrow what equipment                                    |
-| `* `    | user           | edit a student's contact details                                                |   update if they change it.                                                       |
-| `* `    | user           | issue multiple items at once                                                    |   loan out and keep track of multiple items easily in the system                  |
-| `* `    | user           | clear all records                                                               |   reset if needed                                                                 |
-| `* `    | user           | check a student loan history                                                    |   record it                                                                       |
-| `* `    | busy user      | automate sending reminder to borrower                                           | send reminders so equipment return puntually                                          |
-| `*  `   | busy user      | automate sending late reminders                                                 | to remind the borrower to return eqipment                                             |
+| `* *`   | user           | undo my last command                                                            | I can recover from accidental deletions or typos                                      |
+| `* *`   | busy user      | simple view of equipment on loan or due                                         | I can reduce time spent chasing it                                                          |
+| `* *`   | busy user      | sort the item/room to a specified date                                          | I can know what is being used/occupied on that date                                   |
+| `* *`   | advanced user  | create tags to equipment/room as a category                                     | I can glance what is borrowed/booked for that category                                      |
+| `* *`   | advanced user  | group equipment by function                                                     | I can find alternatives for equipment loans                                           |
+| `* *`   | advanced user  | group equipment by date                                                         | I can be ready to collect them for return                                                   |
+| `* *`   | advanced user  | create a list of authorized users                                               | I can have equipment only lent to authorized users                                          |
+| `* *`   | advanced user  | create a list of authorized equipment                                           | I can have restrictions on who can borrow what equipment                                    |
+| `* `    | user           | edit a student's contact details                                                | I can correct misinputs or update contact information.                                                       |
+| `* `    | user           | issue multiple items at once                                                    | I can loan out and keep track of multiple items easily in the system                  |
+| `* `    | user           | clear all records                                                               | I can reset if needed                                                                 |
+| `* `    | busy user      | automate sending reminder to borrower                                           | I can send reminders so equipment return punctually                                         |
+| `*  `   | busy user      | automate sending late reminders                                                 | I can remind the borrower to return equipment                                            |
 | `* `    | forgetful user | view a list of items due today upon launching the app                           | I am immediately informed of what needs to be returned                                |
-| `* `    | advanced user  | create alias to the equipment/rooms                                             |   fast lookup and manage students                                                 |
-| `* `    | advanced user  | import new equipment from a file                                                | Add items more quickly                                                                |
-| `* `    | advanced user  | import new people from a file                                                   | Add people more quickly                                                               |
-| `* `    | advanced user  | export data as csv file                                                         |   create reports for my supervisor to see                                         |
-| `* `    | advanced user  | attach events to loans                                                          | quicken the loan process during a large school event                                  |
-| `* `    | advanced user  | forecast future school events                                                   | anticipate future loans                                                               |
+| `* `    | advanced user  | create alias to the equipment/rooms                                             | I can issue the commands faster                                                             |
+| `* `    | advanced user  | import new equipment from a file                                                | I can add items more quickly                                                                |
+| `* `    | advanced user  | import new students from a file                                                 | I can add students more quickly                                                               |
+| `* `    | advanced user  | export data as csv file                                                         |  I can generate logistical reports for supervisors or hall committees.     |
+| `* `    | advanced user  | attach events to loans                                                          | I can quicken the loan process during a large school event                                  |
+| `* `    | advanced user  | forecast future school events                                                   | I can anticipate future loans                                                               |
 | `* `    | advanced user  | automate the process of aquiring a loan by extracting from a specified request  | simpler requests can be granted more easily                                           |
 
 
-*{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `TrackMasterPro` and the **Actor** is the `Facility Manager`, unless specified otherwise)
+(For all use cases below, the **System** is the `TrackMasterPro` and the **Actor** is the `User`, unless specified otherwise)
 
 **Use case: UC01 - Add a new equipment**
 
 **MSS**
-1.  Facility Manager requests to add a new equipment by providing its name and category.
+1.  User requests to add a new equipment.
 2.  TrackMasterPro validates the input and checks for duplicates.
-3.  TrackMasterPro adds the equipment to the equipment list and displays the updated list.
+3.  TrackMasterPro adds the equipment and displays the updated equipment list.
 
     Use case ends.
 
 **Extensions**
 
-* 1a. The command format is invalid (missing n/ or c/ prefixes).
+* 1a. The command format is invalid.
     * 1a1. TrackMasterPro shows an error message and the correct command format.
     * Use case ends.
 
 * 2a. An equipment with the same name already exists.
-    * 2a1. TrackMasterPro notifies the Facility Manager that a duplicate was found.
-    * 2a2. TrackMasterPro suggests a numbered name (e.g., Wilson-Evolution-1).
+    * 2a1. TrackMasterPro notifies the user that a duplicate was found.
     * Use case ends.
 
 
-**Use case: UC02 - View equipment inventory list**
+**Use case: UC02 - View equipment list**
 
 **MSS**
 
-1.  Facility Manager requests to view the list of equipment.
-2.  TrackMasterPro clears any active filters and shows a list of all equipment with their categories and statuses.
+1.  User requests to view the list of equipment.
+2.  TrackMasterPro clears any active filters and shows a list of all equipment.
 
     Use case ends.
 
 **Extensions**
 
-* 1a. The command format is invalid (list-e 123).
+* 1a. The command format is invalid.
     * 1a1. TrackMasterPro shows an error message and the correct command format.
     * Use case ends.
 
@@ -402,7 +398,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to delete a specific equipment by its index in the displayed list.
+1.  User requests to delete specific equipment by its index in the displayed list.
 2.  TrackMasterPro checks that the equipment status is "Available."
 3.  TrackMasterPro deletes the equipment from the equipment list and displays the updated list.
 
@@ -410,12 +406,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given index is invalid (out of bounds or not a positive integer).
-    * 1a1. TrackMasterPro shows an error message.
+* 1a. The given index is invalid.
+    * 1a1. TrackMasterPro shows an error message that the index is invalid.
     * Use case ends.
 
-* 2a. The equipment at the specified index is not in "Available" status (e.g., "Booked", "Maintenance", or "Damaged")
-    * 2a1. TrackMasterPro notifies the Facility Manager that the equipment cannot be removed because it is currently booked, under maintenance, or damaged.
+* 2a. The equipment at the specified index is not in "Available" status.
+    * 2a1. TrackMasterPro notifies the user that the equipment cannot be removed.
     * Use case ends.
 
 
@@ -423,7 +419,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to edit details (name, category, or status) of a specific equipment in the list by its index.
+1.  User requests to edit details of specific equipment in the list by its index.
 2.  TrackMasterPro validates the new details and updates the equipment.
 3.  TrackMasterPro refreshes the equipment list display to reflect the changes.
 
@@ -431,12 +427,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given index is invalid (out of bounds or not a positive integer).
-    * 1a1. TrackMasterPro shows an error message.
+* 1a. The given index is invalid.
+    * 1a1. TrackMasterPro shows an error message that the index is invalid. 
     * Use case resumes at step 1.
 
-* 1b. The Facility Manager provides an invalid command format or missing fields.
-    * 1b1. TrackMasterPro shows an error message and the correct command format.
+* 1b. The user provides an invalid command format or missing fields.
+    * 1b1. TrackMasterPro shows an error message and the correct command format. 
     * Use case ends.
 
 * 1c. The equipment at the specified index has a "Booked" status.
@@ -452,7 +448,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to add a new room by providing its name and location.
+1.  User requests to add a new room.
 2.  TrackMasterPro validates the input and checks for duplicates.
 3.  TrackMasterPro adds the room to the room list and refreshes the room list display.
 
@@ -460,13 +456,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The command format is invalid (missing n/ or l/ prefixes).
+* 1a. The command format is invalid.
     * 1a1. TrackMasterPro shows an error message and the correct command format.
     * Use case ends.
 
 * 2a. A room with the same name already exists.
-    * 2a1. TrackMasterPro notifies the Facility Manager that a duplicate was found.
-    * 2a2. TrackMasterPro suggests a numbered name (e.g., Sports-Hall-1).
+    * 2a1. TrackMasterPro notifies the user that a duplicate was found.
     * Use case ends.
 
 
@@ -474,14 +469,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to view the list of rooms.
-2.  TrackMasterPro clears any active filters and shows a list of all room with their locations and statuses.
+1.  User requests to view the list of rooms.
+2.  TrackMasterPro clears any active filters and shows a list of all room.
 
     Use case ends.
 
 **Extensions**
 
-* 1a. The command format is invalid (list-r 123).
+* 1a. The command format is invalid.
     * 1a1. TrackMasterPro shows an error message and the correct command format.
     * Use case ends.
 
@@ -494,7 +489,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to delete a specific room by its index in the displayed list.
+1.  User requests to delete a specific room by its index in the displayed list.
 2.  TrackMasterPro checks that the room status is "Available."
 3.  TrackMasterPro deletes the room from the room list and displays the updated list.
 
@@ -502,12 +497,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given index is invalid (out of bounds or not a positive integer).
-    * 1a1. TrackMasterPro shows an error message.
+* 1a. The given index is invalid.
+    * 1a1. TrackMasterPro shows an error message that the index is invalid.
     * Use case ends.
 
-* 2a. The room at the specified index is not in "Available" status (e.g., "Booked" or "Maintenance")
-    * 2a1. TrackMasterPro notifies the Facility Manager that the room cannot be removed because it is currently booked or under maintenance.
+* 2a. The room at the specified index is not in "Available" status.
+    * 2a1. TrackMasterPro notifies the user that the room cannot be removed.
     * Use case ends.
 
 
@@ -515,7 +510,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Facility Manager requests to edit details (name, location, or status) of a specific room in the list by its index.
+1.  User requests to edit details of a specific room in the list by its index.
 2.  TrackMasterPro validates the new details and updates the room.
 3.  TrackMasterPro refreshes the room list display to reflect the changes.
 
@@ -523,11 +518,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given index is invalid (out of bounds or not a positive integer).
-    * 1a1. TrackMasterPro shows an error message.
+* 1a. The given index is invalid.
+    * 1a1. TrackMasterPro shows an error message that the index is invalid.
     * Use case resumes at step 1.
 
-* 1b. The Facility Manager provides an invalid command format or missing fields.
+* 1b. The user provides an invalid command format or missing fields.
     * 1b1. TrackMasterPro shows an error message and the correct command format.
     * Use case ends.
 
@@ -544,7 +539,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 1.  User requests to add a student.
-2.  User enters the student's details (name, student ID, phone, email).
+2.  User enters the student's details (name, matric number, phone, email).
 3.  TrackMasterPro validates the input and ensures no duplicate identifiers (matric number, phone, or email) exist.
 4.  TrackMasterPro adds the student to the database.
 5.  TrackMasterPro displays the success message and the details of the added student.
@@ -565,8 +560,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 1. User requests to delete a student by their unique matric number.
 2. TrackMasterPro searches for the student.
-3. TrackMasterPro removes the student profile from the database.
-4. TrackMasterPro displays a success message.
+3. TrackMasterPro checks for any active loans or reservations.
+4. TrackMasterPro removes the student profile from the database.
+5. TrackMasterPro displays a success message.
 
       Use case ends.
 
@@ -574,11 +570,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. No student with the specified matric number is found.
    * 2a1. TrackMasterPro shows an error message indicating the student does not exist.
    * Use case ends
-* 2b. TrackMasterPro detects student has active loans or reservations.
-   * 2b1. System informs the user that deletion is prohibited until items are returned.
+* 3a. TrackMasterPro detects student has active loans or reservations.
+   * 3a1. TrackMasterPro informs the user that deletion is prohibited until items are returned or reservation is cancelled.
    * Use case ends.
 
-Use case ends.
 
 **Use case: UC011 - View Student List**
 **MSS**
@@ -606,19 +601,19 @@ Use case ends.
 **Extensions**
 
 - 2a. The matric number is invalid or not found.
-   - 2a1. TrackMasterPro shows an error message.
-   - Use case ends.
+   * 2a1. TrackMasterPro shows an error message.
+   * Use case ends.
 
 - 3a. The student has no active loans.
-   - 4a1. TrackMasterPro displays a message stating the student has no borrowed items.
-   - Use case ends.
+   * 3a1. TrackMasterPro displays a message stating the student has no borrowed items.
+   * Use case ends.
 
 **Use case: UC013 - Edit a student's details**
 
 **MSS**
 1. User requests to edit an existing student's details
-2. TrackMasterPro retrieves the existing profile.
-3. User types in the updated information (e.g., new phone number).
+2. TrackMasterPro retrieves the existing profile and checks for active transactions.
+3. User provides the updated information.
 4. TrackMasterPro validates that the changes do not create a duplicate of another existing student.
 5. TrackMasterPro updates the profile and shows the updated details.
 
@@ -626,15 +621,15 @@ Use case ends.
 
 **Extensions**
 - 1a. The specified student is not found.
-   - 2a1. TrackMasterPro shows an error message.
-   - Use case ends.
+   * 2a1. TrackMasterPro shows an error message.
+   * Use case ends.
 
-- 4a. The updated details (e.g., new email) already belong to another student.
-   - 4a1. TrackMasterPro displays shows a duplicate error message.
-   - Use case resumes at step 3.
-- 4b. TrackMasterPro detects student has active loans or reservations.
-   - 4b1. TrackMasterPro informs the user that editing is disabled for students with active transactions.
-   - Use case ends.
+- 2a. TrackMasterPro detects the student has active loans or reservations.
+   * 2a1. TrackMasterPro informs the user that editing is disabled for students with active transactions.
+   * Use case resumes at step 3.
+- 4a. The updated details (e.g., new email or matric) already belong to another student.
+   * 4a1. TrackMasterPro shows a duplicate error message.
+   * Use case ends.
 
 
 **Use case: UC014 - Reserve equipment on a specified date/time**
@@ -817,7 +812,7 @@ Use case ends.
 
 1. User chooses to filter by tag.
 2. System requests for the type and tag to filter by.
-3. User enters the type (equipment, room, or student) and tag.
+3. User enters the type (equipment or room) and tag.
 4. System retrieves and displays all matching results under the specified tag.
 
    Use case ends.
@@ -871,7 +866,6 @@ Use case ends.
   * 2a1. System shows an empty list message
   * Use case ends
 
-*{More to be added}*
 
 ### Non-Functional Requirements
 
@@ -888,20 +882,20 @@ Use case ends.
 1.   All data (equipment, rooms, students, and loans) must be saved to the local storage immediately after any state-changing command is executed for persistency.
 2.   If the application is closed unexpectedly, the data file must remain uncorrupted and readable upon the next launch.
 
-*{More to be added}*
 
 ### Glossary
-
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-
+* **AddressBook**: The internal data store that holds all student, equipment, and room records. Inherited from the AB3 base project.
+* **API (Application Programming Interface)**: A defined contract (typically a Java interface) through which one software component exposes its functionality to other components.
 * **Equipment** : Any item that is being loaned out for the school, saved as a string, with spaces replaced as hyphens.<br>
-   example: Wilson-Evolution-Basketball
-
+   Example: `Wilson-Evolution-Basketball`
 * **Room** : Any facility or venue that is being reserved, saved as a string, with spaces replaced as hyphens.<br>
-   example: MPSH-1
+   Example: `MPSH-1`
+* **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Matric Number (StudentId)**: A unique NUS matriculation number assigned to each student (e.g. `A0123456B`). Used as the primary identifier for student records. Must follow the format: letter, 7 digits, letter.
+* **MSS (Main Success Scenario)**: The primary, happy-path sequence of steps in a use case describing how the system behaves when everything goes as expected.
+**Student (Person)**: An individual registered in the system, uniquely identified by their matric number, phone number and email address. They are the primary actors for borrowing equipment and booking rooms.
 
-*{More to be added}*
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
@@ -939,7 +933,7 @@ testers are expected to do more *exploratory* testing.
       Status set to Available by default. Success message shows details.
 
    2. Test case: `add-e c/Badminton n/Yonex-Astrox`<br>
-      Expected: Equipment "Track-Stand" added successfully. Order of n/ and c/ does not matter.
+      Expected: Equipment "Yonex-Astrox" added successfully. Order of n/ and c/ does not matter.
 
 2. Adding equipment with invalid name or category
 
@@ -1167,16 +1161,16 @@ testers are expected to do more *exploratory* testing.
 
 1. Delete a student by matric number
    1. Prerequisites: A student with ID A0123456B exists in the list.
-   2. Test case: `delete-s m/A0123456B`
+   2. Test case: `delete-s A0123456B`
       Expected: The student is removed from the list. Success message confirms the deletion.
 
 2. Delete a non-existent student
-   1. Test case: `delete-s m/NON_EXISTENT_ID`
+   1. Test case: `delete-s NON_EXISTENT_ID`
       Expected: No change to the data. Error message indicates the student was not found.
 
 3. Delete a student with existing loans/reservations
    1. Prerequisites: Student `A0123456B` currently has an equipment (e.g. "Basketball-1") borrowed or reserved.
-   2. Test case: `delete-s m/A0123456B`
+   2. Test case: `delete-s A0123456B`
       Expected: The student is not removed from the database. An error message saying student has active loans or reservations.
 
 
@@ -1204,16 +1198,21 @@ testers are expected to do more *exploratory* testing.
    Expected: The UI switches to the Student List view (if not already there) and displays all registered students.
 
 ### Checking a student's loans/reservations
-1. Prerequisites: Student A0123456B borrowed "Basketball-1".
-2. Test case: check-s A0123456B
+1. Prerequisites: Student `A0123456B` borrowed "Basketball-1".
+2. Test case: `check-s A0123456B`
    Expected: Shows "Basketball-1" is currently borrowed by the student.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Dealing with missing data files
+   1. Prerequisites: Ensure addressbook.json does not exist in the `/data` folder.
+   2. Test case: Launch the app.
+      Expected: App launches with default sample data. A new addressbook.json is created in the `/data` folder.
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+2. Dealing with corrupted data files
+   1. Prerequisites: Open `addressbook.json` in a text editor and delete a required brace `{` or change a field name to an invalid string.
+   2. Test case: Launch the app.
+      Expected: App launches with an empty list (0 students, 0 equipment). An error log is generated.
 
-1. _{ more test cases …​ }_
 
 
