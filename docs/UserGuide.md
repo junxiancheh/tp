@@ -829,13 +829,6 @@ Use this command to quickly find all equipment or rooms associated with a partic
 * `TAG`: should only contain alphanumeric characters, not allowing punctuation or spaces. It is not case-sensitive, and should not be blank.
 * `filter-r` targets rooms. `filter-e` targets equipments.
 
-**Outputs:**
-* Success <br>
-![filter-e_success](images/filter-e_success.png)
-![filter-r_success](images/filter-r_success.png)
-* Failure <br>
-![filter_failure](images/filter_failure.png)
-
 **Duplicate handling:**
 * Not applicable.
 
@@ -843,12 +836,12 @@ Use this command to quickly find all equipment or rooms associated with a partic
 * `filter-r IHG`
 * `filter-e IHG`
 
-
 **Outputs:**
 * Success <br>
-  ![addRoomSuccess.png](images/addRoomSuccess.png)
+  ![filter-e_success](images/filter-e_success.png)
+  ![filter-r_success](images/filter-r_success.png)
 * Failure <br>
-![filter command screenshot](images/FilterSuccess.png)
+  ![filter_failure](images/filter_failure.png)
 
 **Possible errors:**
 * *Invalid command:* Missing `t/` prefix.
