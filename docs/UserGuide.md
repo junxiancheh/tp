@@ -50,7 +50,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
    
-   5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will show all the command in the result box.
+   4. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will show all the command in the result box.
    
    Some example commands you can try:
 
@@ -64,7 +64,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 
    * `exit` : Exits the app.
 
-6. Refer to the [Features](#features) below for details of each command.
+5. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add-s n/NAME`, `NAME` is a parameter which can be used as `add n/John-Doe`.
+  e.g. in `add-s n/NAME`, `NAME` is a parameter which can be used as `add-s n/John-Doe`.
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John-Doe t/friend` or as `n/John-Doe`.
@@ -332,7 +332,7 @@ Deletes a room from the room list.
 
 Edit details for existing room from the room list.
 
-**Format:** `edit-r INDEX [n/NAME] [c/LOCATION] [s/STATUS]`
+**Format:** `edit-r INDEX [n/NAME] [l/LOCATION] [s/STATUS]`
 
 **Acceptable values:**
 * `INDEX`: Positive integer corresponding to the current displayed list from `list-r`. (e.g `list-r` have a size of 4, valid index range would be 1,2,3, or 4)
@@ -402,7 +402,7 @@ Adds a new student in the database so they can begin borrowing equipment or book
 **Possible errors:**
 * *Invalid command*: Missing any of `n/`, `m/`, `p/`, `e/` prefix.
 * *Invalid name*: Hyphens `-`, periods `.`, and apostrophes `'`, numbers `1` in name will cause an error.
-* *Student already exists*: Attempting to add a student whose `Matric Number`, `Phone Number`, and `Email`are already in the system.
+* *Student already exists*: Attempting to add a student whose `Matric Number`, `Phone Number`, or `Email`are already in the system.
 
 #### Check a student's loans : `check-s`
 
@@ -412,7 +412,7 @@ To check the list of equipment or rooms loaned to a student.
 
 **Acceptable values:**
 * `MATRIC_NUMBER`: Must be exactly 9 characters long. Starts with a letter (usually 'A'), followed by 7 digits, and ends with a check letter. (e.g., `A0123456B`). Case insensitive.
-* *Case Sensitivity*: Case-insensitive. `A0123456B` and `a0123456b` are treated as the matric number.
+* *Case Sensitivity*: Case-insensitive. `A0123456B` and `a0123456b` are treated as the same matric number.
 
 
 **Duplicate handling:**
@@ -429,6 +429,7 @@ To check the list of equipment or rooms loaned to a student.
 
 **Possible errors:**
 * No matric number in the system.
+* Invalid matric number format.
 
 #### View student list : `list-s`
 
@@ -443,7 +444,7 @@ Displays a list of all registered students in the system.
 * Not applicable for a view command.
 
 **Examples:**
-* `list-e`.
+* `list-s`.
 
 **Outputs:**
 * Success
@@ -494,7 +495,7 @@ Edits an existing student's details in the address book.
 * Fields: At least one field must be provided.
 * (With at least one of the fields)
     * `NAME`: Alphabets and internal spaces only (e.g., `John Lim`). No special characters or numbers (e.g., `-`, `.`, `*`).
-    * `MATRIC_NUMBER`: Must be exactly 9 characters long. Starts with a letter (usually 'A'), followed by 7 digits, and ends with a check letter. (e.g., `A0123456B`). Case insensitive.Case-insensitive.
+    * `MATRIC_NUMBER`: Must be exactly 9 characters long. Starts with a letter (usually 'A'), followed by 7 digits, and ends with a check letter. (e.g., `A0123456B`). Case insensitive.
     * `PHONE_NUMBER`: 8-digit mobile number (e.g `81234567`).
     * `EMAIL`: Valid email format (e.g., `e0123456@u.nus.edu`).
 
@@ -681,7 +682,7 @@ Aliases are useful for long item or room IDs, especially during busy periods whe
 * Alias already exists
 
 
-### 2.5 Tag & Filter:
+### 2.5 Tag & Filter
 
 #### Tagging an item or room: `tag`
 
@@ -839,7 +840,7 @@ Action | Format, Examples
 **Check Loans** | `check-s MATRIC_NUMBER` <br> e.g., `check-s A0123456B`
 **List Students** | `list-s`
 **Delete Student** | `delete-s MATRIC_NUMBER` <br> e.g., `delete-s A0123456B`
-**Edit Student** | `edit-s INDEX [n/NAME] [p/PHONE] [e/EMAIL]` <br> e.g. `edit-s 2 n/Tom p/91234561 e/e1234567@u.nus.edu`
+**Edit Student** | `edit-s INDEX [n/NAME] [m/MATRIC_NUMBER] [p/PHONE_NUMBER] [e/EMAIL]` <br> e.g. `edit-s 2 m/a1234567b n/Tom p/91234561 e/e1234567@u.nus.edu`
 **Reserve** | `reserve ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME t/END_DATE_TIME` <br> e.g., `reserve mpsh-1 a1234567a f/2027-03-01 1400 t/2027-03-01 1600`
 **Cancel** | `cancel ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME` <br> e.g., `cancel mpsh-1 a1234567a f/2099-03-15 0900`
 **Issue** | `issue ITEM_ID STUDENT_ID DUE_DATE_TIME` <br> e.g., `issue Wilson-Basketball-1 a1234567a 2027-03-05 1700`
