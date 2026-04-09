@@ -80,7 +80,7 @@ The `UI` component uses the JavaFx UI framework. The layout of these UI parts ar
 The `UI` component,
 
 * executes user commands using the `Logic` component.
-* listens for changes to `Model` data so that the UI  be updated with the modified data.
+* listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
@@ -175,7 +175,7 @@ One of the noteworthy details in the implementation is the Defensive Validation 
 
 2. `LogicManager` calls `AddressBookParser#parseCommand()`.
 3. An `AddStudentCommandParser` is instantiated to tokenize the arguments. The parser uses `ArgumentTokenizer` to verify that all required prefixes (`n/`, `m/`, `p/`, `e/`) are present.
-4. A `Person` object is created and wrapped inside a new `AddStudentCommandParser`.
+4. A `Person` object is created and wrapped inside a new `AddStudentCommand`.
 5. The `LogicManager` calls `AddStudentCommand#execute()`.
 6. The `Model` is checked for existing students with the same identity (e.g., same Matric Number, phone number, email).
 7. If unique, the `Model` is updated, and a `CommandResult` is returned to the UI.
@@ -203,7 +203,7 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete-s 5` command to delete the 5th person in the address book. The `delete-s` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete-s 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete-s 5` command to delete the 5th student in the address book. The `delete-s` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete-s 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
@@ -215,7 +215,7 @@ Step 3. The user executes `add-s n/David …​` to add a new student. The `add-
 
 </div>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the student was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
@@ -264,7 +264,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+  * Pros: Will use less memory (e.g. for `delete-s`, just save the student being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
@@ -310,7 +310,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *` | user           | issue an item to a student                                                      | the system records that the item is no longer in the store.                           |
 | `* * *` | user           | remove an equipment from inventory                                              |   I can remove it to keep the inventory clean.                                                                       |
 | `* * *` | user           | remove an equipment name from a student                                         |   I can mark the item as "Returned" when they bring it back.                            |
-| `* * *` | user           | check if a equipment is in use                                                  |   I can quickly verify if a equipment is in use                                         |
+| `* * *` | user           | check if an equipment is in use                                                  |   I can quickly verify if an equipment is in use                                         |
 | `* * *` | user           | find a student by name                                                          |   I can quickly check the loan status of a specific person standing at the counter.     |
 | `* * *` | user           | add a new student with their name                                               |   I can create a record for them in the system.                                         |
 | `* * *` | user           | add a new student with their matric number                                      |   I can create a record for them in the system.                                         |
@@ -621,12 +621,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 - 1a. The specified student is not found.
-   * 2a1. TrackMasterPro shows an error message.
+   * 1a1. TrackMasterPro shows an error message.
    * Use case ends.
 
 - 2a. TrackMasterPro detects the student has active loans or reservations.
    * 2a1. TrackMasterPro informs the user that editing is disabled for students with active transactions.
-   * Use case resumes at step 3.
+   * Use case ends.
 - 4a. The updated details (e.g., new email or matric) already belong to another student.
    * 4a1. TrackMasterPro shows a duplicate error message.
    * Use case ends.
@@ -649,15 +649,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 5a. Equipment is not available for the selected time
-  * 5a1. System informs the user that the slot is unavailable
-  * 5a2. User selects a different date/time
-  * Resume from step 4
-
 * 3a. Equipment not found in the list
   * 3a1. System shows an error message
   * Use case ends
 
+* 5a. Equipment is not available for the selected time
+  * 5a1. System informs the user that the slot is unavailable
+  * 5a2. User selects a different date/time
+  * Resume from step 4
 
 **Use case: UC015 - Reserve room on a specified date/time**
 
@@ -676,14 +675,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 5a. Room is already booked for the selected time
-  * 5a1. System informs the user of the conflict
-  * 5a2. User selects another time slot
-  * Resume from step 4
-
 * 4a. Invalid date or time format entered
   * 4a1. System shows validation error
   * 4a2. User re-enters correct information
+  * Resume from step 4
+
+* 5a. Room is already booked for the selected time
+  * 5a1. System informs the user of the conflict
+  * 5a2. User selects another time slot
   * Resume from step 4
 
 
@@ -703,14 +702,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 5a. Item is not available
-  * 5a1. System shows an error message
-  * Use case ends
-
 * 3a. Student not found
   * 3a1. System shows an error message
   * Use case ends
 
+* 5a. Item is not available
+  * 5a1. System shows an error message
+  * Use case ends
 
 **Use case: UC017 - Remove an item from a student**
 
@@ -750,17 +748,35 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
+* 3a. Equipment not found
+  * 3a1. System shows an error message
+  * Use case ends
 
 * 5a. Alias already exists
   * 5a1. System shows an error message
   * Use case ends
 
-* 3a. Equipment not found
-  * 3a1. System shows an error message
-  * Use case ends
+**Use case: UC019 - Cancel Reservation**
+**MSS**
 
+1. User chooses to cancel a reservation.
+2. User enters the reservation details required to identify the reservation.
+3. System requests the reservation to cancel.
+4. System cancels the reservation and displays a success message.
 
-**Use case: UC019 - Tag Equipment/Room**
+   Use case ends.
+
+**Extensions**
+
+* 3a. System detects that the reservation does not exist.
+  * 3a1. System displays a failure message.
+  * Use case ends.
+
+* 3b. System detects that the reservation details entered are invalid.
+  * 3b1. System displays a failure message.
+  * Use case ends.
+
+**Use case: UC020 - Tag Equipment/Room**
 
 **MSS**
 
@@ -784,7 +800,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * Use case ends.
 
 
-**Use case: UC020 - Untag Equipment/Room**
+**Use case: UC021 - Untag Equipment/Room**
 
 **MSS**
 
@@ -806,7 +822,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * Use case ends.
 
 
-**Use case: UC021 - Filter by Tag**
+**Use case: UC022 - Filter by Tag**
 
 **MSS**
 
@@ -830,7 +846,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * Use case ends.
 
 
-**Use case: UC022 - View Help Command**
+**Use case: UC023 - View Help Command**
 
 **MSS**
 
@@ -843,15 +859,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. User requests help for a specific command.
     * 1a1. System checks if the command exists.
+    
+      * 1a1a. System detects that the specified command does not exist.
+         * 1a1a1. System displays an error message indicating the command was not found.
+         * Use case ends.
+
     * 1a2. System displays the command details and an example usage.
     * Use case ends.
 
-    * 1a1a. System detects that the specified command does not exist.
-        * 1a1a1. System displays a failure message indicating the command was not found.
-    * Use case ends.
 
-
-**Use case: UC023 - View all commands**
+**Use case: UC024 - View all commands**
 
 **MSS**
 
@@ -893,7 +910,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Matric Number (StudentId)**: A unique NUS matriculation number assigned to each student (e.g. `A0123456B`). Used as the primary identifier for student records. Must follow the format: letter, 7 digits, letter.
 * **MSS (Main Success Scenario)**: The primary, happy-path sequence of steps in a use case describing how the system behaves when everything goes as expected.
-**Student (Person)**: An individual registered in the system, uniquely identified by their matric number, phone number and email address. They are the primary actors for borrowing equipment and booking rooms.
+* **Student (Person)**: An individual registered in the system, uniquely identified by their matric number, phone number and email address. They are the primary actors for borrowing equipment and booking rooms.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -1212,7 +1229,4 @@ testers are expected to do more *exploratory* testing.
 2. Dealing with corrupted data files
    1. Prerequisites: Open `addressbook.json` in a text editor and delete a required brace `{` or change a field name to an invalid string.
    2. Test case: Launch the app.
-      Expected: App launches with an empty list (0 students, 0 equipment). An error log is generated.
-
-
-
+      Expected: App launches with an empty list (0 students, 0 equipment, 0 rooms). An error log is generated.
