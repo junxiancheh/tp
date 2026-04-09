@@ -746,8 +746,7 @@ Tag equipment as `t/IHG` during competition weeks to quickly filter items that s
 **Acceptable values:**
 * `NAME`: Equipment or room name should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `Sports-Hall-1`, `Basketball-1`)
-* `TAG`: should only contain alphanumeric characters, not allowing punctuation or spaces. It is not case-sensitive, and 
-  should not be blank.
+* `TAG`: should only contain alphanumeric characters, not allowing punctuation or spaces. It is not case-sensitive, and should not be blank.
 * The system will detect and warn against duplicate tags.
 
 **Duplicate handling:**
