@@ -902,7 +902,7 @@ Furthermore, certain edits can cause the TrackMasterPro to behave in unexpected 
 
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
-3. **Strict Name Validation:** The current system only accepts alphabetic characters and spaces for student names. Names containing special characters such as hyphens (e.g. `Al-Haddad`) or apostrophes (e.g. `D'Souza`) will currently trigger a validation error.
+3. **Strict Name Validation:** The current system only accepts alphabetic characters and spaces for student names. Names containing special characters such as hyphens (e.g., `Al-Haddad`) or apostrophes (e.g., `D'Souza`) will currently trigger a validation error.
 **Workaround**: Enter the name without the special character (e.g. `Al Haddad` or `DSouza`) until a future update expands the character support. Removing special characters from the requirements allows for faster command entry and fewer parsing errors during high-pressure facility management scenarios
 
 --------------------------------------------------------------------------------------------------------------------
@@ -911,7 +911,7 @@ Furthermore, certain edits can cause the TrackMasterPro to behave in unexpected 
 
 Action | Format, Examples
 --------|------------------
-**Add Equipment** | `add-e n/NAME c/CATEGORY` <br> e.g. `add-e n/Wilson-Evolution c/Basketball`
+**Add Equipment** | `add-e n/NAME c/CATEGORY` <br> e.g., `add-e n/Wilson-Evolution c/Basketball`
 **List Equipment** | `list-e`
 **Delete Equipment**| `delete-e INDEX` <br> e.g., `delete-e 3`
 **Edit Equipment** | `edit-e INDEX [n/NAME] [c/CATEGORY] [s/STATUS]` <br> e.g., `edit-e 6 n/Wilson-Evo`
