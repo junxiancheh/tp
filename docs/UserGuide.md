@@ -752,15 +752,18 @@ Tag equipment as `t/IHG` during competition weeks to quickly filter items that s
 * If the tag already exists on the item or room, the command will be rejected.
 
 **Examples:**
-* `tag-e Wilson-Evolution-Basketball-1 IHG` 
-* `tag-r MPSH-1 IHG` 
+* `tag-e Wilson-Evolution IHG` 
+* `tag-r MPSH-2 IHG` 
 
 
 **Outputs:**
 * Success <br>
-
+![tag-e_success.png](images/tag-e_success.png)
+![tag-r_success](images/tag-r_success.png)
 * Failure <br>
-![tag command screenshot](images/TagSuccess.png)
+![tag_failure](images/tag_failure.png)
+
+
 
 **Possible errors:**
 * *Invalid command:* Extra input.
@@ -793,15 +796,16 @@ Use this command to remove outdated or incorrect tags from equipment or rooms.
 
 
 **Examples:**
-* `untag-e Wilson-Evolution-Basketball-1 IHG` 
-* `untag-r MPSH-1 IHG`
+* `untag-e Wilson-Evolution IHG` 
+* `untag-r MPSH-2 IHG`
 
 
 **Outputs:**
 * Success <br>
-
+![untag-e_success](images/untag-e_success.png)
+![untag-r_success](images/untag-r_success.png)
 * Failure <br>
-![untag command screenshot](images/UntagSuccess.png)
+![untag_failure](images/untag_failure.png)
 
 **Possible errors:**
 * *Invalid command:* Extra input.
@@ -825,6 +829,12 @@ Use this command to quickly find all equipment or rooms associated with a partic
 * `TAG`: should only contain alphanumeric characters, not allowing punctuation or spaces. It is not case-sensitive, and should not be blank.
 * `filter-r` targets rooms. `filter-e` targets equipments.
 
+**Outputs:**
+* Success <br>
+![filter-e_success](images/filter-e_success.png)
+![filter-r_success](images/filter-r_success.png)
+* Failure <br>
+![filter_failure](images/filter_failure.png)
 
 **Duplicate handling:**
 * Not applicable.
