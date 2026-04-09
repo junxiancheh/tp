@@ -80,10 +80,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
 * Items in square brackets are optional.<br>
   e.g., `n/NAME [t/TAG]` can be used as `n/John-Doe t/friend` or as `n/John-Doe`.
 
-* Items with `…` after them can be used multiple times including zero times.<br>
-  e.g., `[t/TAG]…` can be used as many times (i.e. 0 times), `t/ICG`, `t/IFG t/CareerFest` etc.
-
-* Parameters with prefixes can be in any order(eg. n/,p/).<br>
+* Parameters with prefixes can be in any order.<br>
   e.g., if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -737,7 +734,7 @@ Tags are useful for categorising equipment or rooms for quick viewing, and will 
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip for IHG:**
-Tag equipment as `tag-e NAME IHG` during competition weeks to quickly filter items that should not be loaned out for casual use.
+Tag equipment as e.g., `tag-e Wilson-Evolution IHG` during competition weeks to quickly filter items that should not be loaned out for casual use.
 </div>
 
 
