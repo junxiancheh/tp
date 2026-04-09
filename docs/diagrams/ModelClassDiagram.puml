@@ -28,6 +28,7 @@ Class StudentId
 Class Reservation
 Class IssueRecord
 Class AliasMapping
+
 Class UniqueEquipmentList
 Class Equipment
 Class EquipmentName
@@ -40,6 +41,7 @@ Class RoomName
 Class Location
 Class Status
 
+Class Tag
 
 Class I #FFFFFF
 }
@@ -76,7 +78,6 @@ UniqueAliasMappingList --> "~* all" AliasMapping
 Person *--> Name
 Person *--> Phone
 Person *--> Email
-Person *--> Address
 Person *--> StudentId
 
 
@@ -103,8 +104,7 @@ UniqueReservationList -[hidden]right-> I
 UniqueIssueRecordList -[hidden]right-> I
 
 Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Phone -[hidden]right-> Email
 Email -[hidden]right-> StudentId
 
 EquipmentName -[hidden]right-> Category
