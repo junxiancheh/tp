@@ -265,7 +265,7 @@ To add multiple Room of the same name, append a unique number (e.g., `Sports-Hal
 * `add-r n/Sports-Hall-2 l/University-Town` — Adds a room with Name: Sports-Hall-2 and Location: University-Town, and a `Available` status by default in the current room list.
 
 **Outputs:**
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Note:**
 Output of Name and Location will be title case -> `MPSH-1` will be `Mpsh-1` in the room list.
 </div>
 
@@ -370,7 +370,7 @@ To add multiple Room of the same name, append a unique number (e.g., `Sports-Hal
 * `edit-r 3 n/Outdoor-Tennis-Court s/Maintenance` — Edit the third room to Name: Outdoor-Tennis-Court, and Status: Maintenance. Assuming initial status is Available.
 
 **Outputs:**
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Note:**
 Output of Name and Location will be title case -> `MPSH-1` will be `Mpsh-1` in the room list.
 </div>
 
