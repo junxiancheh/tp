@@ -5,8 +5,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TO;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.reservation.Reservation;
@@ -17,6 +19,7 @@ import seedu.address.model.reservation.Reservation;
 public class ReserveCommand extends Command {
 
     public static final String COMMAND_WORD = "reserve";
+    private static final Logger logger = LogsCenter.getLogger(ReserveCommand.class);
     public static final String MESSAGE_RESOURCE_BOOKED =
             "Error:\n%1$s is already booked and cannot be reserved.";
     public static final String MESSAGE_RESOURCE_MAINTENANCE =
@@ -55,6 +58,12 @@ public class ReserveCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        logger.info("Starting reserve command for resource="
+                + reservationToAdd.getResourceId()
+                + ", student=" + reservationToAdd.getStudentId()
+                + ", from=" + reservationToAdd.getFormattedStartDateTime()
+                + ", to=" + reservationToAdd.getFormattedEndDateTime());
 
         String resolvedResourceId = model.resolveAlias(reservationToAdd.getResourceId());
         Reservation resolvedReservation = new Reservation(
