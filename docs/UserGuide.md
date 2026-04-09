@@ -807,11 +807,11 @@ Use this command to remove outdated or incorrect tags from equipment or rooms.
 
 ---
 
-#### Filtering by tag: `filter`
+#### Filtering by tag: `filter-e` or `filter-r`
 
 Filters equipment items or rooms by a specified tag. Displays all equipment items or rooms that have the specified tag.
 
-**Format:** `filter c/ t/TAG` or `filter l/ t/TAG`
+Format: `filter-e TAG` or `filter-r TAG`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use this command to quickly find all equipment or rooms associated with a particular tag, such as all items marked as spoilt.
