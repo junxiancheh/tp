@@ -186,8 +186,9 @@ The equipment has to be in **Available** status, before it can be deleted.
   ![deleteEquipmentFail.png](images/deleteEquipmentFail.png)
 
 **Possible errors:**
-* *Invalid index:* The index provided is 0, negative or exceeds the current equipment list index.
-* *Invalid command format:* Typing delete-e without providing an index.
+* *Invalid index:* The index provided is positive but exceeds the current equipment list index.
+* *Invalid command format:* Typing delete-e without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., delete-e 0, delete-e -1). 
+The system strictly expects a positive integer (1, 2, 3...) for the index parameter.
 * *Equipment is Booked:* Attempt to delete equipment that is having a ‘Booked’ status.
 
 ---
