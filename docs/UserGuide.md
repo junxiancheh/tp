@@ -336,8 +336,9 @@ The room has to be in **Available** status, before it can be deleted.
   ![deleteRoomFail.png](images/deleteRoomFail.png)
 
 **Possible errors:**
-* *Invalid index:* The index provided is 0, negative or exceeds the current room list index.
-* *Invalid command format:* Typing delete-r without providing an index.
+* *Invalid index:* The index provided is positive but exceeds the current room list index.
+* *Invalid command format:* Typing delete-r without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., delete-r 0, delete-r -1).
+  The system strictly expects a positive integer (1, 2, 3...) for the index parameter.
 * *Room is Booked:* Attempt to delete room that is having a ‘Booked’ status.
 
 ---
