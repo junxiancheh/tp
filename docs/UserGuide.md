@@ -615,6 +615,9 @@ Cancels an **existing** reservation.
 **Date/time format:**
 `yyyy-MM-dd HHmm`
 
+* Time component uses the 24-hour format.
+* The command will be rejected if no matching reservation is found
+
 **Example:**
 `cancel MPSH-1 a1234567a f/2027-03-10 0900`
 
@@ -647,6 +650,7 @@ Use this command to keep track of borrowed equipment and who is responsible for 
 * Issues the specified equipment item to the specified student.
 * The due date/time must be in the future and follow the format `yyyy-MM-dd HHmm`.
 * The command will be rejected if the item is already issued to another student.
+* Time component uses the 24-hour format.
 
 **Duplicate handling:**
 * If the item is already issued, the system will reject the command.
