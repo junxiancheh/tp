@@ -740,6 +740,7 @@ Tags an equipment item or room with a label for categorisation.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Tags are useful for categorising equipment or rooms for quick viewing, and will be displayed in the UI as a blue label
+Tags are automatically capitalized upon creation
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip for IHG:**
@@ -763,8 +764,10 @@ Tag equipment as e.g., `tag-e Wilson-Evolution IHG` during competition weeks to 
 
 
 **Outputs:**
-* Success <br>
+* Success: Equipment tagged with IHG <br>
 ![tag-e_success.png](images/tag-e_success.png)
+<br>
+* Success: Room tagged with IHG <br>
 ![tag-r_success](images/tag-r_success.png)
 * Failure <br>
 ![tag_failure](images/tag_failure.png)
@@ -779,7 +782,7 @@ Tag equipment as e.g., `tag-e Wilson-Evolution IHG` during competition weeks to 
 
 ---
 
-#### Removing a tag from an equipment or room: `untag-e` or `untag-e`
+#### Removing a tag from an equipment or room: `untag-e` or `untag-r`
 
 Removes an existing tag from an equipment item or room.
 
@@ -807,8 +810,10 @@ Use this command to remove outdated or incorrect tags from equipment or rooms.
 
 
 **Outputs:**
-* Success <br>
+* Success: Equipment tagged with IHG <br>
 ![untag-e_success](images/untag-e_success.png)
+<br>
+* Success: Room tagged with IHG <br>
 ![untag-r_success](images/untag-r_success.png)
 * Failure <br>
 ![untag_failure](images/untag_failure.png)
@@ -845,8 +850,10 @@ Use this command to quickly find all equipment or rooms associated with a partic
 
 
 **Outputs:**
-* Success <br>
+* Success: Equipment list filtered by `IHG` tag <br>
   ![filter-e_success](images/filter-e_success.png)
+<br>
+* Success: Room list filtered by `IHG` tag <br>
   ![filter-r_success](images/filter-r_success.png)
 * Failure <br>
   ![filter_failure](images/filter_failure.png)
@@ -859,13 +866,42 @@ Use this command to quickly find all equipment or rooms associated with a partic
 
 #### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+**Format:** `help`
+A scrollable list appears in the result box, detailing all commands, excluding system utility commands
 
-![help message](images/helpMessage.png)
+**Outputs:**
+![help message](images/help_Message.png)
 
-Format: `help`
 
 ---
+
+### Viewing help for a specific command: `help`
+
+Displays usage format of found command.
+
+**Format:** `help COMMAND`
+
+**Acceptable values:**
+* `COMMAND`: A valid command that is case-sensitive, excluding system utility commands
+
+**Outputs:<br>**
+*Success: <br>*
+![help_add-s_success](images/help_add-s_success.png)
+<br>
+
+*Failure:<br>*
+![help_add-n_fail](images/help_add-n_fail.png)
+
+
+
+**Duplicate handling:**
+* Not applicable.
+
+
+**Examples:**
+* `help add-s`
+
+
 
 #### Clearing the program : `clear`
 
@@ -947,10 +983,11 @@ Action | Format, Examples
 **Cancel** | `cancel ITEM_OR_ROOM_ID STUDENT_ID f/START_DATE_TIME` <br> e.g., `cancel mpsh-1 a1234567a f/2099-03-15 0900`
 **Issue** | `issue ITEM_ID STUDENT_ID DUE_DATE_TIME` <br> e.g., `issue Wilson-Basketball-1 a1234567a 2027-03-05 1700`
 **Return** | `return ITEM_ID` <br> e.g., `return Wilson-Evolution-Basketball-1`
-**Tag** | `tag NAME TAG` <br> e.g., `tag-e Basketball-1 IHG or tag-r MPSH-1 IHG`
-**Untag** | `untag NAME TAG` <br> e.g., `untag-e Basketball-1 IHG or untag-r MPSH-1 IHG`
-**Filter** | `filter TAG` <br> e.g., `filter-e IHG or filter-r IHG`
 **Alias** | `alias ITEM_OR_ROOM_ID ALIAS_NAME` <br> e.g., `alias MPSH-1 hall1`
+**Tag** | `tag-e NAME TAG` or `tag-r NAME TAG` <br> e.g., `tag-e Basketball-1 IHG` or `tag-r MPSH-1 IHG`
+**Untag** | `untag-e NAME TAG` or `untag-r NAME TAG` <br> e.g., `untag-e Basketball-1 IHG` or `untag-r MPSH-1 IHG`
+**Filter** | `filter-e TAG` or `filter-r TAG` <br> e.g., `filter-e IHG` or `filter-r IHG`
+**Help** | `help` or `help COMMAND` <br> e.g., `help` or `help add-s`
 **Clear** | `clear`
 **Exit** | `exit`
 

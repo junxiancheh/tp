@@ -44,7 +44,7 @@ public class HelpCommand extends Command {
      */
     public HelpCommand(String commandTopic) {
         requireNonNull(commandTopic);
-        this.commandTopic = Optional.of(normalizeCommandWord(commandTopic));
+        this.commandTopic = Optional.of(commandTopic);
     }
 
     /**
@@ -66,10 +66,10 @@ public class HelpCommand extends Command {
         String topic = commandTopic.get();
         String helpText = HELP_ENTRIES.get(topic);
         if (helpText == null) {
-            throw new CommandException(String.format(MESSAGE_COMMAND_NOT_FOUND, topic.toUpperCase(Locale.ROOT)));
+            throw new CommandException(String.format(MESSAGE_COMMAND_NOT_FOUND, topic));
         }
 
-        return new CommandResult(String.format(MESSAGE_COMMAND_FOUND, topic.toUpperCase(Locale.ROOT))
+        return new CommandResult(String.format(MESSAGE_COMMAND_FOUND, topic)
                 + System.lineSeparator()
                 + helpText);
     }
@@ -89,9 +89,6 @@ public class HelpCommand extends Command {
         return commandTopic.equals(otherHelpCommand.commandTopic);
     }
 
-    private static String normalizeCommandWord(String commandWord) {
-        return commandWord.trim().toLowerCase(Locale.ROOT);
-    }
 
     private static String buildGeneralHelpMessage() {
         StringBuilder builder = new StringBuilder();
@@ -128,7 +125,6 @@ public class HelpCommand extends Command {
     private static Map<String, String> createHelpEntries() {
         Map<String, String> entries = new LinkedHashMap<>();
 
-        entries.put(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE);
 
         entries.put(AddEquipmentCommand.COMMAND_WORD, AddEquipmentCommand.MESSAGE_USAGE);
         entries.put(AddRoomCommand.COMMAND_WORD, AddRoomCommand.MESSAGE_USAGE);
