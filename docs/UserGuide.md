@@ -772,7 +772,7 @@ Tag equipment as e.g., `tag-e Wilson-Evolution IHG` during competition weeks to 
 
 ---
 
-#### Removing a tag from an equipment or room: `untag-e` or `untag-e`
+#### Removing a tag from an equipment or room: `untag-e` or `untag-r`
 
 Removes an existing tag from an equipment item or room.
 
