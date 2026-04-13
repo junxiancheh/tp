@@ -18,7 +18,10 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.alias.AliasMapping;
+import seedu.address.model.equipment.Category;
 import seedu.address.model.equipment.Equipment;
+import seedu.address.model.equipment.EquipmentName;
+import seedu.address.model.equipment.EquipmentStatus;
 import seedu.address.model.issue.IssueRecord;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
@@ -100,6 +103,23 @@ public class AddressBookTest {
     @Test
     public void getAliasMappingList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getAliasMappingList().remove(0));
+    }
+
+    @Test
+    public void removeEquipment_removesAssociatedAliases() {
+        Equipment equipment = new Equipment(
+                new EquipmentName("Wilson-Evolution-3"),
+                new Category("Soccer"),
+                EquipmentStatus.AVAILABLE);
+
+        AliasMapping aliasMapping = new AliasMapping("Wilson-Evolution-3", "w3");
+
+        addressBook.addEquipment(equipment);
+        addressBook.addAliasMapping(aliasMapping);
+
+        addressBook.removeEquipment(equipment);
+
+        assertFalse(addressBook.hasAliasName("w3"));
     }
 
     @Test

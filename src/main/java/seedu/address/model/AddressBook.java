@@ -239,6 +239,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      */
     public void removeEquipment(Equipment key) {
+        requireNonNull(key);
+        aliasMappings.removeByTargetId(key.getName().fullName);
         equipments.remove(key);
     }
 
