@@ -50,7 +50,7 @@ During high-pressure periods such as the Inter-Hall Games (IHG), Inter-College G
    A GUI similar to what is shown below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-   4. Type the command in the command box and press Enter to execute it. e.g., typing **`help`** and pressing Enter will show all the command in the result box.
+   Type the command in the command box and press Enter to execute it. e.g., typing **`help`** and pressing Enter will show all the command in the result box. <br>
 
    Some example commands you can try:
 
@@ -101,7 +101,7 @@ New equipment is set to `Available` status by default.
 * `NAME`: Equipment Name should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `Wilson-Evolution`)
 * `CATEGORY`: Equipment Category should only contain alphanumeric characters and single hyphens (`-`) in between,
-  no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `Basketball`) <br><br>
+  no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `Basketball`)
 * *Case Sensitivity:* Both fields are case-insensitive. `n/Wilson-Evolution` and `n/WILSON-EVOLUTION` are treated as the same name. `c/Basketball` and `c/BASKETBALL` are treated as the same category.
 
 **Duplicate handling:**
@@ -135,7 +135,7 @@ Output of Name and Category will be title case -> `yonex-astrox` will be `Yonex-
 #### View equipment list : `list-e`
 
 Displays a complete list of all equipment currently stored in the equipment list. This command serves to clear
-any active filters (such as those from filter-e command), resetting the equipment list to show all entries.
+any active filters (such as those from `filter-e` command), resetting the equipment list to show all entries.
 
 **Format:** `list-e`
 
@@ -187,9 +187,9 @@ The equipment has to be in **Available** status, before it can be deleted.
 
 **Possible errors:**
 * *Invalid index:* The index provided is positive but exceeds the current equipment list index.
-* *Invalid command format:* Typing delete-e without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., delete-e 0, delete-e -1).
+* *Invalid command format:* Typing `delete-e` without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., `delete-e 0`, `delete-e -1`).
 The system strictly expects a positive integer (1, 2, 3...) for the index parameter.
-* *Equipment is Booked:* Attempt to delete equipment that is having a ‘Booked’ status.
+* *Equipment is Booked:* Attempt to delete equipment that is having a `Booked` status.
 
 ---
 
@@ -234,7 +234,7 @@ Output of Name and Category will be title case -> `yonex-astrox` will be `Yonex-
 **Possible errors:**
 * *This equipment is currently 'Booked':* Attempting to edit a loaned equipment.
 * *This equipment already exists:* Renaming equipment to a name already in use.
-* *Invalid status transition:* Trying to move an equipment status from Maintenance to Booked.
+* *Invalid status transition:* Trying to move an equipment status from `Maintenance` to `Booked`.
 * *Invalid command:* Missing `n/`, `c/`, or `s/` prefix.
 
 ---
@@ -252,12 +252,12 @@ New room is set to `Available` status by default.
 * `NAME`: Room Name should only contain alphanumeric characters and single hyphens (`-`) in between,
   no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `Sports-Hall-1`)
 * `LOCATION`: Room Location should only contain alphanumeric characters and single hyphens (`-`) in between,
-  no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `University-Town`) <br><br>
+  no spaces or consecutive hyphens (`--`) are allowed, and it should not be blank. (e.g., `University-Town`)
 * *Case Sensitivity:* Both fields are case-insensitive. `n/Sports-Hall-1` and `n/SPORTS-HALL-1` are treated as the same name. `l/University-Town` and `l/UNIVERSITY-TOWN` are treated as the same location.
 
 **Duplicate handling:**
 * *Name-Based Uniqueness:* The system enforces unique names across the entire room list, regardless of location.
-* *Scope of Detection:* Two rooms are considered duplicates if they share the exact same name (e.g., seminar-room-1), even if they are situated in different buildings or locations.
+* *Scope of Detection:* Two rooms are considered duplicates if they share the exact same name (e.g., `seminar-room-1`), even if they are situated in different buildings or locations.
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 To add multiple Room of the same name, append a unique number (e.g., `Sports-Hall-1`, `Sports-Hall-2`).
 </div>
@@ -338,9 +338,9 @@ The room has to be in **Available** status, before it can be deleted.
 
 **Possible errors:**
 * *Invalid index:* The index provided is positive but exceeds the current room list index.
-* *Invalid command format:* Typing delete-r without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., delete-r 0, delete-r -1).
+* *Invalid command format:* Typing delete-r without providing an index. <br> OR <br> Providing an index that is not a positive integer (e.g., `delete-r 0`, `delete-r -1`).
   The system strictly expects a positive integer (1, 2, 3...) for the index parameter.
-* *Room is Booked:* Attempt to delete room that is having a ‘Booked’ status.
+* *Room is Booked:* Attempt to delete room that is having a `Booked` status.
 
 ---
 
@@ -364,14 +364,14 @@ The room should not be in **Booked** status, before editing it.
 
 **Duplicate handling:**
 * *Name-Based Uniqueness:* The system enforces unique names across the entire room list, regardless of location.
-* *Scope of Detection:* Two rooms are considered duplicates if they share the exact same name (e.g., seminar-room-1), even if they are situated in different buildings or locations.
+* *Scope of Detection:* Two rooms are considered duplicates if they share the exact same name (e.g., `seminar-room-1`), even if they are situated in different buildings or locations.
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 To add multiple Room of the same name, append a unique number (e.g., `Sports-Hall-1`, `Sports-Hall-2`).
 </div>
 
 **Examples:**
 * `edit-r 2 l/UTown` — Edit the second room to Location: UTown.
-* `edit-r 3 n/Outdoor-Tennis-Court s/Maintenance` — Edit the third room to Name: Outdoor-Tennis-Court, and Status: Maintenance. Assuming initial status is Available.
+* `edit-r 3 n/Outdoor-Tennis-Court s/Maintenance` — Edit the third room to Name: Outdoor-Tennis-Court, and Status: Maintenance. Assuming initial status is `Available`.
 
 **Outputs:**
 <div markdown="span" class="alert alert-primary">:bulb: **Note:**
@@ -386,7 +386,7 @@ Output of Name and Location will be title case -> `MPSH-1` will be `Mpsh-1` in t
 **Possible errors:**
 * *This room is currently 'Booked':* Attempting to edit a reserved room.
 * *This room already exists:* Renaming room to a name already in use.
-* *Invalid status transition:* Trying to move a room status from Maintenance to Booked.
+* *Invalid status transition:* Trying to move a room status from `Maintenance` to `Booked`.
 * *Invalid command:* Missing `n/`, `l/`, or `s/` prefix.
 
 ---
@@ -701,7 +701,7 @@ Returns an issued equipment item back to the inventory.
 * Invalid `ITEM_NAME`
 
 **Notes**
-- aliases are supported, so if `b1` is an alias for `Wilson-Evolution-Basketball-1`, then `return b1` also works
+- Aliases are supported, so if `b1` is an alias for `Wilson-Evolution-Basketball-1`, then `return b1` also works
 
 ---
 
@@ -888,7 +888,7 @@ A scrollable list appears in the result box, detailing all commands, excluding s
 
 ---
 
-### Viewing help for a specific command: `help`
+#### Viewing help for a specific command: `help`
 
 Displays usage format of found command.
 
@@ -898,11 +898,11 @@ Displays usage format of found command.
 * `COMMAND`: A valid command that is case-sensitive, excluding system utility commands
 
 **Outputs:<br>**
-*Success: <br>*
+* Success: <br>
 ![help_add-s_success](images/help_add-s_success.png)
 <br>
 
-*Failure:<br>*
+* Failure: <br>
 ![help_add-n_fail](images/help_add-n_fail.png)
 
 
@@ -965,11 +965,11 @@ Furthermore, certain edits can cause the TrackMasterPro to behave in unexpected 
 
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
-3. **Strict Name Validation:** The current system only accepts alphabetic characters and spaces for student names. Names containing special characters such as hyphens (e.g., `Al-Haddad`) or apostrophes (e.g., `D'Souza`) will currently trigger a validation error.
+3. **Strict Name Validation:** The current system only accepts alphabetic characters and spaces for student names. Names containing special characters such as hyphens (e.g., `Al-Haddad`) or apostrophes (e.g., `D'Souza`) will currently trigger a validation error. <br>
 **Workaround:** Enter the name without the special character (e.g., `Al Haddad` or `DSouza`) until a future update expands the character support. Removing special characters from the requirements allows for faster command entry and fewer parsing errors during high-pressure facility management scenarios
 
-4. **UI Refresh Latency:** The student list does not refresh in real-time when a reservation or equipment loan becomes overdue. While the system correctly identifies the status change in the database, the Graphical User Interface (GUI) may still show the old status (e.g., "Booked" instead of "Overdue").
-**Workaround:*** Simply click anywhere within the application window to force the UI to refresh and display the most current statuses.
+4. **UI Refresh Latency:** The student list does not refresh in real-time when a reservation or equipment loan becomes overdue. While the system correctly identifies the status change in the database, the Graphical User Interface (GUI) may still show the old status (e.g., `Booked` instead of `Overdue`). <br>
+**Workaround:** Simply click anywhere within the application window to force the UI to refresh and display the most current statuses.
 
 5. **Room Name Based Uniqueness:** The current iteration of the system does not support identical room names across different locations. (e.g., `add-r n/seminar-room-1 l/Com1` and following that input `add-r n/seminar-room-1 l/Rc4`) will trigger room already exists in system.
    **Workaround:** Input `add-r n/seminar-room-1 l/Com1` for location Com1 and input `add-r n/SR1 l/Rc4` for location Rc4.
