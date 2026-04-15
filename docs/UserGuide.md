@@ -885,9 +885,6 @@ A scrollable list appears in the result box, detailing all commands, excluding s
 **Outputs:**
 ![help message](images/help_Message.png)
 
-
----
-
 #### Viewing help for a specific command: `help`
 
 Displays usage format of found command.
